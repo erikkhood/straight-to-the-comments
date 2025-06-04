@@ -642,30 +642,41 @@
             const scenarios = getScenarios();
             const scenario = scenarios[type][level];
             
+            // Error handling for undefined scenarios
+            if (!scenario) {
+                console.error(`Scenario not found for type: ${type}, level: ${level}`);
+                // Fallback to a generic ending
+                showOutcome({
+                    outcome: "neutral",
+                    title: "Conversation Ended",
+                    text: "The conversation came to a natural conclusion.",
+                    lesson: "🤝 Sometimes the best response is to end the conversation gracefully and move forward."
+                }, type);
+                return;
+            }
+            
             // Add my response first
             addMyComment(scenario.myResponse);
             
             // Hide response options temporarily
             document.getElementById('responseOptions').style.display = 'none';
             
-            // Show continue button if there's more to the conversation
-            if (scenario.theirComment && !scenario.outcome) {
+            // All level 3 scenarios should have outcomes - no more "Continue Story" needed
+            if (level === 3 || scenario.outcome) {
+                // Final response - go straight to outcome
+                showContinueButton(() => {
+                    showOutcome(scenario, type);
+                });
+            } else if (scenario.theirComment && !scenario.outcome) {
+                // Show continue button for levels 1 and 2
                 showContinueButton(() => {
                     addComment(scenario.theirComment);
                     currentLevel = scenario.level;
                     updateLevel();
                     updateResponseOptions(type, scenario.level);
                 });
-            } else if (scenario.outcome) {
-                // Final response before outcome
-                showContinueButton(() => {
-                    showOutcome(scenario, type);
-                });
             } else {
-                // Add their comment immediately if it's the end
-                if (scenario.theirComment) {
-                    addComment(scenario.theirComment);
-                }
+                // Fallback - should not happen with proper scenario design
                 showOutcome(scenario, type);
             }
         }
