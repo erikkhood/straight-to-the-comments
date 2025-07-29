@@ -1266,62 +1266,196 @@
             const scenario = scenarios[index];
             currentPostIndex = index;
             
-            // Update UI
-            document.getElementById('profilePic').textContent = scenario.username.charAt(0).toUpperCase();
-            document.getElementById('username').textContent = scenario.username;
-            document.getElementById('likes').textContent = scenario.likes;
-            document.getElementById('captionUsername').textContent = scenario.username;
-            document.getElementById('caption').innerHTML = `
-                <span class="username">${scenario.username}</span> 
-                ${scenario.caption}
-            `;
+            // Hide all platform layouts
+            document.querySelectorAll('.platform-layout').forEach(layout => {
+                layout.style.display = 'none';
+            });
+            
+            // Show the correct platform layout
+            const platformLayout = document.getElementById(`${scenario.platform}Layout`);
+            if (platformLayout) {
+                platformLayout.style.display = 'block';
+            }
+            
+            // Update platform-specific content
+            updatePlatformContent(scenario);
+            
+            // Update scenario indicator
             document.getElementById('scenarioIndicator').textContent = `Scenario ${scenario.id}: ${scenario.title}`;
             
-            // Reset comments
-            document.getElementById('commentsSection').innerHTML = `
-                <div class="comment">
-                    <span class="comment-user">${scenario.initialComment.split(':')[0]}</span>
-                    <span class="comment-text">${scenario.initialComment.split(': ')[1]}</span>
-                </div>
-            `;
+            // Clear comments section initially
+            clearCommentsSection(scenario.platform);
             
-            // Show response options
-            showResponseOptions(scenario);
+            // Show response type options (without revealing the actual comment)
+            showResponseTypeOptions(scenario);
             
             // Reset outcome
             document.getElementById('outcome').style.display = 'none';
             document.getElementById('responseOptions').style.display = 'block';
         }
         
-        function showResponseOptions(scenario) {
+        function updatePlatformContent(scenario) {
+            switch(scenario.platform) {
+                case 'instagram':
+                    document.getElementById('profilePic').textContent = scenario.username.charAt(0).toUpperCase();
+                    document.getElementById('username').textContent = scenario.username;
+                    document.getElementById('likes').textContent = scenario.likes;
+                    document.getElementById('captionUsername').textContent = scenario.username;
+                    document.getElementById('caption').innerHTML = `
+                        <span class="username">${scenario.username}</span> 
+                        ${scenario.caption}
+                    `;
+                    document.getElementById('defaultContent').textContent = scenario.postType;
+                    break;
+                    
+                case 'tiktok':
+                    document.getElementById('tiktokUsername').textContent = scenario.username;
+                    document.getElementById('tiktokCaption').innerHTML = `
+                        <span class="username">${scenario.username}</span> 
+                        ${scenario.caption}
+                    `;
+                    document.getElementById('tiktokDefaultContent').textContent = scenario.postType;
+                    break;
+                    
+                case 'youtube':
+                    document.getElementById('youtubeUsername').textContent = scenario.username;
+                    document.getElementById('youtubeTitle').textContent = scenario.caption;
+                    document.getElementById('youtubeDefaultContent').textContent = scenario.postType;
+                    break;
+                    
+                case 'discord':
+                    document.getElementById('discordUsername').textContent = scenario.username;
+                    document.getElementById('discordMessageText').textContent = scenario.caption;
+                    break;
+                    
+                case 'imessage':
+                    document.getElementById('imessageUsername').textContent = scenario.username;
+                    document.getElementById('imessageText').textContent = scenario.caption;
+                    break;
+            }
+        }
+        
+        function clearCommentsSection(platform) {
+            switch(platform) {
+                case 'instagram':
+                    document.getElementById('commentsSection').innerHTML = '';
+                    break;
+                case 'tiktok':
+                    // TikTok comments would be in a different section
+                    break;
+                case 'youtube':
+                    // YouTube comments would be in a different section
+                    break;
+                case 'discord':
+                    document.getElementById('discordMessages').innerHTML = `
+                        <div class="discord-message">
+                            <div class="message-avatar">${scenarios[currentPostIndex].username.charAt(0).toUpperCase()}</div>
+                            <div class="message-content">
+                                <div class="message-header">
+                                    <span class="username">${scenarios[currentPostIndex].username}</span>
+                                    <span class="message-time">2:30 PM</span>
+                                </div>
+                                <div class="message-text">
+                                    ${scenarios[currentPostIndex].caption}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                case 'imessage':
+                    // iMessage doesn't have a comments section
+                    break;
+            }
+        }
+        
+        function showResponseTypeOptions(scenario) {
             const responseOptions = document.getElementById('responseOptions');
-            const responses = scenario.responses;
             
             responseOptions.innerHTML = `
-                <button class="response-btn hypebeast-btn" onclick="respond('hypebeast', ${scenario.id})">
-                    ${responses.hypebeast.text}
+                <h3 style="text-align: center; margin-bottom: 20px; color: #333;">How do you want to respond?</h3>
+                <button class="response-btn hypebeast-btn" onclick="chooseResponseType('hypebeast', ${scenario.id})">
+                    🎮 Hypebeast - Show genuine enthusiasm and support
                 </button>
-                <button class="response-btn jokester-btn" onclick="respond('jokester', ${scenario.id})">
-                    ${responses.jokester.text}
+                <button class="response-btn jokester-btn" onclick="chooseResponseType('jokester', ${scenario.id})">
+                    😅 Jokester - Use humor to lighten the mood
                 </button>
-                <button class="response-btn roaster-btn" onclick="respond('roaster', ${scenario.id})">
-                    ${responses.roaster.text}
+                <button class="response-btn roaster-btn" onclick="chooseResponseType('roaster', ${scenario.id})">
+                    🔥 Roaster - Playful but potentially hurtful criticism
                 </button>
-                <button class="response-btn critic-btn" onclick="respond('critic', ${scenario.id})">
-                    ${responses.critic.text}
+                <button class="response-btn critic-btn" onclick="chooseResponseType('critic', ${scenario.id})">
+                    🤔 Critic - Give constructive feedback
                 </button>
-                <button class="response-btn hater-btn" onclick="respond('hater', ${scenario.id})">
-                    ${responses.hater.text}
+                <button class="response-btn hater-btn" onclick="chooseResponseType('hater', ${scenario.id})">
+                    😠 Hater - Mean-spirited and negative
                 </button>
             `;
         }
         
-        function respond(type, scenarioId) {
+        function chooseResponseType(type, scenarioId) {
+            const scenario = scenarios.find(s => s.id === scenarioId);
+            
+            // First, reveal the actual comment
+            revealComment(scenario);
+            
+            // Then show the specific response options
+            showSpecificResponseOptions(type, scenario);
+        }
+        
+        function revealComment(scenario) {
+            // Add the initial comment to the appropriate platform
+            switch(scenario.platform) {
+                case 'instagram':
+                    document.getElementById('commentsSection').innerHTML = `
+                        <div class="comment">
+                            <span class="comment-user">${scenario.initialComment.split(':')[0]}</span>
+                            <span class="comment-text">${scenario.initialComment.split(': ')[1]}</span>
+                        </div>
+                    `;
+                    break;
+                case 'discord':
+                    const discordMessages = document.getElementById('discordMessages');
+                    const newMessage = document.createElement('div');
+                    newMessage.className = 'discord-message';
+                    newMessage.innerHTML = `
+                        <div class="message-avatar">U</div>
+                        <div class="message-content">
+                            <div class="message-header">
+                                <span class="username">${scenario.initialComment.split(':')[0]}</span>
+                                <span class="message-time">2:31 PM</span>
+                            </div>
+                            <div class="message-text">
+                                ${scenario.initialComment.split(': ')[1]}
+                            </div>
+                        </div>
+                    `;
+                    discordMessages.appendChild(newMessage);
+                    break;
+                // Add other platforms as needed
+            }
+        }
+        
+        function showSpecificResponseOptions(type, scenario) {
+            const responseOptions = document.getElementById('responseOptions');
+            const response = scenario.responses[type];
+            
+            responseOptions.innerHTML = `
+                <h3 style="text-align: center; margin-bottom: 20px; color: #333;">You chose: ${type.charAt(0).toUpperCase() + type.slice(1)}</h3>
+                <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 20px; text-align: center;">
+                    <strong>Your response:</strong><br>
+                    ${response.text}
+                </div>
+                <button class="response-btn" style="background: linear-gradient(45deg, #667eea, #764ba2); color: white;" onclick="continueWithResponse('${type}', ${scenario.id})">
+                    ▶️ Continue with this response
+                </button>
+            `;
+        }
+        
+        function continueWithResponse(type, scenarioId) {
             const scenario = scenarios.find(s => s.id === scenarioId);
             const response = scenario.responses[type];
             
-            // Add your response
-            addComment(`You: ${response.text}`);
+            // Add your response to the appropriate platform
+            addResponseToPlatform(scenario.platform, response.text);
             
             // Hide response options
             document.getElementById('responseOptions').style.display = 'none';
@@ -1329,11 +1463,38 @@
             // Show continue button
             showContinueButton(() => {
                 // Add poster's reply
-                addComment(`${scenario.username}: ${response.posterReply}`);
+                addResponseToPlatform(scenario.platform, response.posterReply, scenario.username);
                 
                 // Show final options
                 showFinalOptions(response.options, scenario);
             });
+        }
+        
+        function addResponseToPlatform(platform, text, username = 'You') {
+            switch(platform) {
+                case 'instagram':
+                    addComment(`${username}: ${text}`);
+                    break;
+                case 'discord':
+                    const discordMessages = document.getElementById('discordMessages');
+                    const newMessage = document.createElement('div');
+                    newMessage.className = 'discord-message';
+                    newMessage.innerHTML = `
+                        <div class="message-avatar">${username === 'You' ? 'Y' : username.charAt(0).toUpperCase()}</div>
+                        <div class="message-content">
+                            <div class="message-header">
+                                <span class="username">${username}</span>
+                                <span class="message-time">2:32 PM</span>
+                            </div>
+                            <div class="message-text">
+                                ${text}
+                            </div>
+                        </div>
+                    `;
+                    discordMessages.appendChild(newMessage);
+                    break;
+                // Add other platforms as needed
+            }
         }
         
         function addComment(commentText) {
@@ -1389,8 +1550,8 @@
             const scenario = scenarios.find(s => s.id === scenarioId);
             const response = window.currentOptions[optionIndex];
             
-            // Add your final response
-            addComment(`You: ${response.text}`);
+            // Add your final response to the platform
+            addResponseToPlatform(scenario.platform, response.text);
             
             // Hide response options
             document.getElementById('responseOptions').style.display = 'none';
@@ -1407,9 +1568,11 @@
                     <strong>Communication Lesson:</strong><br>
                     ${response.lesson}
                 </div>
-                <button class="restart-btn" onclick="restart()">Try Different Response</button>
-                <button class="restart-btn" onclick="nextScenario()" style="background: linear-gradient(45deg, #00b894, #00cec9); margin-left: 10px;">Next Scenario</button>
-                <button class="restart-btn" onclick="backToMenu()" style="background: linear-gradient(45deg, #a29bfe, #6c5ce7); margin-left: 10px;">Back to Menu</button>
+                <div style="margin-top: 20px; text-align: center;">
+                    <button class="restart-btn" onclick="restart()">🔄 Try Different Response</button>
+                    <button class="restart-btn" onclick="nextScenario()" style="background: linear-gradient(45deg, #00b894, #00cec9); margin-left: 10px;">➡️ Next Scenario</button>
+                    <button class="restart-btn" onclick="backToMenu()" style="background: linear-gradient(45deg, #a29bfe, #6c5ce7); margin-left: 10px;">🏠 Back to Menu</button>
+                </div>
             `;
         }
         
