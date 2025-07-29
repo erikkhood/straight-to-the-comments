@@ -90,7 +90,7 @@
             box-shadow: 0 8px 25px rgba(0,0,0,0.3);
         }
 
-        /* Game Screen Styles (initially hidden) */
+        /* Game Screen Styles */
         .game-screen {
             display: none;
         }
@@ -226,23 +226,28 @@
             gap: 8px;
         }
 
-        .fire-btn {
-            background: linear-gradient(45deg, #ff4757, #ff3742);
+        .hypebeast-btn {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
             color: white;
         }
 
-        .defend-btn {
-            background: linear-gradient(45deg, #ff9ff3, #f368e0);
-            color: white;
-        }
-
-        .deflect-btn {
+        .jokester-btn {
             background: linear-gradient(45deg, #74b9ff, #0984e3);
             color: white;
         }
 
-        .peace-btn {
+        .roaster-btn {
+            background: linear-gradient(45deg, #a29bfe, #6c5ce7);
+            color: white;
+        }
+
+        .critic-btn {
             background: linear-gradient(45deg, #00b894, #00cec9);
+            color: white;
+        }
+
+        .hater-btn {
+            background: linear-gradient(45deg, #636e72, #2d3436);
             color: white;
         }
 
@@ -251,7 +256,7 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
 
-        .level-indicator {
+        .scenario-indicator {
             background: #262626;
             color: white;
             padding: 10px 15px;
@@ -307,21 +312,21 @@
         <!-- Menu Screen -->
         <div class="menu-screen" id="menuScreen">
             <h1 class="game-title">Straight to the Comments</h1>
-            <p class="game-subtitle">A Digital Citizenship Adventure</p>
+            <p class="game-subtitle">An Interactive Game About Online Communication</p>
             
             <div class="premise">
                 <h3>🎭 The Premise</h3>
-                <p>You've just posted content on social media, and someone leaves a critical comment. How you respond shapes what happens next!</p>
+                <p>You're scrolling through social media and see someone's post. How you respond shapes what happens next!</p>
                 
                 <p><strong>Your Mission:</strong></p>
                 <ul>
-                    <li>Navigate tricky social media interactions</li>
-                    <li>Learn the art of digital communication</li>
+                    <li>Navigate real social media scenarios</li>
+                    <li>Learn the art of online communication</li>
                     <li>Discover how different responses lead to different outcomes</li>
-                    <li>Master the skills of online citizenship</li>
+                    <li>Master the skills of digital citizenship</li>
                 </ul>
                 
-                <p>Every choice matters. Will you escalate the conflict, defend your position, deflect with humor, or make peace? Each path teaches valuable lessons about digital citizenship and online communication.</p>
+                <p>Every choice matters. Will you hype them up, make a joke, roast them, give feedback, or hate? Each path teaches valuable lessons about online communication.</p>
             </div>
             
             <button class="start-btn" onclick="startGame()">
@@ -329,11 +334,11 @@
             </button>
         </div>
 
-        <!-- Game Screen (initially hidden) -->
+        <!-- Game Screen -->
         <div class="game-screen" id="gameScreen">
             <div class="header">
-                <div class="profile-pic">A</div>
-                <span class="username">alex_creates</span>
+                <div class="profile-pic" id="profilePic">A</div>
+                <span class="username" id="username">alex_creates</span>
             </div>
             
             <div class="post-image" id="postImage">
@@ -344,7 +349,7 @@
                     </video>
                 </div>
                 <div class="default-content" id="defaultContent">
-                    My Latest Art Project ✨
+                    Snowy House GIF (Procreate)
                 </div>
             </div>
             
@@ -354,36 +359,22 @@
                 <button class="action-btn">📤</button>
             </div>
             
-            <div class="likes">127 likes</div>
-            <div class="caption">
-                <span class="username">alex_creates</span> 
-                Finally finished this piece! Took me 3 weeks but so proud of how it turned out 🎨 #art #creativity
+            <div class="likes" id="likes">127 likes</div>
+            <div class="caption" id="caption">
+                <span class="username" id="captionUsername">alex_creates</span> 
+                Tried animating a snowy house in Procreate ❄️🌨️ It's super rough but cozy I think 😅 #WIP #procreate #digitalart #loopgif #snowvibes
             </div>
             
-            <div class="level-indicator" id="levelIndicator">
-                Scenario 1: The First Comment
+            <div class="scenario-indicator" id="scenarioIndicator">
+                Scenario 1: Instagram Art Post
             </div>
             
             <div class="comments-section" id="commentsSection">
-                <div class="comment">
-                    <span class="comment-user">artcritic_01</span>
-                    <span class="comment-text">Hmm... interesting choice with the colors. Not sure if they really work together though 🤔</span>
-                </div>
+                <!-- Comments will be added here -->
             </div>
             
             <div class="response-options" id="responseOptions">
-                <button class="response-btn fire-btn" onclick="respond('fire', 1)">
-                    🔥 Fire Back - "Excuse me? My color theory is fine"
-                </button>
-                <button class="response-btn defend-btn" onclick="respond('defend', 1)">
-                    🛡️ Defend - "I appreciate feedback but I'm happy with my choices"
-                </button>
-                <button class="response-btn deflect-btn" onclick="respond('deflect', 1)">
-                    😄 Deflect - "Haha yeah, I went a bit wild with the rainbow!"
-                </button>
-                <button class="response-btn peace-btn" onclick="respond('peace', 1)">
-                    🤝 Make Peace - "Thanks for the feedback! What would you suggest?"
-                </button>
+                <!-- Response buttons will be added here -->
             </div>
             
             <div class="outcome" id="outcome" style="display: none;"></div>
@@ -392,411 +383,656 @@
 
     <script>
         let currentScenario = 1;
+        let currentPostIndex = 0;
         let responseHistory = [];
+        
+        // Game scenarios data
+        const scenarios = [
+            {
+                id: 1,
+                title: "Instagram Art Post",
+                username: "alex_creates",
+                postType: "Snowy House GIF (Procreate)",
+                likes: "127 likes",
+                caption: "Tried animating a snowy house in Procreate ❄️🌨️ It's super rough but cozy I think 😅 #WIP #procreate #digitalart #loopgif #snowvibes",
+                initialComment: "user_123: This is giving MS Paint energy. Did you animate this with your nose? 💀",
+                responses: {
+                    hypebeast: {
+                        text: "🎮 Hypebeast: STOPPP this is giving holiday magic ✨ like a Pixar short but cozy 🔥",
+                        posterReply: "Ahh omg THANK YOU 😭 I was scared to post this!",
+                        options: [
+                            {
+                                text: "I could watch this for hours tbh — this is *ambient core* ♻️",
+                                outcome: "positive",
+                                title: "Story Reposted!",
+                                text: "Your hype was so genuine they reposted your comment to their story!",
+                                lesson: "🎮 Authentic enthusiasm often creates the most positive connections. People love when others genuinely appreciate their work!"
+                            },
+                            {
+                                text: "Make this a full animation and I will literally cry happy tears",
+                                outcome: "positive",
+                                title: "Credited in Next Post!",
+                                text: "Your encouragement inspired them to keep creating! They credited you in their next post.",
+                                lesson: "🎮 Encouraging others' creativity can inspire amazing things. Your words have power!"
+                            }
+                        ]
+                    },
+                    jokester: {
+                        text: "😅 Jokester: This looks like what my dreams feel like during math class 😂🐠",
+                        posterReply: "Hahaha SAME. That exact vibe is what I was going for!",
+                        options: [
+                            {
+                                text: "Plot twist: the house is warm but snacks are frozen outside",
+                                outcome: "positive",
+                                title: "Laughs + Follows!",
+                                text: "Your humor was perfect! They followed you and the comment got lots of laughs.",
+                                lesson: "😅 Humor can break the ice and create genuine connections. Timing is everything!"
+                            },
+                            {
+                                text: "If you added a squirrel slipping on ice I'd give this an Oscar",
+                                outcome: "positive",
+                                title: "Inspires Next Post!",
+                                text: "Your joke was so good they actually made that video!",
+                                lesson: "😅 Playful suggestions can spark creativity. Keep it fun and positive!"
+                            }
+                        ]
+                    },
+                    roaster: {
+                        text: "🔥 Roaster: This giving MS Paint energy. Did you animate this with your nose? 💀",
+                        posterReply: "You know you can just scroll, right? 😂",
+                        options: [
+                            {
+                                text: "Chill. Just being honest. It's rough.",
+                                outcome: "negative",
+                                title: "Restricted",
+                                text: "They restricted you from commenting on their posts.",
+                                lesson: "🔥 Even 'honest' criticism can hurt when it's not constructive. Consider the impact of your words."
+                            },
+                            {
+                                text: "Okay okay I'll admit the snow loop is kinda satisfying.",
+                                outcome: "neutral",
+                                title: "Thread Ends",
+                                text: "The conversation fizzled out. No follow-up interaction.",
+                                lesson: "🔥 Backing down from a roast can save face, but the initial damage is done."
+                            }
+                        ]
+                    },
+                    critic: {
+                        text: "🤔 Critic: Nice vibe! The snow loop is smooth — maybe add a flickering light in the window?",
+                        posterReply: "Yo I didn't even think of that — that's actually helpful!",
+                        options: [
+                            {
+                                text: "You've got the atmosphere down already.",
+                                outcome: "positive",
+                                title: "DM for More Ideas!",
+                                text: "They appreciated your constructive feedback and want to collaborate!",
+                                lesson: "🤔 Constructive criticism with positive reinforcement can lead to meaningful connections."
+                            },
+                            {
+                                text: "Flicker light = chef's kiss.",
+                                outcome: "positive",
+                                title: "Comment Pinned!",
+                                text: "Your helpful suggestion got pinned to the top of their comments!",
+                                lesson: "🤔 Helpful feedback is often more valuable than empty praise."
+                            }
+                        ]
+                    },
+                    hater: {
+                        text: "😠 Hater: This is so mid. I've seen better in PowerPoint 💀",
+                        posterReply: "Congrats on being rude *and* irrelevant.",
+                        options: [
+                            {
+                                text: "Cry harder. Can't take the heat?",
+                                outcome: "negative",
+                                title: "Blocked + Deleted",
+                                text: "You got blocked and your comment was deleted.",
+                                lesson: "😠 Hating on others' work only reflects poorly on you. It's okay to not like something without being mean."
+                            },
+                            {
+                                text: "Just saying what everyone's thinking.",
+                                outcome: "negative",
+                                title: "Mocked in Stories",
+                                text: "Your comment got screenshotted and mocked in their stories.",
+                                lesson: "😠 Assuming everyone agrees with your negative opinion usually backfires."
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                id: 2,
+                title: "TikTok Beauty Tutorial",
+                username: "beauty_queen",
+                postType: "Full-Face Glow Look",
+                likes: "89 likes",
+                caption: "Trying my first full-face glow look 💫 don't roast me I know the lashes are intense 😅 #grwm #beautyfail #maybeaslaysomeday",
+                initialComment: "user_456: You look like you lost a glitter fight and the lashes are fighting back 💀",
+                responses: {
+                    hypebeast: {
+                        text: "🎮 Hypebeast: This is iconic?? You legit look like a glowing goddess 🔥✨",
+                        posterReply: "STOP omg 😭 you're making me cry!!",
+                        options: [
+                            {
+                                text: "Petition to make this your new everyday look 👏",
+                                outcome: "positive",
+                                title: "Mutuals + Next GRWM Tag!",
+                                text: "Your hype was so genuine they want to collaborate on future content!",
+                                lesson: "🎮 Authentic support can lead to amazing creative partnerships."
+                            },
+                            {
+                                text: "You slayed and left no shimmer behind",
+                                outcome: "positive",
+                                title: "Pinned Comment!",
+                                text: "Your comment got pinned to the top of their video!",
+                                lesson: "🎮 Genuine enthusiasm often gets the most recognition."
+                            }
+                        ]
+                    },
+                    jokester: {
+                        text: "😅 Jokester: Those lashes entered the chat before you did 😭",
+                        posterReply: "LMAO facts 💀 I blinked too fast and scared myself",
+                        options: [
+                            {
+                                text: "Next vid: lashes take flight and leave for college",
+                                outcome: "positive",
+                                title: "They Post It!",
+                                text: "Your joke was so good they actually made that video!",
+                                lesson: "😅 Playful humor can inspire content creation!"
+                            },
+                            {
+                                text: "The glow is giving ✨ enchanted fairy ✨",
+                                outcome: "positive",
+                                title: "Mutuals!",
+                                text: "You became mutuals and now support each other's content!",
+                                lesson: "😅 Lighthearted comments can lead to genuine friendships."
+                            }
+                        ]
+                    },
+                    roaster: {
+                        text: "🔥 Roaster: You look like you lost a glitter fight and the lashes are fighting back 💀",
+                        posterReply: "Kinda rude but okay 💅 I had fun tho",
+                        options: [
+                            {
+                                text: "You said 'try' — I just agreed.",
+                                outcome: "negative",
+                                title: "Muted",
+                                text: "They muted you from their content.",
+                                lesson: "🔥 Even 'playful' roasts can be hurtful. Consider the person behind the screen."
+                            },
+                            {
+                                text: "You wore it with confidence tho.",
+                                outcome: "neutral",
+                                title: "Thread Ends",
+                                text: "The conversation ends awkwardly. No follow-up.",
+                                lesson: "🔥 Trying to save face after a roast rarely works."
+                            }
+                        ]
+                    },
+                    critic: {
+                        text: "🤔 Critic: Not bad! Maybe blend the contour a bit more. Highlighter pops tho!",
+                        posterReply: "Yesss thank you! I rushed the blend tbh",
+                        options: [
+                            {
+                                text: "You've got the boldness. Just finesse the fade.",
+                                outcome: "positive",
+                                title: "Feedback Appreciated!",
+                                text: "They appreciated your constructive feedback and want more tips!",
+                                lesson: "🤔 Helpful criticism with positive reinforcement builds trust."
+                            },
+                            {
+                                text: "Lighting tip: natural light makes a difference!",
+                                outcome: "positive",
+                                title: "Referenced in Next Post!",
+                                text: "Your tip got mentioned in their next tutorial!",
+                                lesson: "🤔 Sharing knowledge can help others grow and improve."
+                            }
+                        ]
+                    },
+                    hater: {
+                        text: "😠 Hater: This is why filters were invented. This is not it 😬",
+                        posterReply: "Cool story bro. Blocked energy.",
+                        options: [
+                            {
+                                text: "Take the L. I'm keeping it real.",
+                                outcome: "negative",
+                                title: "Blocked",
+                                text: "You got blocked immediately.",
+                                lesson: "😠 Being 'real' doesn't justify being mean. There's always a kinder way to express yourself."
+                            },
+                            {
+                                text: "Everyone's thinking it.",
+                                outcome: "negative",
+                                title: "Clapback Duet Goes Viral",
+                                text: "Your comment got turned into a viral clapback video.",
+                                lesson: "😠 Assuming everyone shares your negative opinion usually leads to public embarrassment."
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                id: 3,
+                title: "YouTube Gaming Channel",
+                username: "minecraft_master",
+                postType: "Minecraft Castle Tour",
+                likes: "156 likes",
+                caption: "Spent 10 hours building this lava castle — tour starts at 2:15!! Sorry for the lag 😅",
+                initialComment: "user_789: Looks like a 2012 server exploded. Why all lava??",
+                responses: {
+                    hypebeast: {
+                        text: "🎮 Hypebeast: This is INSANE. The lava hallway?? You ate that 🔥",
+                        posterReply: "OMG THANK YOU 😭 I almost didn't post it!",
+                        options: [
+                            {
+                                text: "Part 2 or I riot",
+                                outcome: "positive",
+                                title: "Mentioned in Next Vid!",
+                                text: "Your enthusiasm got you a shoutout in their next video!",
+                                lesson: "🎮 Genuine excitement for others' work often gets recognized and appreciated."
+                            },
+                            {
+                                text: "Gives villain lair vibes and I love it",
+                                outcome: "positive",
+                                title: "Comment Pinned!",
+                                text: "Your comment got pinned to the top of the video!",
+                                lesson: "🎮 Creative interpretations of content can make creators feel seen and understood."
+                            }
+                        ]
+                    },
+                    jokester: {
+                        text: "😅 Jokester: Was not ready for that lava waterfall… my eyebrows are gone 🚀",
+                        posterReply: "LMAO that was the goal!!",
+                        options: [
+                            {
+                                text: "Petition to add a lava hot tub",
+                                outcome: "positive",
+                                title: "It Gets Added!",
+                                text: "Your joke was so good they actually added a lava hot tub to the build!",
+                                lesson: "😅 Playful suggestions can inspire creators to add fun elements to their work!"
+                            },
+                            {
+                                text: "Would live there if I hated furniture",
+                                outcome: "positive",
+                                title: "Followed!",
+                                text: "Your humor won them over and they followed you!",
+                                lesson: "😅 Witty comments can lead to new connections and followers."
+                            }
+                        ]
+                    },
+                    roaster: {
+                        text: "🔥 Roaster: Looks like a 2012 server exploded. Why all lava??",
+                        posterReply: "Didn't know we had the refs in here.",
+                        options: [
+                            {
+                                text: "Own the L.",
+                                outcome: "negative",
+                                title: "Comment Downvoted",
+                                text: "Your comment got heavily downvoted by the community.",
+                                lesson: "🔥 Roasting content creators often backfires when their community defends them."
+                            },
+                            {
+                                text: "Chaotic good, I admit.",
+                                outcome: "neutral",
+                                title: "Vibe Saved",
+                                text: "You managed to save face, but the interaction ends there.",
+                                lesson: "🔥 Trying to recover from a roast rarely works as intended."
+                            }
+                        ]
+                    },
+                    critic: {
+                        text: "🤔 Critic: Solid build. Too much lava hides the structure.",
+                        posterReply: "Omg thanks! I was worried it looked messy.",
+                        options: [
+                            {
+                                text: "Redstone doors were genius tho.",
+                                outcome: "positive",
+                                title: "Beta Test Invite!",
+                                text: "Your constructive feedback earned you an invite to test their next build!",
+                                lesson: "🤔 Balanced feedback that highlights both strengths and areas for improvement is highly valued."
+                            },
+                            {
+                                text: "Try block contrast.",
+                                outcome: "positive",
+                                title: "Block Suggestion Requested!",
+                                text: "They want more specific suggestions for improving their builds!",
+                                lesson: "🤔 Specific, actionable feedback can lead to meaningful collaborations."
+                            }
+                        ]
+                    },
+                    hater: {
+                        text: "😠 Hater: This is why people make fun of Minecraft YouTubers 💀",
+                        posterReply: "Cool. Didn't ask.",
+                        options: [
+                            {
+                                text: "Lmao can't fix cringe with lava.",
+                                outcome: "negative",
+                                title: "Blocked",
+                                text: "You got blocked and your comment was deleted.",
+                                lesson: "😠 Hating on entire communities just makes you look bitter and closed-minded."
+                            },
+                            {
+                                text: "That was painful to watch.",
+                                outcome: "negative",
+                                title: "Mocked in Discord",
+                                text: "Your comment got screenshotted and mocked in their Discord server.",
+                                lesson: "😠 Negative comments often get shared and mocked in private communities."
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                id: 4,
+                title: "Discord Game Chat",
+                username: "kai_gamer",
+                postType: "Rage Quit",
+                likes: "N/A",
+                caption: "Bro, this team is actually trash. Why even play if no one listens.",
+                initialComment: "user_999: You walked into lava and blamed us??",
+                responses: {
+                    hypebeast: {
+                        text: "🎮 Hypebeast: It's cool, Kai — you carried last round 💪",
+                        posterReply: "That last one tilted me.",
+                        options: [
+                            {
+                                text: "Let's reset and do it better.",
+                                outcome: "positive",
+                                title: "Game Resumes!",
+                                text: "Your positive energy helped the team get back on track!",
+                                lesson: "🎮 Supporting teammates during rough moments can turn the game around."
+                            },
+                            {
+                                text: "You're the MVP even when you flop",
+                                outcome: "positive",
+                                title: "Laughs Restored!",
+                                text: "Your encouragement brought the fun back to the game!",
+                                lesson: "🎮 Acknowledging someone's value even when they're struggling builds strong team bonds."
+                            }
+                        ]
+                    },
+                    jokester: {
+                        text: "😅 Jokester: Kai rage-quitting like this is the esports championship 💀",
+                        posterReply: "LOL shut up 😭 that loss hurt tho.",
+                        options: [
+                            {
+                                text: "If we win the next one, I'm calling ESPN",
+                                outcome: "positive",
+                                title: "Vibe Returns!",
+                                text: "Your joke lightened the mood and the team got back to having fun!",
+                                lesson: "🎮 Humor can defuse tense situations and restore team morale."
+                            },
+                            {
+                                text: "Blame the lag, pretend we're elite",
+                                outcome: "positive",
+                                title: "Inside Joke!",
+                                text: "Your joke became an inside joke for the team!",
+                                lesson: "🎮 Playful excuses can become fun team traditions."
+                            }
+                        ]
+                    },
+                    roaster: {
+                        text: "🔥 Roaster: You walked into lava and blamed us??",
+                        posterReply: "Didn't know we had refs here.",
+                        options: [
+                            {
+                                text: "Own the L.",
+                                outcome: "negative",
+                                title: "Kai Leaves",
+                                text: "Kai left the game and the team.",
+                                lesson: "🔥 Roasting teammates during heated moments usually makes things worse."
+                            },
+                            {
+                                text: "We'll call it a shared disaster",
+                                outcome: "neutral",
+                                title: "Mild Recovery",
+                                text: "The situation calmed down but the vibe was never the same.",
+                                lesson: "🔥 Trying to save face after roasting rarely restores team chemistry."
+                            }
+                        ]
+                    },
+                    critic: {
+                        text: "🤔 Critic: We split up too early. That messed us up.",
+                        posterReply: "Yeah maybe... I got impatient.",
+                        options: [
+                            {
+                                text: "Keep comms tight next time.",
+                                outcome: "positive",
+                                title: "Comeback Round!",
+                                text: "Your strategic feedback helped the team improve and win the next round!",
+                                lesson: "🤔 Constructive feedback about gameplay can help teams improve and succeed."
+                            },
+                            {
+                                text: "Want strat screen share next time?",
+                                outcome: "positive",
+                                title: "Trusted Team Member!",
+                                text: "Your helpful attitude made you a valued team member!",
+                                lesson: "🤔 Offering to help others improve builds trust and respect."
+                            }
+                        ]
+                    },
+                    hater: {
+                        text: "😠 Hater: Maybe you just suck, Kai.",
+                        posterReply: "Tough talk for someone not on the leaderboard.",
+                        options: [
+                            {
+                                text: "Not acting if it's facts.",
+                                outcome: "negative",
+                                title: "Muted by Mod",
+                                text: "You got muted by a server moderator for toxic behavior.",
+                                lesson: "😠 Insulting teammates usually results in consequences from the community."
+                            },
+                            {
+                                text: "Cry more. Can't fix bad gameplay with salt.",
+                                outcome: "negative",
+                                title: "Screenshotted + Blocked",
+                                text: "Your comment got screenshotted and shared as an example of toxic behavior.",
+                                lesson: "😠 Toxic comments often get documented and shared as examples of what not to do."
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                id: 5,
+                title: "iMessage Group Chat",
+                username: "avery_friend",
+                postType: "Subtweet Energy",
+                likes: "N/A",
+                caption: "Funny how some people *say* they wanna hang out but never actually do 👀",
+                initialComment: "user_555: Like how *you* never show up? Don't play victim.",
+                responses: {
+                    hypebeast: {
+                        text: "🎮 Hypebeast: Haha who hurt you 💀 let's actually plan something!",
+                        posterReply: "I just miss y'all. Let's plan for real.",
+                        options: [
+                            {
+                                text: "Movie night? My place?",
+                                outcome: "positive",
+                                title: "Hangout Happens!",
+                                text: "Your positive energy turned a vague post into actual plans!",
+                                lesson: "🎮 Taking initiative to make plans can turn passive-aggressive posts into positive outcomes."
+                            },
+                            {
+                                text: "'No phones' night??",
+                                outcome: "positive",
+                                title: "Group is Excited!",
+                                text: "Your creative suggestion got the whole group excited!",
+                                lesson: "🎮 Creative ideas for hanging out can bring groups closer together."
+                            }
+                        ]
+                    },
+                    jokester: {
+                        text: "😅 Jokester: Subtweet DELUXE 😭 who is this for????",
+                        posterReply: "IYKYK. You safe (for now) lol",
+                        options: [
+                            {
+                                text: "Bold to assume I leave my house",
+                                outcome: "positive",
+                                title: "Playful Roast!",
+                                text: "Your self-deprecating humor defused the tension perfectly!",
+                                lesson: "😅 Self-deprecating humor can defuse passive-aggressive situations."
+                            },
+                            {
+                                text: "This whole chat is one long subtweet",
+                                outcome: "positive",
+                                title: "Group Jokes!",
+                                text: "Your observation became a running joke for the group!",
+                                lesson: "😅 Pointing out group dynamics with humor can create shared experiences."
+                            }
+                        ]
+                    },
+                    roaster: {
+                        text: "🔥 Roaster: Like how *you* never show up? Don't play victim.",
+                        posterReply: "Okayyy shots fired. Chill.",
+                        options: [
+                            {
+                                text: "Don't throw shade if you're shady too.",
+                                outcome: "negative",
+                                title: "Removed from Chat",
+                                text: "You got removed from the group chat for escalating drama.",
+                                lesson: "🔥 Escalating passive-aggressive posts usually leads to group drama and consequences."
+                            },
+                            {
+                                text: "Maybe we all suck at texting",
+                                outcome: "neutral",
+                                title: "Mild Save",
+                                text: "The situation calmed down but the group vibe was awkward.",
+                                lesson: "🔥 Trying to save face after roasting rarely restores group harmony."
+                            }
+                        ]
+                    },
+                    critic: {
+                        text: "🤔 Critic: Maybe say what you need instead of vague shade?",
+                        posterReply: "Fair. I wasn't calling anyone out.",
+                        options: [
+                            {
+                                text: "Let's plan something chill.",
+                                outcome: "positive",
+                                title: "Plans Made!",
+                                text: "Your direct approach led to actual plans being made!",
+                                lesson: "🤔 Being direct about needs instead of passive-aggressive leads to better outcomes."
+                            },
+                            {
+                                text: "Texting doesn't always land right.",
+                                outcome: "positive",
+                                title: "Real Convo Starts!",
+                                text: "Your insight led to a real conversation about communication!",
+                                lesson: "🤔 Acknowledging communication challenges can lead to better understanding."
+                            }
+                        ]
+                    },
+                    hater: {
+                        text: "😠 Hater: Maybe people don't hang with you for a reason.",
+                        posterReply: "Didn't know we were doing that today.",
+                        options: [
+                            {
+                                text: "Just saying what we're all thinking.",
+                                outcome: "negative",
+                                title: "Left on Read + Soft-Blocked",
+                                text: "You got left on read and soft-blocked from future group activities.",
+                                lesson: "😠 Assuming everyone shares your negative opinion usually leads to social consequences."
+                            },
+                            {
+                                text: "Guilt trip fail.",
+                                outcome: "negative",
+                                title: "You Get Kicked from Group",
+                                text: "You got kicked from the group chat for being toxic.",
+                                lesson: "😠 Being mean in group chats usually results in being removed from the group."
+                            }
+                        ]
+                    }
+                }
+            }
+        ];
         
         function startGame() {
             document.getElementById('menuScreen').style.display = 'none';
             document.getElementById('gameScreen').style.display = 'block';
-            
-            // Initialize current post to the default art post if not already set
-            if (!currentPost) {
-                currentPost = {
-                    username: "alex_creates",
-                    postType: "My Latest Art Project ✨",
-                    likes: "127 likes",
-                    caption: "Finally finished this piece! Took me 3 weeks but so proud of how it turned out 🎨 #art #creativity",
-                    initialComment: "artcritic_01: Hmm... interesting choice with the colors. Not sure if they really work together though 🤔",
-                    criticUsername: "artcritic_01"
-                };
-                currentPostIndex = 0;
-            }
-            displayPostMedia(); // Display media for the initial post
+            loadScenario(0);
         }
         
         function backToMenu() {
             document.getElementById('menuScreen').style.display = 'block';
             document.getElementById('gameScreen').style.display = 'none';
-            // Reset game state
             currentScenario = 1;
-            responseHistory = [];
             currentPostIndex = 0;
-            currentPost = null;
+            responseHistory = [];
             document.getElementById('outcome').style.display = 'none';
             document.getElementById('responseOptions').style.display = 'block';
-            displayPostMedia(); // Ensure default content is shown when returning to menu
         }
         
-        // Store current post index and current post data in memory
-        let currentPostIndex = 0;
-        let currentPost = null;
-        
-        // Media configuration - update this when you upload new files to your server
-        const mediaConfig = {
-            // Art post media
-            'alex_creates': {
-                type: 'image', // 'image' or 'video'
-                path: '/media/art-project.jpg', // Update this path when you upload
-                alt: 'Colorful abstract art piece'
-            },
-            // Fitness post media
-            'fitness_sarah': {
-                type: 'image',
-                path: '/media/workout-complete.jpg',
-                alt: 'Gym workout completion photo'
-            },
-            // Cooking post media
-            'foodie_mike': {
-                type: 'image',
-                path: '/media/homemade-pizza.jpg',
-                alt: 'Homemade pizza with thick crust'
-            },
-            // Graduation post media
-            'student_emma': {
-                type: 'image',
-                path: '/media/graduation-day.jpg',
-                alt: 'Graduation ceremony photo'
-            },
-            // Music post media
-            'music_alex': {
-                type: 'video',
-                path: '/media/open-mic-performance.mp4',
-                alt: 'Open mic performance video'
-            }
-        };
-        
-        // Function to display media for current post
-        function displayPostMedia() {
-            const postContent = document.getElementById('postContent');
-            const uploadedImage = document.getElementById('uploadedImage');
-            const uploadedVideo = document.getElementById('uploadedVideo');
-            const defaultContent = document.getElementById('defaultContent');
+        function loadScenario(index) {
+            const scenario = scenarios[index];
+            currentPostIndex = index;
             
-            if (!currentPost) {
-                // Show default content for art post
-                defaultContent.style.display = 'flex';
-                uploadedImage.style.display = 'none';
-                uploadedVideo.style.display = 'none';
-                return;
-            }
+            // Update UI
+            document.getElementById('profilePic').textContent = scenario.username.charAt(0).toUpperCase();
+            document.getElementById('username').textContent = scenario.username;
+            document.getElementById('likes').textContent = scenario.likes;
+            document.getElementById('captionUsername').textContent = scenario.username;
+            document.getElementById('caption').innerHTML = `
+                <span class="username">${scenario.username}</span> 
+                ${scenario.caption}
+            `;
+            document.getElementById('scenarioIndicator').textContent = `Scenario ${scenario.id}: ${scenario.title}`;
             
-            const media = mediaConfig[currentPost.username];
-            
-            if (media && media.path) {
-                // Show uploaded media
-                defaultContent.style.display = 'none';
-                postContent.style.display = 'flex';
-                
-                if (media.type === 'image') {
-                    uploadedImage.src = media.path;
-                    uploadedImage.alt = media.alt;
-                    uploadedImage.style.display = 'block';
-                    uploadedVideo.style.display = 'none';
-                } else if (media.type === 'video') {
-                    uploadedVideo.src = media.path;
-                    uploadedVideo.style.display = 'block';
-                    uploadedImage.style.display = 'none';
-                }
-            } else {
-                // Show default content
-                defaultContent.style.display = 'flex';
-                uploadedImage.style.display = 'none';
-                uploadedVideo.style.display = 'none';
-            }
-        }
-        
-        // Generic scenarios that adapt to different post types
-        function getScenarios() {
-            if (!currentPost) {
-                // Default to art post scenarios if no current post
-                return getArtScenarios();
-            }
-            
-            const criticName = currentPost.criticUsername;
-            const postTheme = getPostTheme();
-            
-            return {
-                fire: {
-                    1: {
-                        myResponse: getGenericResponse('fire', 1, postTheme),
-                        theirComment: `${criticName}: ${getGenericReply('fire', 1, postTheme)}`,
-                        level: 2
-                    },
-                    2: {
-                        myResponse: getGenericResponse('fire', 2, postTheme),
-                        theirComment: `${criticName}: ${getGenericReply('fire', 2, postTheme)}`,
-                        level: 3
-                    },
-                    3: {
-                        myResponse: "You know what? You're just a toxic troll. Blocked.",
-                        outcome: "negative",
-                        title: "Blocked & Unfollowed",
-                        text: `The argument escalated until both of you blocked each other. Your ${postTheme.contentType} post got reported for harassment in the comments.`,
-                        lesson: "🔥 Fighting fire with fire often burns everyone involved. Online conflicts can quickly spiral out of control and damage your reputation."
-                    }
-                },
-                defend: {
-                    1: {
-                        myResponse: getGenericResponse('defend', 1, postTheme),
-                        theirComment: `${criticName}: ${getGenericReply('defend', 1, postTheme)}`,
-                        level: 2
-                    },
-                    2: {
-                        myResponse: getGenericResponse('defend', 2, postTheme),
-                        theirComment: `${criticName}: ${getGenericReply('defend', 2, postTheme)}`,
-                        level: 3
-                    },
-                    3: {
-                        myResponse: getGenericResponse('defend', 3, postTheme),
-                        outcome: "neutral",
-                        title: "Respectful Disagreement",
-                        text: "You maintained your boundaries while staying respectful. The conversation ended on a positive note with mutual respect.",
-                        lesson: "🛡️ Setting clear boundaries while staying respectful often stops conflicts before they grow. You can disagree without being disagreeable."
-                    }
-                },
-                deflect: {
-                    1: {
-                        myResponse: getGenericResponse('deflect', 1, postTheme),
-                        theirComment: `${criticName}: ${getGenericReply('deflect', 1, postTheme)}`,
-                        level: 2
-                    },
-                    2: {
-                        myResponse: getGenericResponse('deflect', 2, postTheme),
-                        theirComment: `${criticName}: ${getGenericReply('deflect', 2, postTheme)}`,
-                        level: 3
-                    },
-                    3: {
-                        myResponse: getGenericResponse('deflect', 3, postTheme),
-                        outcome: "positive",
-                        title: "New Follower & Friend",
-                        text: "Your humor and self-deprecating attitude won them over completely! They followed you and even shared your post to their story.",
-                        lesson: "😄 Humor and self-awareness can transform conflicts into connections. Not taking yourself too seriously often disarms critics and creates genuine friendships."
-                    }
-                },
-                peace: {
-                    1: {
-                        myResponse: getGenericResponse('peace', 1, postTheme),
-                        theirComment: `${criticName}: ${getGenericReply('peace', 1, postTheme)}`,
-                        level: 2
-                    },
-                    2: {
-                        myResponse: getGenericResponse('peace', 2, postTheme),
-                        theirComment: `${criticName}: ${getGenericReply('peace', 2, postTheme)}`,
-                        level: 3
-                    },
-                    3: {
-                        myResponse: getGenericResponse('peace', 3, postTheme),
-                        outcome: "positive",
-                        title: "New Mentor & Friend",
-                        text: `Your openness to feedback turned a critic into a mentor! They followed you, shared resources, and offered to help with future ${postTheme.activity}.`,
-                        lesson: "🤝 Responding with genuine openness to feedback can turn critics into supporters. Growth mindset attracts people who want to help you succeed."
-                    }
-                }
-            };
-        }
-        
-        function getPostTheme() {
-            if (!currentPost) return { contentType: 'art', activity: 'projects', field: 'art' };
-            
-            const themes = {
-                'alex_creates': { contentType: 'art', activity: 'projects', field: 'art' },
-                'fitness_sarah': { contentType: 'fitness', activity: 'workouts', field: 'fitness' },
-                'foodie_mike': { contentType: 'cooking', activity: 'recipes', field: 'cooking' },
-                'student_emma': { contentType: 'academic', activity: 'studies', field: 'education' },
-                'music_alex': { contentType: 'music', activity: 'performances', field: 'music' }
-            };
-            
-            return themes[currentPost.username] || themes['alex_creates'];
-        }
-        
-        function getGenericResponse(type, level, theme) {
-            const responses = {
-                fire: {
-                    1: "Excuse me? My work is just fine, thanks.",
-                    2: "At least I create instead of just tearing others down.",
-                    3: "You know what? You're just a toxic troll. Blocked."
-                },
-                defend: {
-                    1: `I appreciate feedback, but I'm happy with my ${theme.field} choices.`,
-                    2: "That's totally fine! Everyone has their own style.",
-                    3: "Thanks! Always working to improve my skills."
-                },
-                deflect: {
-                    1: "Haha yeah, I went a bit experimental! 😅",
-                    2: "Sometimes you gotta take risks with your creativity!",
-                    3: "Absolutely! Always happy to connect with fellow enthusiasts!"
-                },
-                peace: {
-                    1: "Thanks for the feedback! What would you suggest?",
-                    2: `That's really helpful! I'd love to learn more about ${theme.field}.`,
-                    3: "Thank you so much! This is exactly what I needed to grow."
-                }
-            };
-            
-            return responses[type][level];
-        }
-        
-        function getGenericReply(type, level, theme) {
-            const replies = {
-                fire: {
-                    1: "Oh please, anyone can do what you're doing. This isn't impressive 🙄",
-                    2: "Wow, defensive much? Maybe you should actually learn the basics before showing off... 💀"
-                },
-                defend: {
-                    1: "Fair enough, I guess everyone has their own approach. Still not my preference though.",
-                    2: "True that. Actually, your technique does show some effort. Keep it up! 👍"
-                },
-                deflect: {
-                    1: "😂 Hey, at least you own it! I actually kind of admire the boldness now that I think about it.",
-                    2: "Lol that's the spirit! You seem cool. Mind if I follow your journey?"
-                },
-                peace: {
-                    1: `Wow, refreshing to meet someone open to feedback! I'd suggest focusing on the fundamentals - your effort is actually solid.`,
-                    2: `Here, I'll share some resources with you. Keep creating - you've got potential! 🎨 *Started following you*`
-                }
-            };
-            
-            return replies[type][level];
-        }
-        
-        function getArtScenarios() {
-            return {
-                fire: {
-                    1: {
-                        myResponse: "Excuse me? My color theory is fine, thanks.",
-                        theirComment: "artcritic_01: Oh please, anyone can splash random colors together. This isn't art, it's finger painting 🙄",
-                        level: 2
-                    },
-                    2: {
-                        myResponse: "At least I create instead of just tearing others down.",
-                        theirComment: "artcritic_01: Wow, defensive much? Maybe if you actually studied color theory instead of just pretending to be an artist... 💀",
-                        level: 3
-                    },
-                    3: {
-                        myResponse: "You know what? You're just a toxic troll. Blocked.",
-                        outcome: "negative",
-                        title: "Blocked & Unfollowed",
-                        text: "The argument escalated until both of you blocked each other. Your art post got reported for harassment in the comments.",
-                        lesson: "🔥 Fighting fire with fire often burns everyone involved. Online conflicts can quickly spiral out of control and damage your reputation."
-                    }
-                },
-                defend: {
-                    1: {
-                        myResponse: "I appreciate feedback, but I'm happy with my color choices.",
-                        theirComment: "artcritic_01: Fair enough, I guess everyone has their own style. Still not my cup of tea though.",
-                        level: 2
-                    },
-                    2: {
-                        myResponse: "That's totally fine! Art is subjective after all.",
-                        theirComment: "artcritic_01: True that. Actually, your brushwork technique is pretty solid. Keep it up! 👍",
-                        level: 3
-                    },
-                    3: {
-                        myResponse: "Thanks! Always working to improve my skills.",
-                        outcome: "neutral",
-                        title: "Respectful Disagreement",
-                        text: "You maintained your boundaries while staying respectful. The conversation ended on a positive note with mutual respect.",
-                        lesson: "🛡️ Setting clear boundaries while staying respectful often stops conflicts before they grow. You can disagree without being disagreeable."
-                    }
-                },
-                deflect: {
-                    1: {
-                        myResponse: "Haha yeah, I went a bit wild with the rainbow! 🌈",
-                        theirComment: "artcritic_01: 😂 Hey, at least you own it! I actually kind of admire the boldness now that I think about it.",
-                        level: 2
-                    },
-                    2: {
-                        myResponse: "Sometimes you gotta risk it for the art biscuit! 😅",
-                        theirComment: "artcritic_01: Lol 'art biscuit' - I'm stealing that! You seem cool. Mind if I follow your art journey?",
-                        level: 3
-                    },
-                    3: {
-                        myResponse: "Absolutely! Always happy to connect with fellow art lovers!",
-                        outcome: "positive",
-                        title: "New Follower & Friend",
-                        text: "Your humor and self-deprecating attitude won them over completely! They followed you and even shared your post to their story.",
-                        lesson: "😄 Humor and self-awareness can transform conflicts into connections. Not taking yourself too seriously often disarms critics and creates genuine friendships."
-                    }
-                },
-                peace: {
-                    1: {
-                        myResponse: "Thanks for the feedback! What would you suggest?",
-                        theirComment: "artcritic_01: Wow, refreshing to meet someone open to feedback! I'd suggest trying complementary colors next time - maybe blues with oranges? Your technique is actually solid.",
-                        level: 2
-                    },
-                    2: {
-                        myResponse: "That's really helpful! I'd love to learn more about color theory.",
-                        theirComment: "artcritic_01: Here, I'll DM you some color theory resources. Keep creating - you've got potential! 🎨 *Started following you*",
-                        level: 3
-                    },
-                    3: {
-                        myResponse: "Thank you so much! This is exactly what I needed to grow as an artist.",
-                        outcome: "positive",
-                        title: "New Mentor & Friend",
-                        text: "Your openness to feedback turned a critic into a mentor! They followed you, shared resources, and offered to help with future projects.",
-                        lesson: "🤝 Responding with genuine openness to feedback can turn critics into supporters. Growth mindset attracts people who want to help you succeed."
-                    }
-                }
-            };
-        }
-        
-        function respond(type, level) {
-            responseHistory.push(type);
-            
-            const scenarios = getScenarios();
-            const scenario = scenarios[type][level];
-            
-            // Error handling for undefined scenarios
-            if (!scenario) {
-                console.error(`Scenario not found for type: ${type}, level: ${level}`);
-                // Fallback to a generic ending
-                showOutcome({
-                    outcome: "neutral",
-                    title: "Conversation Ended",
-                    text: "The conversation came to a natural conclusion.",
-                    lesson: "🤝 Sometimes the best response is to end the conversation gracefully and move forward."
-                }, type);
-                return;
-            }
-            
-            // Add my response first
-            addMyComment(scenario.myResponse);
-            
-            // Hide response options temporarily
-            document.getElementById('responseOptions').style.display = 'none';
-            
-            // All level 3 scenarios should have outcomes - no more "Continue Story" needed
-            if (level === 3 || scenario.outcome) {
-                // Final response - go straight to outcome
-                showContinueButton(() => {
-                    showOutcome(scenario, type);
-                });
-            } else if (scenario.theirComment && !scenario.outcome) {
-                // Show continue button for levels 1 and 2
-                showContinueButton(() => {
-                    addComment(scenario.theirComment);
-                    currentScenario = scenario.level;
-                    updateLevel();
-                    updateResponseOptions(type, scenario.level);
-                });
-            } else {
-                // Fallback - should not happen with proper scenario design
-                showOutcome(scenario, type);
-            }
-        }
-        
-        function addMyComment(commentText) {
-            const commentsSection = document.getElementById('commentsSection');
-            const commentDiv = document.createElement('div');
-            commentDiv.className = 'comment';
-            commentDiv.style.backgroundColor = '#e3f2fd';
-            const currentUsername = document.querySelector('.username').textContent;
-            commentDiv.innerHTML = `
-                <span class="comment-user">${currentUsername}</span>
-                <span class="comment-text">${commentText}</span>
+            // Reset comments
+            document.getElementById('commentsSection').innerHTML = `
+                <div class="comment">
+                    <span class="comment-user">${scenario.initialComment.split(':')[0]}</span>
+                    <span class="comment-text">${scenario.initialComment.split(': ')[1]}</span>
+                </div>
             `;
             
-            commentsSection.appendChild(commentDiv);
-            commentsSection.scrollTop = commentsSection.scrollHeight;
+            // Show response options
+            showResponseOptions(scenario);
+            
+            // Reset outcome
+            document.getElementById('outcome').style.display = 'none';
+            document.getElementById('responseOptions').style.display = 'block';
+        }
+        
+        function showResponseOptions(scenario) {
+            const responseOptions = document.getElementById('responseOptions');
+            const responses = scenario.responses;
+            
+            responseOptions.innerHTML = `
+                <button class="response-btn hypebeast-btn" onclick="respond('hypebeast', ${scenario.id})">
+                    ${responses.hypebeast.text}
+                </button>
+                <button class="response-btn jokester-btn" onclick="respond('jokester', ${scenario.id})">
+                    ${responses.jokester.text}
+                </button>
+                <button class="response-btn roaster-btn" onclick="respond('roaster', ${scenario.id})">
+                    ${responses.roaster.text}
+                </button>
+                <button class="response-btn critic-btn" onclick="respond('critic', ${scenario.id})">
+                    ${responses.critic.text}
+                </button>
+                <button class="response-btn hater-btn" onclick="respond('hater', ${scenario.id})">
+                    ${responses.hater.text}
+                </button>
+            `;
+        }
+        
+        function respond(type, scenarioId) {
+            const scenario = scenarios.find(s => s.id === scenarioId);
+            const response = scenario.responses[type];
+            
+            // Add your response
+            addComment(`You: ${response.text}`);
+            
+            // Hide response options
+            document.getElementById('responseOptions').style.display = 'none';
+            
+            // Show continue button
+            showContinueButton(() => {
+                // Add poster's reply
+                addComment(`${scenario.username}: ${response.posterReply}`);
+                
+                // Show final options
+                showFinalOptions(response.options, scenario);
+            });
         }
         
         function addComment(commentText) {
@@ -823,7 +1059,6 @@
             `;
             responseOptions.style.display = 'block';
             
-            // Store the callback function
             window.currentContinueCallback = callback;
         }
         
@@ -834,289 +1069,56 @@
             }
         }
         
-        function updateLevel() {
-            const levelIndicator = document.getElementById('levelIndicator');
-            levelIndicator.textContent = `Scenario ${currentScenario}: The Heat Rises`;
-        }
-        
-        function updateResponseOptions(type, level) {
+        function showFinalOptions(options, scenario) {
             const responseOptions = document.getElementById('responseOptions');
             
-            if (level === 2) {
-                if (type === 'fire') {
-                    responseOptions.innerHTML = `
-                        <button class="response-btn fire-btn" onclick="respond('fire', ${level})">
-                            🔥 Fire Back - "At least I create instead of just tearing others down"
-                        </button>
-                        <button class="response-btn defend-btn" onclick="respond('defend', 2)">
-                            🛡️ Defend - "I think we should agree to disagree here"
-                        </button>
-                        <button class="response-btn deflect-btn" onclick="respond('deflect', 2)">
-                            😄 Deflect - "Yikes, tough crowd! Maybe I'll stick to stick figures 😅"
-                        </button>
-                        <button class="response-btn peace-btn" onclick="respond('peace', 2)">
-                            🤝 Make Peace - "Hey, let's start over. I'm genuinely interested in your perspective"
-                        </button>
-                    `;
-                } else if (type === 'defend') {
-                    responseOptions.innerHTML = `
-                        <button class="response-btn defend-btn" onclick="respond('defend', ${level})">
-                            🛡️ Stay Positive - "That's totally fine! Art is subjective after all"
-                        </button>
-                        <button class="response-btn fire-btn" onclick="respond('fire', 2)">
-                            🔥 Get Defensive - "Well, at least I'm trying something new"
-                        </button>
-                        <button class="response-btn deflect-btn" onclick="respond('deflect', 2)">
-                            😄 Make Light - "Can't please everyone! That's what makes art fun"
-                        </button>
-                        <button class="response-btn peace-btn" onclick="respond('peace', 2)">
-                            🤝 Ask for Advice - "What kind of art do you usually enjoy?"
-                        </button>
-                    `;
-                } else if (type === 'deflect') {
-                    responseOptions.innerHTML = `
-                        <button class="response-btn deflect-btn" onclick="respond('deflect', ${level})">
-                            😄 Keep it Light - "Sometimes you gotta risk it for the art biscuit! 😅"
-                        </button>
-                        <button class="response-btn peace-btn" onclick="respond('peace', 2)">
-                            🤝 Show Appreciation - "Thanks for seeing the boldness in it!"
-                        </button>
-                        <button class="response-btn defend-btn" onclick="respond('defend', 2)">
-                            🛡️ Explain Choice - "I wanted to try something different this time"
-                        </button>
-                        <button class="response-btn fire-btn" onclick="respond('fire', 2)">
-                            🔥 Get Cocky - "Bold is my middle name! Some people just don't get it"
-                        </button>
-                    `;
-                } else if (type === 'peace') {
-                    responseOptions.innerHTML = `
-                        <button class="response-btn peace-btn" onclick="respond('peace', ${level})">
-                            🤝 Show Enthusiasm - "That's really helpful! I'd love to learn more about color theory"
-                        </button>
-                        <button class="response-btn deflect-btn" onclick="respond('deflect', 2)">
-                            😄 Be Humble - "Haha, clearly I have some studying to do!"
-                        </button>
-                        <button class="response-btn defend-btn" onclick="respond('defend', 2)">
-                            🛡️ Set Boundaries - "I appreciate the feedback, though I'm still proud of this piece"
-                        </button>
-                        <button class="response-btn fire-btn" onclick="respond('fire', 2)">
-                            🔥 Get Defensive - "Actually, I think my approach is valid"
-                        </button>
-                    `;
-                }
-            } else if (level === 3) {
-                if (type === 'fire') {
-                    responseOptions.innerHTML = `
-                        <button class="response-btn fire-btn" onclick="respond('fire', ${level})">
-                            🔥 Final Blow - "You know what? You're just a toxic troll. Blocked."
-                        </button>
-                        <button class="response-btn peace-btn" onclick="respond('peace', 3)">
-                            🤝 Last Attempt - "Look, I'm sorry this got heated. Can we start over?"
-                        </button>
-                        <button class="response-btn deflect-btn" onclick="respond('deflect', 3)">
-                            😄 Defuse - "Wow, this escalated quickly! Let's take a breath here"
-                        </button>
-                    `;
-                } else if (type === 'defend') {
-                    responseOptions.innerHTML = `
-                        <button class="response-btn defend-btn" onclick="respond('defend', ${level})">
-                            🛡️ Gracious Response - "Thanks! Always working to improve my skills"
-                        </button>
-                        <button class="response-btn peace-btn" onclick="respond('peace', 3)">
-                            🤝 Build Connection - "I'd love to see some of your work sometime!"
-                        </button>
-                        <button class="response-btn fire-btn" onclick="respond('fire', 3)">
-                            🔥 Get Frustrated - "You know what? I'm done with this conversation"
-                        </button>
-                        <button class="response-btn deflect-btn" onclick="respond('deflect', 3)">
-                            😄 Lighten Up - "Well, at least we can agree to disagree with style!"
-                        </button>
-                    `;
-                } else if (type === 'deflect') {
-                    responseOptions.innerHTML = `
-                        <button class="response-btn deflect-btn" onclick="respond('deflect', ${level})">
-                            😄 Welcome New Friend - "Absolutely! Always happy to connect with fellow art lovers!"
-                        </button>
-                        <button class="response-btn peace-btn" onclick="respond('peace', 3)">
-                            🤝 Show Gratitude - "That means a lot! Thanks for giving my art a chance"
-                        </button>
-                        <button class="response-btn fire-btn" onclick="respond('fire', 3)">
-                            🔥 Get Defensive - "Actually, I think my approach is perfectly valid"
-                        </button>
-                        <button class="response-btn defend-btn" onclick="respond('defend', 3)">
-                            🛡️ Stay Positive - "Thanks for the feedback, I'll keep it in mind"
-                        </button>
-                    `;
-                } else if (type === 'peace') {
-                    responseOptions.innerHTML = `
-                        <button class="response-btn peace-btn" onclick="respond('peace', ${level})">
-                            🤝 Express Gratitude - "Thank you so much! This is exactly what I needed to grow as an artist"
-                        </button>
-                    `;
-                }
-            }
+            responseOptions.innerHTML = options.map((option, index) => `
+                <button class="response-btn" style="background: linear-gradient(45deg, #667eea, #764ba2); color: white;" onclick="showOutcome(${index}, ${scenario.id})">
+                    ${option.text}
+                </button>
+            `).join('');
             
             responseOptions.style.display = 'block';
+            
+            // Store options for outcome
+            window.currentOptions = options;
         }
         
-        function showOutcome(scenario, type) {
-            const responseOptions = document.getElementById('responseOptions');
-            const outcome = document.getElementById('outcome');
+        function showOutcome(optionIndex, scenarioId) {
+            const scenario = scenarios.find(s => s.id === scenarioId);
+            const response = window.currentOptions[optionIndex];
             
-            responseOptions.style.display = 'none';
+            // Add your final response
+            addComment(`You: ${response.text}`);
+            
+            // Hide response options
+            document.getElementById('responseOptions').style.display = 'none';
+            
+            // Show outcome
+            const outcome = document.getElementById('outcome');
             outcome.style.display = 'block';
-            outcome.className = `outcome ${scenario.outcome}`;
+            outcome.className = `outcome ${response.outcome}`;
             
             outcome.innerHTML = `
-                <h3>${scenario.title}</h3>
-                <p>${scenario.text}</p>
+                <h3>${response.title}</h3>
+                <p>${response.text}</p>
                 <div class="lesson">
-                    <strong>Digital Citizenship Lesson:</strong><br>
-                    ${scenario.lesson}
+                    <strong>Communication Lesson:</strong><br>
+                    ${response.lesson}
                 </div>
                 <button class="restart-btn" onclick="restart()">Try Different Response</button>
-                <button class="restart-btn" onclick="newPost()" style="background: linear-gradient(45deg, #00b894, #00cec9); margin-left: 10px;">Start New Post</button>
+                <button class="restart-btn" onclick="nextScenario()" style="background: linear-gradient(45deg, #00b894, #00cec9); margin-left: 10px;">Next Scenario</button>
                 <button class="restart-btn" onclick="backToMenu()" style="background: linear-gradient(45deg, #a29bfe, #6c5ce7); margin-left: 10px;">Back to Menu</button>
             `;
         }
         
         function restart() {
-            currentScenario = 1;
-            responseHistory = [];
-            
-            // Reset to current post state (not always art post)
-            document.getElementById('levelIndicator').textContent = 'Scenario 1: The First Comment';
-            
-            // Use current post's initial comment or default to art post
-            const initialComment = currentPost ? currentPost.initialComment : "artcritic_01: Hmm... interesting choice with the colors. Not sure if they really work together though 🤔";
-            const [user, text] = initialComment.split(': ');
-            
-            document.getElementById('commentsSection').innerHTML = `
-                <div class="comment">
-                    <span class="comment-user">${user}</span>
-                    <span class="comment-text">${text}</span>
-                </div>
-            `;
-            
-            // Reset response options based on current post
-            const theme = getPostTheme();
-            document.getElementById('responseOptions').innerHTML = `
-                <button class="response-btn fire-btn" onclick="respond('fire', 1)">
-                    🔥 Fire Back - "Excuse me? My work is just fine, thanks"
-                </button>
-                <button class="response-btn defend-btn" onclick="respond('defend', 1)">
-                    🛡️ Defend - "I appreciate feedback but I'm happy with my effort"
-                </button>
-                <button class="response-btn deflect-btn" onclick="respond('deflect', 1)">
-                    😄 Deflect - "Haha yeah, still learning but having fun with it!"
-                </button>
-                <button class="response-btn peace-btn" onclick="respond('peace', 1)">
-                    🤝 Make Peace - "Thanks for the feedback! What would you suggest?"
-                </button>
-            `;
-            
-            document.getElementById('responseOptions').style.display = 'block';
-            document.getElementById('outcome').style.display = 'none';
-            displayPostMedia(); // Ensure default content is shown after restart
+            loadScenario(currentPostIndex);
         }
         
-        function newPost() {
-            currentScenario = 1;
-            responseHistory = [];
-            
-            // Array of different post scenarios
-            const newPosts = [
-                {
-                    username: "alex_creates",
-                    postType: "My Latest Art Project ✨",
-                    likes: "127 likes",
-                    caption: "Finally finished this piece! Took me 3 weeks but so proud of how it turned out 🎨 #art #creativity",
-                    initialComment: "artcritic_01: Hmm... interesting choice with the colors. Not sure if they really work together though 🤔",
-                    criticUsername: "artcritic_01"
-                },
-                {
-                    username: "fitness_sarah",
-                    postType: "Morning Workout Complete! 💪",
-                    likes: "89 likes",
-                    caption: "Just crushed a 5AM workout session! Nothing beats that morning endorphin rush 🏃‍♀️ #morningmotivation #fitness",
-                    initialComment: "couch_potato_99: 5AM? That's way too early. Some of us have lives outside the gym you know 😴",
-                    criticUsername: "couch_potato_99"
-                },
-                {
-                    username: "foodie_mike",
-                    postType: "Homemade Pizza Night! 🍕",
-                    likes: "156 likes",
-                    caption: "Spent all afternoon making pizza from scratch - even the dough! Totally worth the effort 👨‍🍳 #homecooking #pizza",
-                    initialComment: "pizza_snob: Looks pretty amateur tbh. The crust is way too thick and that cheese distribution... yikes 🤨",
-                    criticUsername: "pizza_snob"
-                },
-                {
-                    username: "student_emma",
-                    postType: "Graduation Day! 🎓",
-                    likes: "243 likes",
-                    caption: "Can't believe I finally graduated! 4 years of hard work paid off. Onto the next chapter! #graduation #proud",
-                    initialComment: "reality_check: Congrats I guess, but good luck finding a job in this economy with that degree 📉",
-                    criticUsername: "reality_check"
-                },
-                {
-                    username: "music_alex",
-                    postType: "First Open Mic Performance! 🎤",
-                    likes: "67 likes",
-                    caption: "Nervous but excited to share my original song tonight! Dreams do come true with hard work ✨ #music #dreams",
-                    initialComment: "harsh_critic: Watched your video... maybe stick to your day job? Not everyone is meant to be a musician 🎵❌",
-                    criticUsername: "harsh_critic"
-                }
-            ];
-            
-            // Move to next post
-            currentPostIndex = (currentPostIndex + 1) % newPosts.length;
-            currentPost = newPosts[currentPostIndex];
-            
-            // Update the header
-            document.querySelector('.username').textContent = currentPost.username;
-            document.querySelector('.profile-pic').textContent = currentPost.username.charAt(0).toUpperCase();
-            
-            // Update post content
-            document.querySelector('.likes').textContent = currentPost.likes;
-            document.querySelector('.caption .username').textContent = currentPost.username;
-            document.querySelector('.caption').innerHTML = `
-                <span class="username">${currentPost.username}</span> 
-                ${currentPost.caption}
-            `;
-            
-            // Display media for the new post
-            displayPostMedia();
-            
-            // Reset scenario indicator
-            document.getElementById('levelIndicator').textContent = 'Scenario 1: The First Comment';
-            
-            // Set new initial comment
-            document.getElementById('commentsSection').innerHTML = `
-                <div class="comment">
-                    <span class="comment-user">${currentPost.initialComment.split(':')[0]}</span>
-                    <span class="comment-text">${currentPost.initialComment.split(': ')[1]}</span>
-                </div>
-            `;
-            
-            // Reset response options with new context
-            document.getElementById('responseOptions').innerHTML = `
-                <button class="response-btn fire-btn" onclick="respond('fire', 1)">
-                    🔥 Fire Back - "Excuse me? My work is just fine, thanks"
-                </button>
-                <button class="response-btn defend-btn" onclick="respond('defend', 1)">
-                    🛡️ Defend - "I appreciate feedback but I'm happy with my effort"
-                </button>
-                <button class="response-btn deflect-btn" onclick="respond('deflect', 1)">
-                    😄 Deflect - "Haha yeah, still learning but having fun with it!"
-                </button>
-                <button class="response-btn peace-btn" onclick="respond('peace', 1)">
-                    🤝 Make Peace - "Thanks for the feedback! What would you suggest?"
-                </button>
-            `;
-            
-            document.getElementById('responseOptions').style.display = 'block';
-            document.getElementById('outcome').style.display = 'none';
-            displayPostMedia(); // Ensure default content is shown for new post
+        function nextScenario() {
+            const nextIndex = (currentPostIndex + 1) % scenarios.length;
+            loadScenario(nextIndex);
         }
     </script>
 </body>
