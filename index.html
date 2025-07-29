@@ -608,6 +608,61 @@
             color: #8e8e93;
             font-size: 12px;
         }
+
+        /* Like button styles */
+        .like-btn {
+            background: none;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+            margin-left: 10px;
+        }
+
+        .like-btn:hover {
+            transform: scale(1.2);
+        }
+
+        .like-btn.liked {
+            color: #ff4757;
+        }
+
+        .discord-like {
+            color: #dcddde;
+        }
+
+        .discord-like.liked {
+            color: #43b581;
+        }
+
+        /* Platform-specific comment sections */
+        .tiktok-comments {
+            padding: 15px;
+            background: #000;
+            color: white;
+        }
+
+        .youtube-comments {
+            padding: 15px;
+            background: white;
+            border-top: 1px solid #e5e5e5;
+        }
+
+        .imessage-reaction {
+            margin: 10px 20px;
+            padding: 10px;
+            background: #f0f0f0;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .reaction-text {
+            color: #666;
+            font-style: italic;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
@@ -1612,6 +1667,76 @@
                         <div class="comment">
                             <span class="comment-user">${scenario.initialComment.split(':')[0]}</span>
                             <span class="comment-text">${scenario.initialComment.split(': ')[1]}</span>
+                            <button class="like-btn" onclick="likeComment(this)">❤️</button>
+                        </div>
+                    `;
+                    break;
+                case 'discord':
+                    const discordMessages = document.getElementById('discordMessages');
+                    const newMessage = document.createElement('div');
+                    newMessage.className = 'discord-message';
+                    newMessage.innerHTML = `
+                        <div class="message-avatar">U</div>
+                        <div class="message-content">
+                            <div class="message-header">
+                                <span class="username">${scenario.initialComment.split(':')[0]}</span>
+                                <span class="message-time">2:31 PM</span>
+                            </div>
+                            <div class="message-text">
+                                ${scenario.initialComment.split(': ')[1]}
+                            </div>
+                            <button class="like-btn discord-like" onclick="likeComment(this)">👍</button>
+                        </div>
+                    `;
+                    discordMessages.appendChild(newMessage);
+                    break;
+                case 'tiktok':
+                    // Add TikTok comment section
+                    const tiktokComments = document.createElement('div');
+                    tiktokComments.className = 'tiktok-comments';
+                    tiktokComments.innerHTML = `
+                        <div class="comment">
+                            <span class="comment-user">${scenario.initialComment.split(':')[0]}</span>
+                            <span class="comment-text">${scenario.initialComment.split(': ')[1]}</span>
+                            <button class="like-btn" onclick="likeComment(this)">❤️</button>
+                        </div>
+                    `;
+                    document.getElementById('tiktokLayout').appendChild(tiktokComments);
+                    break;
+                case 'youtube':
+                    // Add YouTube comment section
+                    const youtubeComments = document.createElement('div');
+                    youtubeComments.className = 'youtube-comments';
+                    youtubeComments.innerHTML = `
+                        <div class="comment">
+                            <span class="comment-user">${scenario.initialComment.split(':')[0]}</span>
+                            <span class="comment-text">${scenario.initialComment.split(': ')[1]}</span>
+                            <button class="like-btn" onclick="likeComment(this)">👍</button>
+                        </div>
+                    `;
+                    document.getElementById('youtubeLayout').appendChild(youtubeComments);
+                    break;
+                case 'imessage':
+                    // iMessage doesn't have public comments, but we can add a reaction
+                    const imessageReaction = document.createElement('div');
+                    imessageReaction.className = 'imessage-reaction';
+                    imessageReaction.innerHTML = `
+                        <div class="reaction-text">${scenario.initialComment.split(': ')[1]}</div>
+                        <button class="like-btn" onclick="likeComment(this)">👍</button>
+                    `;
+                    document.getElementById('imessageLayout').appendChild(imessageReaction);
+                    break;
+            }
+        }
+        
+        function revealComment(scenario) {
+            // Add the initial comment to the appropriate platform
+            switch(scenario.platform) {
+                case 'instagram':
+                    document.getElementById('commentsSection').innerHTML = `
+                        <div class="comment">
+                            <span class="comment-user">${scenario.initialComment.split(':')[0]}</span>
+                            <span class="comment-text">${scenario.initialComment.split(': ')[1]}</span>
                         </div>
                     `;
                     break;
@@ -1676,7 +1801,7 @@
         function addResponseToPlatform(platform, text, username = 'You') {
             switch(platform) {
                 case 'instagram':
-                    addComment(`${username}: ${text}`);
+                    addComment(`${username}: ${text}`, true);
                     break;
                 case 'discord':
                     const discordMessages = document.getElementById('discordMessages');
@@ -1692,15 +1817,75 @@
                             <div class="message-text">
                                 ${text}
                             </div>
+                            <button class="like-btn discord-like" onclick="likeComment(this)">👍</button>
                         </div>
                     `;
                     discordMessages.appendChild(newMessage);
                     break;
-                // Add other platforms as needed
+                case 'tiktok':
+                    const tiktokComments = document.querySelector('.tiktok-comments') || createTiktokComments();
+                    const tiktokComment = document.createElement('div');
+                    tiktokComment.className = 'comment';
+                    tiktokComment.innerHTML = `
+                        <span class="comment-user">${username}</span>
+                        <span class="comment-text">${text}</span>
+                        <button class="like-btn" onclick="likeComment(this)">❤️</button>
+                    `;
+                    tiktokComments.appendChild(tiktokComment);
+                    break;
+                case 'youtube':
+                    const youtubeComments = document.querySelector('.youtube-comments') || createYoutubeComments();
+                    const youtubeComment = document.createElement('div');
+                    youtubeComment.className = 'comment';
+                    youtubeComment.innerHTML = `
+                        <span class="comment-user">${username}</span>
+                        <span class="comment-text">${text}</span>
+                        <button class="like-btn" onclick="likeComment(this)">👍</button>
+                    `;
+                    youtubeComments.appendChild(youtubeComment);
+                    break;
+                case 'imessage':
+                    // iMessage doesn't have public comments, but we can add reactions
+                    const imessageReaction = document.querySelector('.imessage-reaction') || createImessageReaction();
+                    imessageReaction.innerHTML += `
+                        <div class="reaction-text">${username}: ${text}</div>
+                        <button class="like-btn" onclick="likeComment(this)">👍</button>
+                    `;
+                    break;
             }
         }
         
-        function addComment(commentText) {
+        function createTiktokComments() {
+            const tiktokComments = document.createElement('div');
+            tiktokComments.className = 'tiktok-comments';
+            document.getElementById('tiktokLayout').appendChild(tiktokComments);
+            return tiktokComments;
+        }
+        
+        function createYoutubeComments() {
+            const youtubeComments = document.createElement('div');
+            youtubeComments.className = 'youtube-comments';
+            document.getElementById('youtubeLayout').appendChild(youtubeComments);
+            return youtubeComments;
+        }
+        
+        function createImessageReaction() {
+            const imessageReaction = document.createElement('div');
+            imessageReaction.className = 'imessage-reaction';
+            document.getElementById('imessageLayout').appendChild(imessageReaction);
+            return imessageReaction;
+        }
+        
+        function likeComment(button) {
+            button.classList.toggle('liked');
+            if (button.classList.contains('liked')) {
+                button.style.transform = 'scale(1.2)';
+            } else {
+                button.style.transform = 'scale(1)';
+            }
+        }
+        
+        function addComment(commentText, includeLike = false) {
             const commentsSection = document.getElementById('commentsSection');
             const commentDiv = document.createElement('div');
             commentDiv.className = 'comment';
@@ -1709,6 +1894,7 @@
             commentDiv.innerHTML = `
                 <span class="comment-user">${user}</span>
                 <span class="comment-text">${text}</span>
+                ${includeLike ? '<button class="like-btn" onclick="likeComment(this)">❤️</button>' : ''}
             `;
             
             commentsSection.appendChild(commentDiv);
@@ -1759,14 +1945,14 @@
             // Hide response options
             document.getElementById('responseOptions').style.display = 'none';
             
-            // Show outcome
+            // Show outcome with one clear consequence
             const outcome = document.getElementById('outcome');
             outcome.style.display = 'block';
             outcome.className = `outcome ${response.outcome}`;
             
             outcome.innerHTML = `
                 <h3>${response.title}</h3>
-                <p>${response.text}</p>
+                <p><strong>Consequence:</strong> ${response.text}</p>
                 <div class="lesson">
                     <strong>Communication Lesson:</strong><br>
                     ${response.lesson}
@@ -1851,12 +2037,49 @@
             // Clear existing comments
             clearCommentsSection(scenario.platform);
             
-            // Add each message in the conversation
+            // Add each message in the conversation with like buttons
             scenario.conversation.forEach((message, index) => {
                 setTimeout(() => {
                     addResponseToPlatform(scenario.platform, message.text, message.user);
                 }, index * 1000); // Show messages with 1-second delay
             });
+        }
+        
+        function clearCommentsSection(platform) {
+            switch(platform) {
+                case 'instagram':
+                    document.getElementById('commentsSection').innerHTML = '';
+                    break;
+                case 'tiktok':
+                    const tiktokComments = document.querySelector('.tiktok-comments');
+                    if (tiktokComments) tiktokComments.remove();
+                    break;
+                case 'youtube':
+                    const youtubeComments = document.querySelector('.youtube-comments');
+                    if (youtubeComments) youtubeComments.remove();
+                    break;
+                case 'discord':
+                    // Only show the original poster's message, no comments yet
+                    document.getElementById('discordMessages').innerHTML = `
+                        <div class="discord-message">
+                            <div class="message-avatar">${scenarios[currentPostIndex].username.charAt(0).toUpperCase()}</div>
+                            <div class="message-content">
+                                <div class="message-header">
+                                    <span class="username">${scenarios[currentPostIndex].username}</span>
+                                    <span class="message-time">2:30 PM</span>
+                                </div>
+                                <div class="message-text">
+                                    ${scenarios[currentPostIndex].caption}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                case 'imessage':
+                    const imessageReaction = document.querySelector('.imessage-reaction');
+                    if (imessageReaction) imessageReaction.remove();
+                    break;
+            }
         }
     </script>
 </body>
