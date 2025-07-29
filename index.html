@@ -131,6 +131,78 @@
             color: white;
             font-size: 18px;
             font-weight: 600;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .upload-area {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .upload-area:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .upload-content {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .upload-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .upload-text {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .upload-hint {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .post-content {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .change-media-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .change-media-btn:hover {
+            background: rgba(0, 0, 0, 0.9);
+        }
+
+        .default-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
         }
 
         .post-actions {
@@ -317,8 +389,25 @@
                 <span class="username">alex_creates</span>
             </div>
             
-            <div class="post-image">
-                My Latest Art Project ✨
+            <div class="post-image" id="postImage">
+                <div class="upload-area" id="uploadArea">
+                    <input type="file" id="imageUpload" accept="image/*,video/*" style="display: none;" onchange="handleImageUpload(event)">
+                    <div class="upload-content" onclick="document.getElementById('imageUpload').click()">
+                        <div class="upload-icon">📷</div>
+                        <div class="upload-text">Click to upload your post image/video</div>
+                        <div class="upload-hint">Supports: JPG, PNG, GIF, MP4, MOV</div>
+                    </div>
+                </div>
+                <div class="post-content" id="postContent" style="display: none;">
+                    <img id="uploadedImage" style="max-width: 100%; max-height: 100%; object-fit: cover;">
+                    <video id="uploadedVideo" controls style="max-width: 100%; max-height: 100%; object-fit: cover;">
+                        Your browser does not support the video tag.
+                    </video>
+                    <button class="change-media-btn" onclick="resetUpload()">🔄 Change Media</button>
+                </div>
+                <div class="default-content" id="defaultContent">
+                    My Latest Art Project ✨
+                </div>
             </div>
             
             <div class="post-actions">
@@ -334,7 +423,7 @@
             </div>
             
             <div class="level-indicator" id="levelIndicator">
-                Level 1: The First Comment
+                Scenario 1: The First Comment
             </div>
             
             <div class="comments-section" id="commentsSection">
@@ -364,7 +453,7 @@
     </div>
 
     <script>
-        let currentLevel = 1;
+        let currentScenario = 1;
         let responseHistory = [];
         
         function startGame() {
@@ -389,7 +478,7 @@
             document.getElementById('menuScreen').style.display = 'block';
             document.getElementById('gameScreen').style.display = 'none';
             // Reset game state
-            currentLevel = 1;
+            currentScenario = 1;
             responseHistory = [];
             currentPostIndex = 0;
             currentPost = null;
@@ -671,7 +760,7 @@
                 // Show continue button for levels 1 and 2
                 showContinueButton(() => {
                     addComment(scenario.theirComment);
-                    currentLevel = scenario.level;
+                    currentScenario = scenario.level;
                     updateLevel();
                     updateResponseOptions(type, scenario.level);
                 });
@@ -733,7 +822,7 @@
         
         function updateLevel() {
             const levelIndicator = document.getElementById('levelIndicator');
-            levelIndicator.textContent = `Level ${currentLevel}: The Heat Rises`;
+            levelIndicator.textContent = `Scenario ${currentScenario}: The Heat Rises`;
         }
         
         function updateResponseOptions(type, level) {
@@ -796,6 +885,9 @@
                         <button class="response-btn defend-btn" onclick="respond('defend', 2)">
                             🛡️ Set Boundaries - "I appreciate the feedback, though I'm still proud of this piece"
                         </button>
+                        <button class="response-btn fire-btn" onclick="respond('fire', 2)">
+                            🔥 Get Defensive - "Actually, I think my approach is valid"
+                        </button>
                     `;
                 }
             } else if (level === 3) {
@@ -819,6 +911,12 @@
                         <button class="response-btn peace-btn" onclick="respond('peace', 3)">
                             🤝 Build Connection - "I'd love to see some of your work sometime!"
                         </button>
+                        <button class="response-btn fire-btn" onclick="respond('fire', 3)">
+                            🔥 Get Frustrated - "You know what? I'm done with this conversation"
+                        </button>
+                        <button class="response-btn deflect-btn" onclick="respond('deflect', 3)">
+                            😄 Lighten Up - "Well, at least we can agree to disagree with style!"
+                        </button>
                     `;
                 } else if (type === 'deflect') {
                     responseOptions.innerHTML = `
@@ -827,6 +925,12 @@
                         </button>
                         <button class="response-btn peace-btn" onclick="respond('peace', 3)">
                             🤝 Show Gratitude - "That means a lot! Thanks for giving my art a chance"
+                        </button>
+                        <button class="response-btn fire-btn" onclick="respond('fire', 3)">
+                            🔥 Get Defensive - "Actually, I think my approach is perfectly valid"
+                        </button>
+                        <button class="response-btn defend-btn" onclick="respond('defend', 3)">
+                            🛡️ Stay Positive - "Thanks for the feedback, I'll keep it in mind"
                         </button>
                     `;
                 } else if (type === 'peace') {
@@ -863,11 +967,11 @@
         }
         
         function restart() {
-            currentLevel = 1;
+            currentScenario = 1;
             responseHistory = [];
             
             // Reset to current post state (not always art post)
-            document.getElementById('levelIndicator').textContent = 'Level 1: The First Comment';
+            document.getElementById('levelIndicator').textContent = 'Scenario 1: The First Comment';
             
             // Use current post's initial comment or default to art post
             const initialComment = currentPost ? currentPost.initialComment : "artcritic_01: Hmm... interesting choice with the colors. Not sure if they really work together though 🤔";
@@ -902,7 +1006,7 @@
         }
         
         function newPost() {
-            currentLevel = 1;
+            currentScenario = 1;
             responseHistory = [];
             
             // Array of different post scenarios
@@ -966,8 +1070,11 @@
                 ${currentPost.caption}
             `;
             
-            // Reset level indicator
-            document.getElementById('levelIndicator').textContent = 'Level 1: The First Comment';
+            // Reset upload area for new post
+            resetUpload();
+            
+            // Reset scenario indicator
+            document.getElementById('levelIndicator').textContent = 'Scenario 1: The First Comment';
             
             // Set new initial comment
             document.getElementById('commentsSection').innerHTML = `
@@ -995,6 +1102,57 @@
             
             document.getElementById('responseOptions').style.display = 'block';
             document.getElementById('outcome').style.display = 'none';
+        }
+
+        function handleImageUpload(event) {
+            const file = event.target.files[0];
+            const uploadArea = document.getElementById('uploadArea');
+            const postContent = document.getElementById('postContent');
+            const uploadedImage = document.getElementById('uploadedImage');
+            const uploadedVideo = document.getElementById('uploadedVideo');
+            const defaultContent = document.getElementById('defaultContent');
+
+            if (file) {
+                // Hide upload area and show post content
+                uploadArea.style.display = 'none';
+                postContent.style.display = 'flex';
+                
+                if (file.type.startsWith('image/')) {
+                    uploadedImage.src = URL.createObjectURL(file);
+                    uploadedImage.style.display = 'block';
+                    uploadedVideo.style.display = 'none';
+                } else if (file.type.startsWith('video/')) {
+                    uploadedVideo.src = URL.createObjectURL(file);
+                    uploadedVideo.style.display = 'block';
+                    uploadedImage.style.display = 'none';
+                }
+                defaultContent.style.display = 'none';
+            }
+        }
+
+        function resetUpload() {
+            const fileInput = document.getElementById('imageUpload');
+            const uploadArea = document.getElementById('uploadArea');
+            const postContent = document.getElementById('postContent');
+            const uploadedImage = document.getElementById('uploadedImage');
+            const uploadedVideo = document.getElementById('uploadedVideo');
+            const defaultContent = document.getElementById('defaultContent');
+
+            // Clear file input
+            fileInput.value = '';
+            
+            // Clear media sources
+            uploadedImage.src = '';
+            uploadedVideo.src = '';
+            
+            // Hide post content and show upload area
+            postContent.style.display = 'none';
+            uploadArea.style.display = 'flex';
+            defaultContent.style.display = 'flex';
+            
+            // Hide media elements
+            uploadedImage.style.display = 'none';
+            uploadedVideo.style.display = 'none';
         }
     </script>
 </body>
