@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Straight to the Comments</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -12,32 +13,37 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
             min-height: 100vh;
-            padding: 20px;
+            color: #333;
         }
 
         .container {
             max-width: 400px;
             margin: 0 auto;
             background: white;
-            border-radius: 12px;
+            border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            min-height: 100vh;
         }
 
-        /* Menu Screen Styles */
+        /* Main Menu */
         .menu-screen {
             text-align: center;
             padding: 40px 20px;
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .game-title {
             font-size: 32px;
-            font-weight: bold;
+            font-weight: 700;
             margin-bottom: 10px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
@@ -52,7 +58,7 @@
             text-align: left;
             background: rgba(255,255,255,0.1);
             padding: 20px;
-            border-radius: 10px;
+            border-radius: 15px;
             margin-bottom: 30px;
             line-height: 1.6;
         }
@@ -73,7 +79,7 @@
         }
 
         .start-btn {
-            background: linear-gradient(45deg, #ff4757, #ff3742);
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
             color: white;
             border: none;
             padding: 15px 30px;
@@ -83,6 +89,7 @@
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
         }
 
         .start-btn:hover {
@@ -106,7 +113,7 @@
             color: white;
             border: 2px solid rgba(255,255,255,0.3);
             padding: 15px 20px;
-            border-radius: 10px;
+            border-radius: 15px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
@@ -142,7 +149,7 @@
             color: white;
             border: 2px solid rgba(255,255,255,0.3);
             padding: 15px;
-            border-radius: 10px;
+            border-radius: 15px;
             cursor: pointer;
             transition: all 0.3s ease;
             text-align: center;
@@ -175,7 +182,7 @@
             color: white;
             border: 2px solid rgba(255,255,255,0.3);
             padding: 10px 20px;
-            border-radius: 8px;
+            border-radius: 10px;
             font-size: 14px;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -186,12 +193,13 @@
             border-color: rgba(255,255,255,0.5);
         }
 
-        /* Game Screen Styles */
+        /* Game Screen */
         .game-screen {
             display: none;
+            min-height: 100vh;
         }
 
-        /* Game Header (Outside Platform) */
+        /* Game Header */
         .game-header {
             background: white;
             padding: 15px 20px;
@@ -213,7 +221,7 @@
             color: white;
             border: none;
             padding: 8px 16px;
-            border-radius: 6px;
+            border-radius: 8px;
             font-size: 14px;
             font-weight: 600;
             cursor: pointer;
@@ -225,7 +233,113 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
 
-        .header {
+        /* Response Options */
+        .response-options {
+            padding: 20px;
+            background: #f8f9fa;
+            border-top: 1px solid #e5e5e5;
+        }
+
+        .response-btn {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 16px;
+        }
+
+        .hypebeast-btn {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+        }
+
+        .jokester-btn {
+            background: linear-gradient(45deg, #74b9ff, #0984e3);
+            color: white;
+        }
+
+        .roaster-btn {
+            background: linear-gradient(45deg, #a29bfe, #6c5ce7);
+            color: white;
+        }
+
+        .critic-btn {
+            background: linear-gradient(45deg, #00b894, #00cec9);
+            color: white;
+        }
+
+        .hater-btn {
+            background: linear-gradient(45deg, #636e72, #2d3436);
+            color: white;
+        }
+
+        .response-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* Outcome */
+        .outcome {
+            padding: 20px;
+            text-align: center;
+            background: #f8f9fa;
+            border-top: 1px solid #e5e5e5;
+        }
+
+        .outcome.positive {
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            color: #155724;
+        }
+
+        .outcome.negative {
+            background: linear-gradient(135deg, #f8d7da, #f1b0b7);
+            color: #721c24;
+        }
+
+        .outcome.neutral {
+            background: linear-gradient(135deg, #e2e3e5, #d6d8db);
+            color: #383d41;
+        }
+
+        .restart-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            margin-top: 15px;
+            cursor: pointer;
+            font-weight: 600;
+            margin: 10px;
+        }
+
+        .lesson {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(255,255,255,0.8);
+            border-radius: 10px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* Platform Layouts */
+        .platform-layout {
+            display: none;
+        }
+
+        .platform-layout.active {
+            display: block;
+        }
+
+        /* Instagram Layout */
+        .instagram-layout .header {
             background: white;
             padding: 15px;
             border-bottom: 1px solid #dbdbdb;
@@ -334,115 +448,6 @@
         .comment-text {
             color: #262626;
             line-height: 1.4;
-        }
-
-        .response-options {
-            padding: 20px;
-            background: #fafafa;
-            border-top: 1px solid #dbdbdb;
-        }
-
-        .response-btn {
-            width: 100%;
-            padding: 12px;
-            margin: 8px 0;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .hypebeast-btn {
-            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
-            color: white;
-        }
-
-        .jokester-btn {
-            background: linear-gradient(45deg, #74b9ff, #0984e3);
-            color: white;
-        }
-
-        .roaster-btn {
-            background: linear-gradient(45deg, #a29bfe, #6c5ce7);
-            color: white;
-        }
-
-        .critic-btn {
-            background: linear-gradient(45deg, #00b894, #00cec9);
-            color: white;
-        }
-
-        .hater-btn {
-            background: linear-gradient(45deg, #636e72, #2d3436);
-            color: white;
-        }
-
-        .response-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-
-        .scenario-indicator {
-            background: #262626;
-            color: white;
-            padding: 10px 15px;
-            text-align: center;
-            font-weight: 600;
-        }
-
-        .outcome {
-            padding: 20px;
-            text-align: center;
-            background: #f8f9fa;
-            border-top: 1px solid #dbdbdb;
-        }
-
-        .outcome.positive {
-            background: linear-gradient(135deg, #d4edda, #c3e6cb);
-            color: #155724;
-        }
-
-        .outcome.negative {
-            background: linear-gradient(135deg, #f8d7da, #f1b0b7);
-            color: #721c24;
-        }
-
-        .outcome.neutral {
-            background: linear-gradient(135deg, #e2e3e5, #d6d8db);
-            color: #383d41;
-        }
-
-        .restart-btn {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 6px;
-            margin-top: 15px;
-            cursor: pointer;
-            font-weight: 600;
-        }
-
-        .lesson {
-            margin-top: 15px;
-            padding: 15px;
-            background: rgba(255,255,255,0.8);
-            border-radius: 8px;
-            font-size: 14px;
-            line-height: 1.5;
-        }
-
-        /* Platform-specific layouts */
-        .platform-layout {
-            display: none;
-        }
-
-        .platform-layout.active {
-            display: block;
         }
 
         /* TikTok Layout */
@@ -695,38 +700,11 @@
             50% { transform: scale(1.3); }
             100% { transform: scale(1.2); }
         }
-
-        /* Platform-specific comment sections */
-        .tiktok-comments {
-            padding: 15px;
-            background: #000;
-            color: white;
-        }
-
-        .youtube-comments {
-            padding: 15px;
-            background: white;
-            border-top: 1px solid #e5e5e5;
-        }
-
-        .imessage-reaction {
-            margin: 10px 20px;
-            padding: 10px;
-            background: #f0f0f0;
-            border-radius: 10px;
-            text-align: center;
-        }
-
-        .reaction-text {
-            color: #666;
-            font-style: italic;
-            margin-bottom: 10px;
-        }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Menu Screen -->
+        <!-- Main Menu -->
         <div class="menu-screen" id="menuScreen">
             <h1 class="game-title">Straight to the Comments</h1>
             <p class="game-subtitle">An Interactive Game About Online Communication</p>
@@ -791,7 +769,7 @@
 
         <!-- Game Screen -->
         <div class="game-screen" id="gameScreen">
-            <!-- Game Header (Outside Platform) -->
+            <!-- Game Header -->
             <div class="game-header">
                 <div class="scenario-title-display" id="scenarioTitleDisplay">
                     Scenario 1: Instagram Art Post
@@ -810,13 +788,9 @@
                 
                 <div class="post-image" id="postImage">
                     <div class="post-content" id="postContent">
-                        <img id="uploadedImage" style="max-width: 100%; max-height: 100%; object-fit: cover; display: none;">
-                        <video id="uploadedVideo" controls style="max-width: 100%; max-height: 100%; object-fit: cover; display: none;">
-                            Your browser does not support the video tag.
-                        </video>
-                    </div>
-                    <div class="default-content" id="defaultContent">
-                        Snowy House GIF (Procreate)
+                        <div class="default-content" id="defaultContent">
+                            Snowy House GIF (Procreate)
+                        </div>
                     </div>
                 </div>
                 
@@ -838,7 +812,7 @@
             </div>
 
             <!-- TikTok Layout -->
-            <div class="platform-layout tiktok-layout" id="tiktokLayout" style="display: none;">
+            <div class="platform-layout tiktok-layout" id="tiktokLayout">
                 <div class="tiktok-video-container">
                     <div class="video-content" id="tiktokVideoContent">
                         <div class="default-content" id="tiktokDefaultContent">
@@ -867,7 +841,7 @@
             </div>
 
             <!-- YouTube Layout -->
-            <div class="platform-layout youtube-layout" id="youtubeLayout" style="display: none;">
+            <div class="platform-layout youtube-layout" id="youtubeLayout">
                 <div class="youtube-video-container">
                     <div class="video-content" id="youtubeVideoContent">
                         <div class="default-content" id="youtubeDefaultContent">
@@ -885,7 +859,7 @@
             </div>
 
             <!-- Discord Layout -->
-            <div class="platform-layout discord-layout" id="discordLayout" style="display: none;">
+            <div class="platform-layout discord-layout" id="discordLayout">
                 <div class="discord-header">
                     <div class="server-name">Gaming Squad</div>
                     <div class="channel-name">#general</div>
@@ -907,7 +881,7 @@
             </div>
 
             <!-- iMessage Layout -->
-            <div class="platform-layout imessage-layout" id="imessageLayout" style="display: none;">
+            <div class="platform-layout imessage-layout" id="imessageLayout">
                 <div class="imessage-header">
                     <div class="group-name">Friend Squad</div>
                     <div class="group-info">5 people</div>
@@ -932,9 +906,9 @@
     </div>
 
     <script>
-        let currentScenario = 1;
-        let currentPostIndex = 0;
-        let responseHistory = [];
+        // Game state
+        let currentScenario = 0;
+        let currentResponseType = '';
         
         // Game scenarios data
         const scenarios = [
@@ -949,7 +923,7 @@
                 initialComment: "user_123: This is giving MS Paint energy. Did you animate this with your nose? 💀",
                 responses: {
                     hypebeast: {
-                        text: "🎮 Hypebeast: STOPPP this is giving holiday magic ✨ like a Pixar short but cozy 🔥",
+                        text: "🧢 Hypebeast: STOPPP this is giving holiday magic ✨ like a Pixar short but cozy 🔥",
                         posterReply: "Ahh omg THANK YOU 😭 I was scared to post this!",
                         options: [
                             {
@@ -957,19 +931,19 @@
                                 outcome: "positive",
                                 title: "Story Reposted!",
                                 text: "Your hype was so genuine they reposted your comment to their story!",
-                                lesson: "🎮 Authentic enthusiasm often creates the most positive connections. People love when others genuinely appreciate their work!"
+                                lesson: "🧢 Authentic enthusiasm often creates the most positive connections. People love when others genuinely appreciate their work!"
                             },
                             {
                                 text: "Make this a full animation and I will literally cry happy tears",
                                 outcome: "positive",
                                 title: "Credited in Next Post!",
                                 text: "Your encouragement inspired them to keep creating! They credited you in their next post.",
-                                lesson: "🎮 Encouraging others' creativity can inspire amazing things. Your words have power!"
+                                lesson: "🧢 Encouraging others' creativity can inspire amazing things. Your words have power!"
                             }
                         ]
                     },
                     jokester: {
-                        text: "😅 Jokester: This looks like what my dreams feel like during math class 😂🐠",
+                        text: "😄 Jokester: This looks like what my dreams feel like during math class 😂🐠",
                         posterReply: "Hahaha SAME. That exact vibe is what I was going for!",
                         options: [
                             {
@@ -977,14 +951,14 @@
                                 outcome: "positive",
                                 title: "Laughs + Follows!",
                                 text: "Your humor was perfect! They followed you and the comment got lots of laughs.",
-                                lesson: "😅 Humor can break the ice and create genuine connections. Timing is everything!"
+                                lesson: "😄 Humor can break the ice and create genuine connections. Timing is everything!"
                             },
                             {
                                 text: "If you added a squirrel slipping on ice I'd give this an Oscar",
                                 outcome: "positive",
                                 title: "Inspires Next Post!",
                                 text: "Your joke was so good they actually made that video!",
-                                lesson: "😅 Playful suggestions can spark creativity. Keep it fun and positive!"
+                                lesson: "😄 Playful suggestions can spark creativity. Keep it fun and positive!"
                             }
                         ]
                     },
@@ -1009,7 +983,7 @@
                         ]
                     },
                     critic: {
-                        text: "🤔 Critic: Nice vibe! The snow loop is smooth — maybe add a flickering light in the window?",
+                        text: "🧐 Critic: Nice vibe! The snow loop is smooth — maybe add a flickering light in the window?",
                         posterReply: "Yo I didn't even think of that — that's actually helpful!",
                         options: [
                             {
@@ -1017,14 +991,14 @@
                                 outcome: "positive",
                                 title: "DM for More Ideas!",
                                 text: "They appreciated your constructive feedback and want to collaborate!",
-                                lesson: "🤔 Constructive criticism with positive reinforcement can lead to meaningful connections."
+                                lesson: "🧐 Constructive criticism with positive reinforcement can lead to meaningful connections."
                             },
                             {
                                 text: "Flicker light = chef's kiss.",
                                 outcome: "positive",
                                 title: "Comment Pinned!",
                                 text: "Your helpful suggestion got pinned to the top of their comments!",
-                                lesson: "🤔 Helpful feedback is often more valuable than empty praise."
+                                lesson: "🧐 Helpful feedback is often more valuable than empty praise."
                             }
                         ]
                     },
@@ -1061,7 +1035,7 @@
                 initialComment: "user_456: You look like you lost a glitter fight and the lashes are fighting back 💀",
                 responses: {
                     hypebeast: {
-                        text: "🎮 Hypebeast: This is iconic?? You legit look like a glowing goddess 🔥✨",
+                        text: "🧢 Hypebeast: This is iconic?? You legit look like a glowing goddess 🔥✨",
                         posterReply: "STOP omg 😭 you're making me cry!!",
                         options: [
                             {
@@ -1069,19 +1043,19 @@
                                 outcome: "positive",
                                 title: "Mutuals + Next GRWM Tag!",
                                 text: "Your hype was so genuine they want to collaborate on future content!",
-                                lesson: "🎮 Authentic support can lead to amazing creative partnerships."
+                                lesson: "🧢 Authentic support can lead to amazing creative partnerships."
                             },
                             {
                                 text: "You slayed and left no shimmer behind",
                                 outcome: "positive",
                                 title: "Pinned Comment!",
                                 text: "Your comment got pinned to the top of their video!",
-                                lesson: "🎮 Genuine enthusiasm often gets the most recognition."
+                                lesson: "🧢 Genuine enthusiasm often gets the most recognition."
                             }
                         ]
                     },
                     jokester: {
-                        text: "😅 Jokester: Those lashes entered the chat before you did 😭",
+                        text: "😄 Jokester: Those lashes entered the chat before you did 😭",
                         posterReply: "LMAO facts 💀 I blinked too fast and scared myself",
                         options: [
                             {
@@ -1089,14 +1063,14 @@
                                 outcome: "positive",
                                 title: "They Post It!",
                                 text: "Your joke was so good they actually made that video!",
-                                lesson: "😅 Playful humor can inspire content creation!"
+                                lesson: "😄 Playful humor can inspire content creation!"
                             },
                             {
                                 text: "The glow is giving ✨ enchanted fairy ✨",
                                 outcome: "positive",
                                 title: "Mutuals!",
                                 text: "You became mutuals and now support each other's content!",
-                                lesson: "😅 Lighthearted comments can lead to genuine friendships."
+                                lesson: "😄 Lighthearted comments can lead to genuine friendships."
                             }
                         ]
                     },
@@ -1121,7 +1095,7 @@
                         ]
                     },
                     critic: {
-                        text: "🤔 Critic: Not bad! Maybe blend the contour a bit more. Highlighter pops tho!",
+                        text: "🧐 Critic: Not bad! Maybe blend the contour a bit more. Highlighter pops tho!",
                         posterReply: "Yesss thank you! I rushed the blend tbh",
                         options: [
                             {
@@ -1129,14 +1103,14 @@
                                 outcome: "positive",
                                 title: "Feedback Appreciated!",
                                 text: "They appreciated your constructive feedback and want more tips!",
-                                lesson: "🤔 Helpful criticism with positive reinforcement builds trust."
+                                lesson: "🧐 Helpful criticism with positive reinforcement builds trust."
                             },
                             {
                                 text: "Lighting tip: natural light makes a difference!",
                                 outcome: "positive",
                                 title: "Referenced in Next Post!",
                                 text: "Your tip got mentioned in their next tutorial!",
-                                lesson: "🤔 Sharing knowledge can help others grow and improve."
+                                lesson: "🧐 Sharing knowledge can help others grow and improve."
                             }
                         ]
                     },
@@ -1173,7 +1147,7 @@
                 initialComment: "user_789: Looks like a 2012 server exploded. Why all lava??",
                 responses: {
                     hypebeast: {
-                        text: "🎮 Hypebeast: This is INSANE. The lava hallway?? You ate that 🔥",
+                        text: "🧢 Hypebeast: This is INSANE. The lava hallway?? You ate that 🔥",
                         posterReply: "OMG THANK YOU 😭 I almost didn't post it!",
                         options: [
                             {
@@ -1181,19 +1155,19 @@
                                 outcome: "positive",
                                 title: "Mentioned in Next Vid!",
                                 text: "Your enthusiasm got you a shoutout in their next video!",
-                                lesson: "🎮 Genuine excitement for others' work often gets recognized and appreciated."
+                                lesson: "🧢 Genuine excitement for others' work often gets recognized and appreciated."
                             },
                             {
                                 text: "Gives villain lair vibes and I love it",
                                 outcome: "positive",
                                 title: "Comment Pinned!",
                                 text: "Your comment got pinned to the top of the video!",
-                                lesson: "🎮 Creative interpretations of content can make creators feel seen and understood."
+                                lesson: "🧢 Creative interpretations of content can make creators feel seen and understood."
                             }
                         ]
                     },
                     jokester: {
-                        text: "😅 Jokester: Was not ready for that lava waterfall… my eyebrows are gone 🚀",
+                        text: "😄 Jokester: Was not ready for that lava waterfall… my eyebrows are gone 🚀",
                         posterReply: "LMAO that was the goal!!",
                         options: [
                             {
@@ -1201,14 +1175,14 @@
                                 outcome: "positive",
                                 title: "It Gets Added!",
                                 text: "Your joke was so good they actually added a lava hot tub to the build!",
-                                lesson: "😅 Playful suggestions can inspire creators to add fun elements to their work!"
+                                lesson: "😄 Playful suggestions can inspire creators to add fun elements to their work!"
                             },
                             {
                                 text: "Would live there if I hated furniture",
                                 outcome: "positive",
                                 title: "Followed!",
                                 text: "Your humor won them over and they followed you!",
-                                lesson: "😅 Witty comments can lead to new connections and followers."
+                                lesson: "😄 Witty comments can lead to new connections and followers."
                             }
                         ]
                     },
@@ -1233,7 +1207,7 @@
                         ]
                     },
                     critic: {
-                        text: "🤔 Critic: Solid build. Too much lava hides the structure.",
+                        text: "🧐 Critic: Solid build. Too much lava hides the structure.",
                         posterReply: "Omg thanks! I was worried it looked messy.",
                         options: [
                             {
@@ -1241,14 +1215,14 @@
                                 outcome: "positive",
                                 title: "Beta Test Invite!",
                                 text: "Your constructive feedback earned you an invite to test their next build!",
-                                lesson: "🤔 Balanced feedback that highlights both strengths and areas for improvement is highly valued."
+                                lesson: "🧐 Balanced feedback that highlights both strengths and areas for improvement is highly valued."
                             },
                             {
                                 text: "Try block contrast.",
                                 outcome: "positive",
                                 title: "Block Suggestion Requested!",
                                 text: "They want more specific suggestions for improving their builds!",
-                                lesson: "🤔 Specific, actionable feedback can lead to meaningful collaborations."
+                                lesson: "🧐 Specific, actionable feedback can lead to meaningful collaborations."
                             }
                         ]
                     },
@@ -1285,7 +1259,7 @@
                 initialComment: "user_999: You walked into lava and blamed us??",
                 responses: {
                     hypebeast: {
-                        text: "🎮 Hypebeast: It's cool, Kai — you carried last round 💪",
+                        text: "🧢 Hypebeast: It's cool, Kai — you carried last round 💪",
                         posterReply: "That last one tilted me.",
                         options: [
                             {
@@ -1293,19 +1267,19 @@
                                 outcome: "positive",
                                 title: "Game Resumes!",
                                 text: "Your positive energy helped the team get back on track!",
-                                lesson: "🎮 Supporting teammates during rough moments can turn the game around."
+                                lesson: "🧢 Supporting teammates during rough moments can turn the game around."
                             },
                             {
                                 text: "You're the MVP even when you flop",
                                 outcome: "positive",
                                 title: "Laughs Restored!",
                                 text: "Your encouragement brought the fun back to the game!",
-                                lesson: "🎮 Acknowledging someone's value even when they're struggling builds strong team bonds."
+                                lesson: "🧢 Acknowledging someone's value even when they're struggling builds strong team bonds."
                             }
                         ]
                     },
                     jokester: {
-                        text: "😅 Jokester: Kai rage-quitting like this is the esports championship 💀",
+                        text: "😄 Jokester: Kai rage-quitting like this is the esports championship 💀",
                         posterReply: "LOL shut up 😭 that loss hurt tho.",
                         options: [
                             {
@@ -1313,14 +1287,14 @@
                                 outcome: "positive",
                                 title: "Vibe Returns!",
                                 text: "Your joke lightened the mood and the team got back to having fun!",
-                                lesson: "🎮 Humor can defuse tense situations and restore team morale."
+                                lesson: "😄 Humor can defuse tense situations and restore team morale."
                             },
                             {
                                 text: "Blame the lag, pretend we're elite",
                                 outcome: "positive",
                                 title: "Inside Joke!",
                                 text: "Your joke became an inside joke for the team!",
-                                lesson: "🎮 Playful excuses can become fun team traditions."
+                                lesson: "😄 Playful excuses can become fun team traditions."
                             }
                         ]
                     },
@@ -1345,7 +1319,7 @@
                         ]
                     },
                     critic: {
-                        text: "🤔 Critic: We split up too early. That messed us up.",
+                        text: "🧐 Critic: We split up too early. That messed us up.",
                         posterReply: "Yeah maybe... I got impatient.",
                         options: [
                             {
@@ -1353,14 +1327,14 @@
                                 outcome: "positive",
                                 title: "Comeback Round!",
                                 text: "Your strategic feedback helped the team improve and win the next round!",
-                                lesson: "🤔 Constructive feedback about gameplay can help teams improve and succeed."
+                                lesson: "🧐 Constructive feedback about gameplay can help teams improve and succeed."
                             },
                             {
                                 text: "Want strat screen share next time?",
                                 outcome: "positive",
                                 title: "Trusted Team Member!",
                                 text: "Your helpful attitude made you a valued team member!",
-                                lesson: "🤔 Offering to help others improve builds trust and respect."
+                                lesson: "🧐 Offering to help others improve builds trust and respect."
                             }
                         ]
                     },
@@ -1397,7 +1371,7 @@
                 initialComment: "user_555: Like how *you* never show up? Don't play victim.",
                 responses: {
                     hypebeast: {
-                        text: "🎮 Hypebeast: Haha who hurt you 💀 let's actually plan something!",
+                        text: "🧢 Hypebeast: Haha who hurt you 💀 let's actually plan something!",
                         posterReply: "I just miss y'all. Let's plan for real.",
                         options: [
                             {
@@ -1405,19 +1379,19 @@
                                 outcome: "positive",
                                 title: "Hangout Happens!",
                                 text: "Your positive energy turned a vague post into actual plans!",
-                                lesson: "🎮 Taking initiative to make plans can turn passive-aggressive posts into positive outcomes."
+                                lesson: "🧢 Taking initiative to make plans can turn passive-aggressive posts into positive outcomes."
                             },
                             {
                                 text: "'No phones' night??",
                                 outcome: "positive",
                                 title: "Group is Excited!",
                                 text: "Your creative suggestion got the whole group excited!",
-                                lesson: "🎮 Creative ideas for hanging out can bring groups closer together."
+                                lesson: "🧢 Creative ideas for hanging out can bring groups closer together."
                             }
                         ]
                     },
                     jokester: {
-                        text: "😅 Jokester: Subtweet DELUXE 😭 who is this for????",
+                        text: "😄 Jokester: Subtweet DELUXE 😭 who is this for????",
                         posterReply: "IYKYK. You safe (for now) lol",
                         options: [
                             {
@@ -1425,14 +1399,14 @@
                                 outcome: "positive",
                                 title: "Playful Roast!",
                                 text: "Your self-deprecating humor defused the tension perfectly!",
-                                lesson: "😅 Self-deprecating humor can defuse passive-aggressive situations."
+                                lesson: "😄 Self-deprecating humor can defuse passive-aggressive situations."
                             },
                             {
                                 text: "This whole chat is one long subtweet",
                                 outcome: "positive",
                                 title: "Group Jokes!",
                                 text: "Your observation became a running joke for the group!",
-                                lesson: "😅 Pointing out group dynamics with humor can create shared experiences."
+                                lesson: "😄 Pointing out group dynamics with humor can create shared experiences."
                             }
                         ]
                     },
@@ -1457,7 +1431,7 @@
                         ]
                     },
                     critic: {
-                        text: "🤔 Critic: Maybe say what you need instead of vague shade?",
+                        text: "🧐 Critic: Maybe say what you need instead of vague shade?",
                         posterReply: "Fair. I wasn't calling anyone out.",
                         options: [
                             {
@@ -1465,14 +1439,14 @@
                                 outcome: "positive",
                                 title: "Plans Made!",
                                 text: "Your direct approach led to actual plans being made!",
-                                lesson: "🤔 Being direct about needs instead of passive-aggressive leads to better outcomes."
+                                lesson: "🧐 Being direct about needs instead of passive-aggressive leads to better outcomes."
                             },
                             {
                                 text: "Texting doesn't always land right.",
                                 outcome: "positive",
                                 title: "Real Convo Starts!",
                                 text: "Your insight led to a real conversation about communication!",
-                                lesson: "🤔 Acknowledging communication challenges can lead to better understanding."
+                                lesson: "🧐 Acknowledging communication challenges can lead to better understanding."
                             }
                         ]
                     },
@@ -1500,90 +1474,7 @@
             }
         ];
         
-        // Lurker mode data - automated versions of the same scenarios
-        const lurkerScenarios = [
-            {
-                id: 1,
-                platform: "instagram",
-                title: "Instagram Art Post",
-                username: "alex_creates",
-                postType: "Snowy House GIF (Procreate)",
-                caption: "Tried animating a snowy house in Procreate ❄️🌨️ It's super rough but cozy I think 😅 #WIP #procreate #digitalart #loopgif #snowvibes",
-                conversation: [
-                    { user: "user_123", text: "This is giving MS Paint energy. Did you animate this with your nose? 💀", type: "roaster" },
-                    { user: "alex_creates", text: "You know you can just scroll, right? 😂", type: "roaster" },
-                    { user: "user_123", text: "Okay okay I'll admit the snow loop is kinda satisfying.", type: "jokester" },
-                    { user: "alex_creates", text: "Haha thanks! It was fun to make even if it's rough", type: "hypebeast" }
-                ],
-                outcome: "neutral",
-                lesson: "Sometimes backing down from a roast can save face, but the initial damage is done."
-            },
-            {
-                id: 2,
-                platform: "tiktok",
-                title: "TikTok Beauty Tutorial",
-                username: "beauty_queen",
-                postType: "Full-Face Glow Look",
-                caption: "Trying my first full-face glow look 💫 don't roast me I know the lashes are intense 😅 #grwm #beautyfail #maybeaslaysomeday",
-                conversation: [
-                    { user: "user_456", text: "You look like you lost a glitter fight and the lashes are fighting back 💀", type: "roaster" },
-                    { user: "beauty_queen", text: "Kinda rude but okay 💅 I had fun tho", type: "roaster" },
-                    { user: "user_456", text: "You wore it with confidence tho.", type: "jokester" },
-                    { user: "beauty_queen", text: "That's what matters right? Confidence over perfection!", type: "hypebeast" }
-                ],
-                outcome: "neutral",
-                lesson: "Trying to save face after roasting rarely works as intended."
-            },
-            {
-                id: 3,
-                platform: "youtube",
-                title: "YouTube Gaming Channel",
-                username: "minecraft_master",
-                postType: "Minecraft Castle Tour",
-                caption: "Spent 10 hours building this lava castle — tour starts at 2:15!! Sorry for the lag 😅",
-                conversation: [
-                    { user: "user_789", text: "Looks like a 2012 server exploded. Why all lava??", type: "roaster" },
-                    { user: "minecraft_master", text: "Didn't know we had the refs in here.", type: "roaster" },
-                    { user: "user_789", text: "Chaotic good, I admit.", type: "jokester" },
-                    { user: "minecraft_master", text: "That's the spirit! Sometimes chaos is fun", type: "hypebeast" }
-                ],
-                outcome: "neutral",
-                lesson: "Trying to recover from a roast rarely works as intended."
-            },
-            {
-                id: 4,
-                platform: "discord",
-                title: "Discord Game Chat",
-                username: "kai_gamer",
-                postType: "Rage Quit",
-                caption: "Bro, this team is actually trash. Why even play if no one listens.",
-                conversation: [
-                    { user: "user_999", text: "You walked into lava and blamed us??", type: "roaster" },
-                    { user: "kai_gamer", text: "Didn't know we had refs here.", type: "roaster" },
-                    { user: "user_999", text: "We'll call it a shared disaster", type: "jokester" },
-                    { user: "kai_gamer", text: "Fair enough. Let's try again?", type: "hypebeast" }
-                ],
-                outcome: "neutral",
-                lesson: "Trying to save face after roasting rarely restores team chemistry."
-            },
-            {
-                id: 5,
-                platform: "imessage",
-                title: "iMessage Group Chat",
-                username: "avery_friend",
-                postType: "Subtweet Energy",
-                caption: "Funny how some people *say* they wanna hang out but never actually do 👀",
-                conversation: [
-                    { user: "user_555", text: "Like how *you* never show up? Don't play victim.", type: "roaster" },
-                    { user: "avery_friend", text: "Okayyy shots fired. Chill.", type: "roaster" },
-                    { user: "user_555", text: "Maybe we all suck at texting", type: "jokester" },
-                    { user: "avery_friend", text: "True. Let's actually plan something", type: "hypebeast" }
-                ],
-                outcome: "neutral",
-                lesson: "Trying to save face after roasting rarely restores group harmony."
-            }
-        ];
-        
+        // Menu functions
         function showScenarioSelection() {
             document.getElementById('scenarioSelection').style.display = 'block';
             document.querySelector('.game-modes').style.display = 'none';
@@ -1600,25 +1491,20 @@
             loadScenario(index);
         }
 
-        function startLurkerMode() {
-            document.getElementById('menuScreen').style.display = 'none';
-            document.getElementById('gameScreen').style.display = 'block';
-            loadLurkerMode();
-        }
-        
         function backToMenu() {
             document.getElementById('menuScreen').style.display = 'block';
             document.getElementById('gameScreen').style.display = 'none';
-            currentScenario = 1;
-            currentPostIndex = 0;
-            responseHistory = [];
             document.getElementById('outcome').style.display = 'none';
             document.getElementById('responseOptions').style.display = 'block';
         }
-        
+
+        function startLurkerMode() {
+            alert('Lurker mode coming soon!');
+        }
+
         function loadScenario(index) {
+            currentScenario = index;
             const scenario = scenarios[index];
-            currentPostIndex = index;
             
             // Hide all platform layouts
             document.querySelectorAll('.platform-layout').forEach(layout => {
@@ -1637,11 +1523,11 @@
             // Update scenario title in header
             document.getElementById('scenarioTitleDisplay').textContent = `Scenario ${scenario.id}: ${scenario.title}`;
             
-            // Clear comments section initially (NO comments should be shown yet)
+            // Clear comments section initially
             clearCommentsSection(scenario.platform);
             
-            // Show response type options (without revealing the actual comment)
-            showResponseTypeOptions(scenario);
+            // Show response type options
+            showResponseTypeOptions();
             
             // Reset outcome
             document.getElementById('outcome').style.display = 'none';
@@ -1694,60 +1580,50 @@
                 case 'instagram':
                     document.getElementById('commentsSection').innerHTML = '';
                     break;
-                case 'tiktok':
-                    // TikTok comments would be in a different section
-                    break;
-                case 'youtube':
-                    // YouTube comments would be in a different section
-                    break;
                 case 'discord':
-                    // Only show the original poster's message, no comments yet
                     document.getElementById('discordMessages').innerHTML = `
                         <div class="discord-message">
-                            <div class="message-avatar">${scenarios[currentPostIndex].username.charAt(0).toUpperCase()}</div>
+                            <div class="message-avatar">${scenarios[currentScenario].username.charAt(0).toUpperCase()}</div>
                             <div class="message-content">
                                 <div class="message-header">
-                                    <span class="username">${scenarios[currentPostIndex].username}</span>
+                                    <span class="username">${scenarios[currentScenario].username}</span>
                                     <span class="message-time">2:30 PM</span>
                                 </div>
                                 <div class="message-text">
-                                    ${scenarios[currentPostIndex].caption}
+                                    ${scenarios[currentScenario].caption}
                                 </div>
                             </div>
                         </div>
                     `;
                     break;
-                case 'imessage':
-                    // iMessage doesn't have a comments section
-                    break;
             }
         }
         
-        function showResponseTypeOptions(scenario) {
+        function showResponseTypeOptions() {
             const responseOptions = document.getElementById('responseOptions');
-            
             responseOptions.innerHTML = `
                 <h3 style="text-align: center; margin-bottom: 20px; color: #333;">How do you want to respond?</h3>
-                <button class="response-btn hypebeast-btn" onclick="chooseResponseType('hypebeast', ${scenario.id})">
-                    🎮 Hypebeast - Show genuine enthusiasm and support
+                <button class="response-btn hypebeast-btn" onclick="chooseResponseType('hypebeast')">
+                    🧢 Hypebeast - Show genuine enthusiasm and support
                 </button>
-                <button class="response-btn jokester-btn" onclick="chooseResponseType('jokester', ${scenario.id})">
-                    😅 Jokester - Use humor to lighten the mood
+                <button class="response-btn jokester-btn" onclick="chooseResponseType('jokester')">
+                    😄 Jokester - Playful, risky tone
                 </button>
-                <button class="response-btn roaster-btn" onclick="chooseResponseType('roaster', ${scenario.id})">
-                    🔥 Roaster - Playful but potentially hurtful criticism
+                <button class="response-btn roaster-btn" onclick="chooseResponseType('roaster')">
+                    🔥 Roaster - Harsh sarcasm, could escalate
                 </button>
-                <button class="response-btn critic-btn" onclick="chooseResponseType('critic', ${scenario.id})">
-                    🤔 Critic - Give constructive feedback
+                <button class="response-btn critic-btn" onclick="chooseResponseType('critic')">
+                    🧐 Critic - Honest, constructive feedback
                 </button>
-                <button class="response-btn hater-btn" onclick="chooseResponseType('hater', ${scenario.id})">
-                    😠 Hater - Mean-spirited and negative
+                <button class="response-btn hater-btn" onclick="chooseResponseType('hater')">
+                    😠 Hater - Bluntly negative, trollish
                 </button>
             `;
         }
         
-        function chooseResponseType(type, scenarioId) {
-            const scenario = scenarios.find(s => s.id === scenarioId);
+        function chooseResponseType(type) {
+            currentResponseType = type;
+            const scenario = scenarios[currentScenario];
             
             // First, reveal the actual comment
             revealComment(scenario);
@@ -1787,75 +1663,6 @@
                     `;
                     discordMessages.appendChild(newMessage);
                     break;
-                case 'tiktok':
-                    // Add TikTok comment section
-                    const tiktokComments = document.createElement('div');
-                    tiktokComments.className = 'tiktok-comments';
-                    tiktokComments.innerHTML = `
-                        <div class="comment">
-                            <span class="comment-user">${scenario.initialComment.split(':')[0]}</span>
-                            <span class="comment-text">${scenario.initialComment.split(': ')[1]}</span>
-                            <button class="like-btn" onclick="likeComment(this)">❤️</button>
-                        </div>
-                    `;
-                    document.getElementById('tiktokLayout').appendChild(tiktokComments);
-                    break;
-                case 'youtube':
-                    // Add YouTube comment section
-                    const youtubeComments = document.createElement('div');
-                    youtubeComments.className = 'youtube-comments';
-                    youtubeComments.innerHTML = `
-                        <div class="comment">
-                            <span class="comment-user">${scenario.initialComment.split(':')[0]}</span>
-                            <span class="comment-text">${scenario.initialComment.split(': ')[1]}</span>
-                            <button class="like-btn" onclick="likeComment(this)">👍</button>
-                        </div>
-                    `;
-                    document.getElementById('youtubeLayout').appendChild(youtubeComments);
-                    break;
-                case 'imessage':
-                    // iMessage doesn't have public comments, but we can add a reaction
-                    const imessageReaction = document.createElement('div');
-                    imessageReaction.className = 'imessage-reaction';
-                    imessageReaction.innerHTML = `
-                        <div class="reaction-text">${scenario.initialComment.split(': ')[1]}</div>
-                        <button class="like-btn" onclick="likeComment(this)">👍</button>
-                    `;
-                    document.getElementById('imessageLayout').appendChild(imessageReaction);
-                    break;
-            }
-        }
-        
-        function revealComment(scenario) {
-            // Add the initial comment to the appropriate platform
-            switch(scenario.platform) {
-                case 'instagram':
-                    document.getElementById('commentsSection').innerHTML = `
-                        <div class="comment">
-                            <span class="comment-user">${scenario.initialComment.split(':')[0]}</span>
-                            <span class="comment-text">${scenario.initialComment.split(': ')[1]}</span>
-                        </div>
-                    `;
-                    break;
-                case 'discord':
-                    const discordMessages = document.getElementById('discordMessages');
-                    const newMessage = document.createElement('div');
-                    newMessage.className = 'discord-message';
-                    newMessage.innerHTML = `
-                        <div class="message-avatar">U</div>
-                        <div class="message-content">
-                            <div class="message-header">
-                                <span class="username">${scenario.initialComment.split(':')[0]}</span>
-                                <span class="message-time">2:31 PM</span>
-                            </div>
-                            <div class="message-text">
-                                ${scenario.initialComment.split(': ')[1]}
-                            </div>
-                        </div>
-                    `;
-                    discordMessages.appendChild(newMessage);
-                    break;
-                // Add other platforms as needed
             }
         }
         
@@ -1919,116 +1726,7 @@
                     `;
                     discordMessages.appendChild(newMessage);
                     break;
-                case 'tiktok':
-                    const tiktokComments = document.querySelector('.tiktok-comments') || createTiktokComments();
-                    const tiktokComment = document.createElement('div');
-                    tiktokComment.className = 'comment';
-                    tiktokComment.innerHTML = `
-                        <span class="comment-user">${username}</span>
-                        <span class="comment-text">${text}</span>
-                        <button class="like-btn" onclick="likeComment(this)">❤️</button>
-                    `;
-                    tiktokComments.appendChild(tiktokComment);
-                    break;
-                case 'youtube':
-                    const youtubeComments = document.querySelector('.youtube-comments') || createYoutubeComments();
-                    const youtubeComment = document.createElement('div');
-                    youtubeComment.className = 'comment';
-                    youtubeComment.innerHTML = `
-                        <span class="comment-user">${username}</span>
-                        <span class="comment-text">${text}</span>
-                        <button class="like-btn" onclick="likeComment(this)">👍</button>
-                    `;
-                    youtubeComments.appendChild(youtubeComment);
-                    break;
-                case 'imessage':
-                    // iMessage doesn't have public comments, but we can add reactions
-                    const imessageReaction = document.querySelector('.imessage-reaction') || createImessageReaction();
-                    imessageReaction.innerHTML += `
-                        <div class="reaction-text">${username}: ${text}</div>
-                        <button class="like-btn" onclick="likeComment(this)">👍</button>
-                    `;
-                    break;
             }
-        }
-        
-        function createTiktokComments() {
-            const tiktokComments = document.createElement('div');
-            tiktokComments.className = 'tiktok-comments';
-            document.getElementById('tiktokLayout').appendChild(tiktokComments);
-            return tiktokComments;
-        }
-        
-        function createYoutubeComments() {
-            const youtubeComments = document.createElement('div');
-            youtubeComments.className = 'youtube-comments';
-            document.getElementById('youtubeLayout').appendChild(youtubeComments);
-            return youtubeComments;
-        }
-        
-        function createImessageReaction() {
-            const imessageReaction = document.createElement('div');
-            imessageReaction.className = 'imessage-reaction';
-            document.getElementById('imessageLayout').appendChild(imessageReaction);
-            return imessageReaction;
-        }
-        
-        function likeComment(button) {
-            button.classList.toggle('liked');
-            if (button.classList.contains('liked')) {
-                button.style.transform = 'scale(1.2)';
-                
-                // Show like explanation in lurker mode
-                if (window.currentLurkerScenario) {
-                    showLikeExplanation(button);
-                }
-            } else {
-                button.style.transform = 'scale(1)';
-            }
-        }
-        
-        function showLikeExplanation(button) {
-            // Find the comment text to determine which type of response it is
-            const commentText = button.parentElement.querySelector('.comment-text, .message-text')?.textContent || '';
-            
-            let explanation = '';
-            if (commentText.includes('hype') || commentText.includes('amazing') || commentText.includes('love')) {
-                explanation = "People like supportive comments because they create positive connections and encourage creators!";
-            } else if (commentText.includes('haha') || commentText.includes('😂') || commentText.includes('funny')) {
-                explanation = "People like humorous comments because they lighten the mood and make interactions more enjoyable!";
-            } else if (commentText.includes('helpful') || commentText.includes('suggest') || commentText.includes('tip')) {
-                explanation = "People like constructive feedback because it shows genuine interest in helping others improve!";
-            } else if (commentText.includes('rude') || commentText.includes('mean') || commentText.includes('hate')) {
-                explanation = "People might like negative comments to show agreement, but this often creates more conflict!";
-            } else {
-                explanation = "People like comments that match their own communication style and values!";
-            }
-            
-            // Show explanation tooltip
-            const tooltip = document.createElement('div');
-            tooltip.className = 'like-explanation';
-            tooltip.textContent = explanation;
-            tooltip.style.cssText = `
-                position: absolute;
-                background: #333;
-                color: white;
-                padding: 10px;
-                border-radius: 6px;
-                font-size: 12px;
-                max-width: 200px;
-                z-index: 1000;
-                box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-            `;
-            
-            button.parentElement.style.position = 'relative';
-            button.parentElement.appendChild(tooltip);
-            
-            // Remove tooltip after 3 seconds
-            setTimeout(() => {
-                if (tooltip.parentElement) {
-                    tooltip.parentElement.removeChild(tooltip);
-                }
-            }, 3000);
         }
         
         function addComment(commentText, includeLike = false) {
@@ -2094,7 +1792,7 @@
             // Hide response options
             document.getElementById('responseOptions').style.display = 'none';
             
-            // Show outcome with one clear consequence
+            // Show outcome
             const outcome = document.getElementById('outcome');
             outcome.style.display = 'block';
             outcome.className = `outcome ${response.outcome}`;
@@ -2114,122 +1812,15 @@
         }
         
         function restart() {
-            loadScenario(currentPostIndex);
+            loadScenario(currentScenario);
         }
         
-        function nextScenario() {
-            const nextIndex = (currentPostIndex + 1) % scenarios.length;
-            loadScenario(nextIndex);
-        }
-        
-        function loadLurkerMode() {
-            window.currentLurkerScenario = null;
-            // Show lurker mode selection
-            document.getElementById('scenarioTitleDisplay').textContent = '👀 Lurker Mode - Watch Completed Conversations';
-            
-            // Hide all platform layouts
-            document.querySelectorAll('.platform-layout').forEach(layout => {
-                layout.style.display = 'none';
-            });
-            
-            // Show lurker scenario selection
-            const responseOptions = document.getElementById('responseOptions');
-            responseOptions.innerHTML = `
-                <h3 style="text-align: center; margin-bottom: 20px; color: #333;">Choose a conversation to watch:</h3>
-                ${lurkerScenarios.map((scenario, index) => `
-                    <button class="response-btn" style="background: linear-gradient(45deg, #667eea, #764ba2); color: white; margin-bottom: 10px;" onclick="watchLurkerScenario(${index})">
-                        📱 ${scenario.title} - ${scenario.platform.charAt(0).toUpperCase() + scenario.platform.slice(1)}
-                    </button>
-                `).join('')}
-                <button class="restart-btn" onclick="backToMenu()" style="background: linear-gradient(45deg, #a29bfe, #6c5ce7); margin-top: 20px;">🏠 Back to Menu</button>
-            `;
-            
-            document.getElementById('responseOptions').style.display = 'block';
-            document.getElementById('outcome').style.display = 'none';
-        }
-        
-        function watchLurkerScenario(index) {
-            const scenario = lurkerScenarios[index];
-            window.currentLurkerScenario = scenario;
-            
-            // Show the correct platform layout
-            const platformLayout = document.getElementById(`${scenario.platform}Layout`);
-            if (platformLayout) {
-                platformLayout.style.display = 'block';
-            }
-            
-            // Update platform content
-            updatePlatformContent(scenario);
-            
-            // Show the full conversation
-            showLurkerConversation(scenario);
-            
-            // Show outcome
-            const outcome = document.getElementById('outcome');
-            outcome.style.display = 'block';
-            outcome.className = `outcome ${scenario.outcome}`;
-            outcome.innerHTML = `
-                <h3>Conversation Complete!</h3>
-                <p><strong>Consequence:</strong> This conversation ended with mixed results - some tension but eventual understanding.</p>
-                <div class="lesson">
-                    <strong>Communication Lesson:</strong><br>
-                    ${scenario.lesson}
-                </div>
-                <div style="margin-top: 20px; text-align: center;">
-                    <button class="restart-btn" onclick="loadLurkerMode()">👀 Watch Another</button>
-                    <button class="restart-btn" onclick="backToMenu()" style="background: linear-gradient(45deg, #a29bfe, #6c5ce7); margin-left: 10px;">🏠 Back to Menu</button>
-                </div>
-            `;
-            
-            document.getElementById('responseOptions').style.display = 'none';
-        }
-        
-        function showLurkerConversation(scenario) {
-            // Clear existing comments
-            clearCommentsSection(scenario.platform);
-            
-            // Add each message in the conversation with like buttons
-            scenario.conversation.forEach((message, index) => {
-                setTimeout(() => {
-                    addResponseToPlatform(scenario.platform, message.text, message.user);
-                }, index * 1000); // Show messages with 1-second delay
-            });
-        }
-        
-        function clearCommentsSection(platform) {
-            switch(platform) {
-                case 'instagram':
-                    document.getElementById('commentsSection').innerHTML = '';
-                    break;
-                case 'tiktok':
-                    const tiktokComments = document.querySelector('.tiktok-comments');
-                    if (tiktokComments) tiktokComments.remove();
-                    break;
-                case 'youtube':
-                    const youtubeComments = document.querySelector('.youtube-comments');
-                    if (youtubeComments) youtubeComments.remove();
-                    break;
-                case 'discord':
-                    // Only show the original poster's message, no comments yet
-                    document.getElementById('discordMessages').innerHTML = `
-                        <div class="discord-message">
-                            <div class="message-avatar">${scenarios[currentPostIndex].username.charAt(0).toUpperCase()}</div>
-                            <div class="message-content">
-                                <div class="message-header">
-                                    <span class="username">${scenarios[currentPostIndex].username}</span>
-                                    <span class="message-time">2:30 PM</span>
-                                </div>
-                                <div class="message-text">
-                                    ${scenarios[currentPostIndex].caption}
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    break;
-                case 'imessage':
-                    const imessageReaction = document.querySelector('.imessage-reaction');
-                    if (imessageReaction) imessageReaction.remove();
-                    break;
+        function likeComment(button) {
+            button.classList.toggle('liked');
+            if (button.classList.contains('liked')) {
+                button.style.transform = 'scale(1.2)';
+            } else {
+                button.style.transform = 'scale(1)';
             }
         }
     </script>
