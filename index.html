@@ -191,6 +191,40 @@
             display: none;
         }
 
+        /* Game Header (Outside Platform) */
+        .game-header {
+            background: white;
+            padding: 15px 20px;
+            border-bottom: 2px solid #e5e5e5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .scenario-title-display {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .main-menu-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .main-menu-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
         .header {
             background: white;
             padding: 15px;
@@ -612,29 +646,54 @@
         /* Like button styles */
         .like-btn {
             background: none;
-            border: none;
-            font-size: 16px;
+            border: 2px solid #ccc;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            font-size: 14px;
             cursor: pointer;
-            padding: 5px;
-            border-radius: 4px;
-            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
             margin-left: 10px;
+            color: #ccc;
         }
 
         .like-btn:hover {
-            transform: scale(1.2);
-        }
-
-        .like-btn.liked {
+            transform: scale(1.1);
+            border-color: #ff4757;
             color: #ff4757;
         }
 
+        .like-btn.liked {
+            background: #ff4757;
+            border-color: #ff4757;
+            color: white;
+            transform: scale(1.2);
+            animation: likePulse 0.3s ease;
+        }
+
         .discord-like {
-            color: #dcddde;
+            border-color: #666;
+            color: #666;
+        }
+
+        .discord-like:hover {
+            border-color: #43b581;
+            color: #43b581;
         }
 
         .discord-like.liked {
-            color: #43b581;
+            background: #43b581;
+            border-color: #43b581;
+            color: white;
+        }
+
+        @keyframes likePulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+            100% { transform: scale(1.2); }
         }
 
         /* Platform-specific comment sections */
@@ -732,6 +791,16 @@
 
         <!-- Game Screen -->
         <div class="game-screen" id="gameScreen">
+            <!-- Game Header (Outside Platform) -->
+            <div class="game-header">
+                <div class="scenario-title-display" id="scenarioTitleDisplay">
+                    Scenario 1: Instagram Art Post
+                </div>
+                <button class="main-menu-btn" onclick="backToMenu()">
+                    🏠 Main Menu
+                </button>
+            </div>
+            
             <!-- Instagram Layout -->
             <div class="platform-layout instagram-layout" id="instagramLayout">
                 <div class="header">
@@ -852,10 +921,6 @@
                         <span class="message-time">2:30 PM</span>
                     </div>
                 </div>
-            </div>
-            
-            <div class="scenario-indicator" id="scenarioIndicator">
-                Scenario 1: Instagram Art Post
             </div>
             
             <div class="response-options" id="responseOptions">
@@ -1435,55 +1500,87 @@
             }
         ];
         
-        // Lurker mode data - completed conversations to watch
+        // Lurker mode data - automated versions of the same scenarios
         const lurkerScenarios = [
             {
                 id: 1,
                 platform: "instagram",
                 title: "Instagram Art Post",
                 username: "alex_creates",
-                postType: "Sunset Painting",
-                caption: "Finally finished this sunset piece! The colors took forever to get right 🌅 #art #sunset #painting",
+                postType: "Snowy House GIF (Procreate)",
+                caption: "Tried animating a snowy house in Procreate ❄️🌨️ It's super rough but cozy I think 😅 #WIP #procreate #digitalart #loopgif #snowvibes",
                 conversation: [
-                    { user: "art_critic_99", text: "The perspective is off and the colors are too saturated. Amateur work.", type: "hater" },
-                    { user: "alex_creates", text: "Thanks for the feedback! I'm still learning. What would you suggest?", type: "critic" },
-                    { user: "art_critic_99", text: "Actually, I appreciate you taking feedback well. Try using more muted tones next time.", type: "critic" },
-                    { user: "alex_creates", text: "That's really helpful! I'll definitely try that approach.", type: "hypebeast" }
+                    { user: "user_123", text: "This is giving MS Paint energy. Did you animate this with your nose? 💀", type: "roaster" },
+                    { user: "alex_creates", text: "You know you can just scroll, right? 😂", type: "roaster" },
+                    { user: "user_123", text: "Okay okay I'll admit the snow loop is kinda satisfying.", type: "jokester" },
+                    { user: "alex_creates", text: "Haha thanks! It was fun to make even if it's rough", type: "hypebeast" }
                 ],
-                outcome: "positive",
-                lesson: "Responding to criticism with openness can turn critics into mentors!"
+                outcome: "neutral",
+                lesson: "Sometimes backing down from a roast can save face, but the initial damage is done."
             },
             {
                 id: 2,
                 platform: "tiktok",
-                title: "TikTok Dance Video",
-                username: "dance_queen",
-                postType: "New Dance Challenge",
-                caption: "Trying the new viral dance! Don't judge too hard 😅 #dance #viral #challenge",
+                title: "TikTok Beauty Tutorial",
+                username: "beauty_queen",
+                postType: "Full-Face Glow Look",
+                caption: "Trying my first full-face glow look 💫 don't roast me I know the lashes are intense 😅 #grwm #beautyfail #maybeaslaysomeday",
                 conversation: [
-                    { user: "dance_hater", text: "This is so cringe. You can't dance at all.", type: "hater" },
-                    { user: "dance_queen", text: "Haha yeah I'm definitely not a pro! But I had fun making it 😂", type: "jokester" },
-                    { user: "dance_hater", text: "At least you own it. That's actually kinda cool.", type: "jokester" },
-                    { user: "dance_queen", text: "Thanks! Sometimes you just gotta embrace the awkwardness", type: "hypebeast" }
+                    { user: "user_456", text: "You look like you lost a glitter fight and the lashes are fighting back 💀", type: "roaster" },
+                    { user: "beauty_queen", text: "Kinda rude but okay 💅 I had fun tho", type: "roaster" },
+                    { user: "user_456", text: "You wore it with confidence tho.", type: "jokester" },
+                    { user: "beauty_queen", text: "That's what matters right? Confidence over perfection!", type: "hypebeast" }
                 ],
-                outcome: "positive",
-                lesson: "Self-deprecating humor can defuse negative comments and create connections!"
+                outcome: "neutral",
+                lesson: "Trying to save face after roasting rarely works as intended."
             },
             {
                 id: 3,
                 platform: "youtube",
-                title: "YouTube Gaming",
-                username: "gamer_pro",
-                postType: "Speedrun Attempt",
-                caption: "Almost got the world record! Missed it by 2 seconds 😤 #speedrun #gaming",
+                title: "YouTube Gaming Channel",
+                username: "minecraft_master",
+                postType: "Minecraft Castle Tour",
+                caption: "Spent 10 hours building this lava castle — tour starts at 2:15!! Sorry for the lag 😅",
                 conversation: [
-                    { user: "speedrun_elite", text: "2 seconds? That's like an eternity in speedrunning. Git gud.", type: "roaster" },
-                    { user: "gamer_pro", text: "You're right, I need to practice more. Any tips for that section?", type: "critic" },
-                    { user: "speedrun_elite", text: "Actually, your movement is pretty clean. Try the skip at 3:45.", type: "critic" },
-                    { user: "gamer_pro", text: "Thanks! I'll definitely try that next time!", type: "hypebeast" }
+                    { user: "user_789", text: "Looks like a 2012 server exploded. Why all lava??", type: "roaster" },
+                    { user: "minecraft_master", text: "Didn't know we had the refs in here.", type: "roaster" },
+                    { user: "user_789", text: "Chaotic good, I admit.", type: "jokester" },
+                    { user: "minecraft_master", text: "That's the spirit! Sometimes chaos is fun", type: "hypebeast" }
                 ],
-                outcome: "positive",
-                lesson: "Asking for specific advice shows you're serious about improvement!"
+                outcome: "neutral",
+                lesson: "Trying to recover from a roast rarely works as intended."
+            },
+            {
+                id: 4,
+                platform: "discord",
+                title: "Discord Game Chat",
+                username: "kai_gamer",
+                postType: "Rage Quit",
+                caption: "Bro, this team is actually trash. Why even play if no one listens.",
+                conversation: [
+                    { user: "user_999", text: "You walked into lava and blamed us??", type: "roaster" },
+                    { user: "kai_gamer", text: "Didn't know we had refs here.", type: "roaster" },
+                    { user: "user_999", text: "We'll call it a shared disaster", type: "jokester" },
+                    { user: "kai_gamer", text: "Fair enough. Let's try again?", type: "hypebeast" }
+                ],
+                outcome: "neutral",
+                lesson: "Trying to save face after roasting rarely restores team chemistry."
+            },
+            {
+                id: 5,
+                platform: "imessage",
+                title: "iMessage Group Chat",
+                username: "avery_friend",
+                postType: "Subtweet Energy",
+                caption: "Funny how some people *say* they wanna hang out but never actually do 👀",
+                conversation: [
+                    { user: "user_555", text: "Like how *you* never show up? Don't play victim.", type: "roaster" },
+                    { user: "avery_friend", text: "Okayyy shots fired. Chill.", type: "roaster" },
+                    { user: "user_555", text: "Maybe we all suck at texting", type: "jokester" },
+                    { user: "avery_friend", text: "True. Let's actually plan something", type: "hypebeast" }
+                ],
+                outcome: "neutral",
+                lesson: "Trying to save face after roasting rarely restores group harmony."
             }
         ];
         
@@ -1537,8 +1634,8 @@
             // Update platform-specific content
             updatePlatformContent(scenario);
             
-            // Update scenario indicator
-            document.getElementById('scenarioIndicator').textContent = `Scenario ${scenario.id}: ${scenario.title}`;
+            // Update scenario title in header
+            document.getElementById('scenarioTitleDisplay').textContent = `Scenario ${scenario.id}: ${scenario.title}`;
             
             // Clear comments section initially (NO comments should be shown yet)
             clearCommentsSection(scenario.platform);
@@ -1773,7 +1870,7 @@
                     ${response.text}
                 </div>
                 <button class="response-btn" style="background: linear-gradient(45deg, #667eea, #764ba2); color: white;" onclick="continueWithResponse('${type}', ${scenario.id})">
-                    ▶️ Continue with this response
+                    📤 Post it
                 </button>
             `;
         }
@@ -1880,9 +1977,58 @@
             button.classList.toggle('liked');
             if (button.classList.contains('liked')) {
                 button.style.transform = 'scale(1.2)';
+                
+                // Show like explanation in lurker mode
+                if (window.currentLurkerScenario) {
+                    showLikeExplanation(button);
+                }
             } else {
                 button.style.transform = 'scale(1)';
             }
+        }
+        
+        function showLikeExplanation(button) {
+            // Find the comment text to determine which type of response it is
+            const commentText = button.parentElement.querySelector('.comment-text, .message-text')?.textContent || '';
+            
+            let explanation = '';
+            if (commentText.includes('hype') || commentText.includes('amazing') || commentText.includes('love')) {
+                explanation = "People like supportive comments because they create positive connections and encourage creators!";
+            } else if (commentText.includes('haha') || commentText.includes('😂') || commentText.includes('funny')) {
+                explanation = "People like humorous comments because they lighten the mood and make interactions more enjoyable!";
+            } else if (commentText.includes('helpful') || commentText.includes('suggest') || commentText.includes('tip')) {
+                explanation = "People like constructive feedback because it shows genuine interest in helping others improve!";
+            } else if (commentText.includes('rude') || commentText.includes('mean') || commentText.includes('hate')) {
+                explanation = "People might like negative comments to show agreement, but this often creates more conflict!";
+            } else {
+                explanation = "People like comments that match their own communication style and values!";
+            }
+            
+            // Show explanation tooltip
+            const tooltip = document.createElement('div');
+            tooltip.className = 'like-explanation';
+            tooltip.textContent = explanation;
+            tooltip.style.cssText = `
+                position: absolute;
+                background: #333;
+                color: white;
+                padding: 10px;
+                border-radius: 6px;
+                font-size: 12px;
+                max-width: 200px;
+                z-index: 1000;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            `;
+            
+            button.parentElement.style.position = 'relative';
+            button.parentElement.appendChild(tooltip);
+            
+            // Remove tooltip after 3 seconds
+            setTimeout(() => {
+                if (tooltip.parentElement) {
+                    tooltip.parentElement.removeChild(tooltip);
+                }
+            }, 3000);
         }
         
         function addComment(commentText, includeLike = false) {
@@ -1923,11 +2069,14 @@
         function showFinalOptions(options, scenario) {
             const responseOptions = document.getElementById('responseOptions');
             
-            responseOptions.innerHTML = options.map((option, index) => `
-                <button class="response-btn" style="background: linear-gradient(45deg, #667eea, #764ba2); color: white;" onclick="showOutcome(${index}, ${scenario.id})">
-                    ${option.text}
-                </button>
-            `).join('');
+            responseOptions.innerHTML = `
+                <h3 style="text-align: center; margin-bottom: 20px; color: #333;">Choose your final response:</h3>
+                ${options.map((option, index) => `
+                    <button class="response-btn" style="background: linear-gradient(45deg, #667eea, #764ba2); color: white; margin-bottom: 10px;" onclick="showOutcome(${index}, ${scenario.id})">
+                        ${option.text}
+                    </button>
+                `).join('')}
+            `;
             
             responseOptions.style.display = 'block';
             
@@ -1974,8 +2123,9 @@
         }
         
         function loadLurkerMode() {
+            window.currentLurkerScenario = null;
             // Show lurker mode selection
-            document.getElementById('scenarioIndicator').textContent = '👀 Lurker Mode - Watch Completed Conversations';
+            document.getElementById('scenarioTitleDisplay').textContent = '👀 Lurker Mode - Watch Completed Conversations';
             
             // Hide all platform layouts
             document.querySelectorAll('.platform-layout').forEach(layout => {
@@ -2000,6 +2150,7 @@
         
         function watchLurkerScenario(index) {
             const scenario = lurkerScenarios[index];
+            window.currentLurkerScenario = scenario;
             
             // Show the correct platform layout
             const platformLayout = document.getElementById(`${scenario.platform}Layout`);
@@ -2019,7 +2170,7 @@
             outcome.className = `outcome ${scenario.outcome}`;
             outcome.innerHTML = `
                 <h3>Conversation Complete!</h3>
-                <p><strong>Consequence:</strong> This conversation ended positively with mutual respect and understanding!</p>
+                <p><strong>Consequence:</strong> This conversation ended with mixed results - some tension but eventual understanding.</p>
                 <div class="lesson">
                     <strong>Communication Lesson:</strong><br>
                     ${scenario.lesson}
