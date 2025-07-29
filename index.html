@@ -90,6 +90,102 @@
             box-shadow: 0 8px 25px rgba(0,0,0,0.3);
         }
 
+        .game-modes {
+            margin: 30px 0;
+        }
+
+        .game-modes h3 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        .mode-btn {
+            width: 100%;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+            padding: 15px 20px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
+        }
+
+        .mode-btn:hover, .mode-btn.active-mode {
+            background: rgba(255,255,255,0.2);
+            border-color: rgba(255,255,255,0.5);
+            transform: translateY(-2px);
+        }
+
+        .scenario-selection {
+            margin-top: 30px;
+        }
+
+        .scenario-selection h3 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        .scenario-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .scenario-btn {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+            padding: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .scenario-btn:hover {
+            background: rgba(255,255,255,0.2);
+            border-color: rgba(255,255,255,0.5);
+            transform: translateY(-2px);
+        }
+
+        .scenario-icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .scenario-title {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .scenario-desc {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .back-btn {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(255,255,255,0.2);
+            border-color: rgba(255,255,255,0.5);
+        }
+
         /* Game Screen Styles */
         .game-screen {
             display: none;
@@ -536,9 +632,47 @@
                 <p>Every choice matters. Will you hype them up, make a joke, roast them, give feedback, or hate? Each path teaches valuable lessons about online communication.</p>
             </div>
             
-            <button class="start-btn" onclick="startGame()">
-                🚀 Start Playing
-            </button>
+            <div class="game-modes">
+                <h3>🎮 Choose Your Game Mode</h3>
+                <button class="mode-btn active-mode" onclick="showScenarioSelection()">
+                    🎯 Interactive Mode - Make choices and see outcomes
+                </button>
+                <button class="mode-btn" onclick="startLurkerMode()">
+                    👀 Lurker Mode - Watch completed conversations
+                </button>
+            </div>
+            
+            <div class="scenario-selection" id="scenarioSelection" style="display: none;">
+                <h3>📱 Choose Your Scenario</h3>
+                <div class="scenario-grid">
+                    <button class="scenario-btn" onclick="startScenario(0)">
+                        <div class="scenario-icon">📸</div>
+                        <div class="scenario-title">Instagram Art Post</div>
+                        <div class="scenario-desc">Snowy house animation</div>
+                    </button>
+                    <button class="scenario-btn" onclick="startScenario(1)">
+                        <div class="scenario-icon">🎵</div>
+                        <div class="scenario-title">TikTok Beauty Tutorial</div>
+                        <div class="scenario-desc">Glow makeup look</div>
+                    </button>
+                    <button class="scenario-btn" onclick="startScenario(2)">
+                        <div class="scenario-icon">🎮</div>
+                        <div class="scenario-title">YouTube Gaming</div>
+                        <div class="scenario-desc">Minecraft castle tour</div>
+                    </button>
+                    <button class="scenario-btn" onclick="startScenario(3)">
+                        <div class="scenario-icon">💬</div>
+                        <div class="scenario-title">Discord Game Chat</div>
+                        <div class="scenario-desc">Rage quit situation</div>
+                    </button>
+                    <button class="scenario-btn" onclick="startScenario(4)">
+                        <div class="scenario-icon">💙</div>
+                        <div class="scenario-title">iMessage Group</div>
+                        <div class="scenario-desc">Subtweet energy</div>
+                    </button>
+                </div>
+                <button class="back-btn" onclick="hideScenarioSelection()">← Back to Game Modes</button>
+            </div>
         </div>
 
         <!-- Game Screen -->
@@ -1246,10 +1380,78 @@
             }
         ];
         
-        function startGame() {
+        // Lurker mode data - completed conversations to watch
+        const lurkerScenarios = [
+            {
+                id: 1,
+                platform: "instagram",
+                title: "Instagram Art Post",
+                username: "alex_creates",
+                postType: "Sunset Painting",
+                caption: "Finally finished this sunset piece! The colors took forever to get right 🌅 #art #sunset #painting",
+                conversation: [
+                    { user: "art_critic_99", text: "The perspective is off and the colors are too saturated. Amateur work.", type: "hater" },
+                    { user: "alex_creates", text: "Thanks for the feedback! I'm still learning. What would you suggest?", type: "critic" },
+                    { user: "art_critic_99", text: "Actually, I appreciate you taking feedback well. Try using more muted tones next time.", type: "critic" },
+                    { user: "alex_creates", text: "That's really helpful! I'll definitely try that approach.", type: "hypebeast" }
+                ],
+                outcome: "positive",
+                lesson: "Responding to criticism with openness can turn critics into mentors!"
+            },
+            {
+                id: 2,
+                platform: "tiktok",
+                title: "TikTok Dance Video",
+                username: "dance_queen",
+                postType: "New Dance Challenge",
+                caption: "Trying the new viral dance! Don't judge too hard 😅 #dance #viral #challenge",
+                conversation: [
+                    { user: "dance_hater", text: "This is so cringe. You can't dance at all.", type: "hater" },
+                    { user: "dance_queen", text: "Haha yeah I'm definitely not a pro! But I had fun making it 😂", type: "jokester" },
+                    { user: "dance_hater", text: "At least you own it. That's actually kinda cool.", type: "jokester" },
+                    { user: "dance_queen", text: "Thanks! Sometimes you just gotta embrace the awkwardness", type: "hypebeast" }
+                ],
+                outcome: "positive",
+                lesson: "Self-deprecating humor can defuse negative comments and create connections!"
+            },
+            {
+                id: 3,
+                platform: "youtube",
+                title: "YouTube Gaming",
+                username: "gamer_pro",
+                postType: "Speedrun Attempt",
+                caption: "Almost got the world record! Missed it by 2 seconds 😤 #speedrun #gaming",
+                conversation: [
+                    { user: "speedrun_elite", text: "2 seconds? That's like an eternity in speedrunning. Git gud.", type: "roaster" },
+                    { user: "gamer_pro", text: "You're right, I need to practice more. Any tips for that section?", type: "critic" },
+                    { user: "speedrun_elite", text: "Actually, your movement is pretty clean. Try the skip at 3:45.", type: "critic" },
+                    { user: "gamer_pro", text: "Thanks! I'll definitely try that next time!", type: "hypebeast" }
+                ],
+                outcome: "positive",
+                lesson: "Asking for specific advice shows you're serious about improvement!"
+            }
+        ];
+        
+        function showScenarioSelection() {
+            document.getElementById('scenarioSelection').style.display = 'block';
+            document.querySelector('.game-modes').style.display = 'none';
+        }
+
+        function hideScenarioSelection() {
+            document.getElementById('scenarioSelection').style.display = 'none';
+            document.querySelector('.game-modes').style.display = 'block';
+        }
+
+        function startScenario(index) {
             document.getElementById('menuScreen').style.display = 'none';
             document.getElementById('gameScreen').style.display = 'block';
-            loadScenario(0);
+            loadScenario(index);
+        }
+
+        function startLurkerMode() {
+            document.getElementById('menuScreen').style.display = 'none';
+            document.getElementById('gameScreen').style.display = 'block';
+            loadLurkerMode();
         }
         
         function backToMenu() {
@@ -1283,7 +1485,7 @@
             // Update scenario indicator
             document.getElementById('scenarioIndicator').textContent = `Scenario ${scenario.id}: ${scenario.title}`;
             
-            // Clear comments section initially
+            // Clear comments section initially (NO comments should be shown yet)
             clearCommentsSection(scenario.platform);
             
             // Show response type options (without revealing the actual comment)
@@ -1347,6 +1549,7 @@
                     // YouTube comments would be in a different section
                     break;
                 case 'discord':
+                    // Only show the original poster's message, no comments yet
                     document.getElementById('discordMessages').innerHTML = `
                         <div class="discord-message">
                             <div class="message-avatar">${scenarios[currentPostIndex].username.charAt(0).toUpperCase()}</div>
@@ -1570,7 +1773,6 @@
                 </div>
                 <div style="margin-top: 20px; text-align: center;">
                     <button class="restart-btn" onclick="restart()">🔄 Try Different Response</button>
-                    <button class="restart-btn" onclick="nextScenario()" style="background: linear-gradient(45deg, #00b894, #00cec9); margin-left: 10px;">➡️ Next Scenario</button>
                     <button class="restart-btn" onclick="backToMenu()" style="background: linear-gradient(45deg, #a29bfe, #6c5ce7); margin-left: 10px;">🏠 Back to Menu</button>
                 </div>
             `;
@@ -1583,6 +1785,78 @@
         function nextScenario() {
             const nextIndex = (currentPostIndex + 1) % scenarios.length;
             loadScenario(nextIndex);
+        }
+        
+        function loadLurkerMode() {
+            // Show lurker mode selection
+            document.getElementById('scenarioIndicator').textContent = '👀 Lurker Mode - Watch Completed Conversations';
+            
+            // Hide all platform layouts
+            document.querySelectorAll('.platform-layout').forEach(layout => {
+                layout.style.display = 'none';
+            });
+            
+            // Show lurker scenario selection
+            const responseOptions = document.getElementById('responseOptions');
+            responseOptions.innerHTML = `
+                <h3 style="text-align: center; margin-bottom: 20px; color: #333;">Choose a conversation to watch:</h3>
+                ${lurkerScenarios.map((scenario, index) => `
+                    <button class="response-btn" style="background: linear-gradient(45deg, #667eea, #764ba2); color: white; margin-bottom: 10px;" onclick="watchLurkerScenario(${index})">
+                        📱 ${scenario.title} - ${scenario.platform.charAt(0).toUpperCase() + scenario.platform.slice(1)}
+                    </button>
+                `).join('')}
+                <button class="restart-btn" onclick="backToMenu()" style="background: linear-gradient(45deg, #a29bfe, #6c5ce7); margin-top: 20px;">🏠 Back to Menu</button>
+            `;
+            
+            document.getElementById('responseOptions').style.display = 'block';
+            document.getElementById('outcome').style.display = 'none';
+        }
+        
+        function watchLurkerScenario(index) {
+            const scenario = lurkerScenarios[index];
+            
+            // Show the correct platform layout
+            const platformLayout = document.getElementById(`${scenario.platform}Layout`);
+            if (platformLayout) {
+                platformLayout.style.display = 'block';
+            }
+            
+            // Update platform content
+            updatePlatformContent(scenario);
+            
+            // Show the full conversation
+            showLurkerConversation(scenario);
+            
+            // Show outcome
+            const outcome = document.getElementById('outcome');
+            outcome.style.display = 'block';
+            outcome.className = `outcome ${scenario.outcome}`;
+            outcome.innerHTML = `
+                <h3>Conversation Complete!</h3>
+                <p>This conversation ended positively!</p>
+                <div class="lesson">
+                    <strong>Communication Lesson:</strong><br>
+                    ${scenario.lesson}
+                </div>
+                <div style="margin-top: 20px; text-align: center;">
+                    <button class="restart-btn" onclick="loadLurkerMode()">👀 Watch Another</button>
+                    <button class="restart-btn" onclick="backToMenu()" style="background: linear-gradient(45deg, #a29bfe, #6c5ce7); margin-left: 10px;">🏠 Back to Menu</button>
+                </div>
+            `;
+            
+            document.getElementById('responseOptions').style.display = 'none';
+        }
+        
+        function showLurkerConversation(scenario) {
+            // Clear existing comments
+            clearCommentsSection(scenario.platform);
+            
+            // Add each message in the conversation
+            scenario.conversation.forEach((message, index) => {
+                setTimeout(() => {
+                    addResponseToPlatform(scenario.platform, message.text, message.user);
+                }, index * 1000); // Show messages with 1-second delay
+            });
         }
     </script>
 </body>
