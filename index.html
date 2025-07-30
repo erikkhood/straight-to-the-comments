@@ -942,73 +942,74 @@
             getContextualResponses(playerType, round) {
                 // Create responses that make sense for the story progression
                 // Different responses for each round to avoid repeats
+                // round parameter is 0-based (0, 1, 2 for rounds 1, 2, 3)
                 const responses = {
                     hypebeast: {
-                        1: [
+                        0: [ // Round 1
                             { author: "viral_creator", text: "OMG thank you so much! 🥺 You're literally the sweetest!", likes: 342 },
                             { author: "supportive_fan", text: "This energy is everything! Love seeing positive vibes! ✨", likes: 156 }
                         ],
-                        2: [
+                        1: [ // Round 2
                             { author: "viral_creator", text: "You're seriously making my day with these comments! 🥰", likes: 456 },
                             { author: "hype_squad", text: "YASSS! This is the kind of energy we need more of! 🔥", likes: 89 }
                         ],
-                        3: [
+                        2: [ // Round 3
                             { author: "viral_creator", text: "I'm literally crying rn, you're the best! 😭❤️", likes: 567 },
                             { author: "positivity_queen", text: "This is why I love this community! Pure joy! 🌟", likes: 234 }
                         ]
                     },
                     jokester: {
-                        1: [
+                        0: [ // Round 1
                             { author: "viral_creator", text: "LMAO you're hilarious! 😂 This made my day!", likes: 567 },
                             { author: "comedy_lover", text: "The humor is immaculate! 😭💀", likes: 234 }
                         ],
-                        2: [
+                        1: [ // Round 2
                             { author: "viral_creator", text: "Not you coming back with more jokes! 😭 I can't!", likes: 678 },
                             { author: "meme_enthusiast", text: "This is peak comedy right here! 👏", likes: 123 }
                         ],
-                        3: [
+                        2: [ // Round 3
                             { author: "viral_creator", text: "You're literally the funniest person in my comments! 😂", likes: 789 },
                             { author: "joke_master", text: "The comedic timing is perfect! 🎭", likes: 345 }
                         ]
                     },
                     roaster: {
-                        1: [
+                        0: [ // Round 1
                             { author: "viral_creator", text: "Okay, I see you coming for me! 😅 But honestly, fair play", likes: 892 },
                             { author: "roast_master", text: "The audacity... I'm living for this energy! 💀", likes: 445 }
                         ],
-                        2: [
+                        1: [ // Round 2
                             { author: "viral_creator", text: "You're really not letting up with these roasts! 😂", likes: 756 },
                             { author: "savage_fan", text: "Not the roasts! 😭 But lowkey... you're not wrong", likes: 234 }
                         ],
-                        3: [
+                        2: [ // Round 3
                             { author: "viral_creator", text: "I'm starting to think you have a talent for this! 😅", likes: 634 },
                             { author: "roast_queen", text: "The confidence to keep roasting... I respect it! 👑", likes: 567 }
                         ]
                     },
                     critic: {
-                        1: [
+                        0: [ // Round 1
                             { author: "viral_creator", text: "Thanks for the feedback! Always trying to improve 🙏", likes: 234 },
                             { author: "constructive_friend", text: "This is actually really helpful advice! 💡", likes: 156 }
                         ],
-                        2: [
+                        1: [ // Round 2
                             { author: "viral_creator", text: "I appreciate you taking the time to give thoughtful feedback! 🤝", likes: 345 },
                             { author: "growth_mindset", text: "Love seeing constructive criticism! It helps everyone grow", likes: 89 }
                         ],
-                        3: [
+                        2: [ // Round 3
                             { author: "viral_creator", text: "Your feedback has been really valuable throughout this! 🙏", likes: 456 },
                             { author: "improvement_guru", text: "This is how we all get better! 💪", likes: 178 }
                         ]
                     },
                     hater: {
-                        1: [
+                        0: [ // Round 1
                             { author: "viral_creator", text: "I appreciate the honesty, even if it's harsh 😅", likes: 156 },
                             { author: "defender", text: "Everyone's entitled to their opinion, but maybe be kinder? 🤷‍♀️", likes: 234 }
                         ],
-                        2: [
+                        1: [ // Round 2
                             { author: "viral_creator", text: "You're really committed to this energy, huh? 😅", likes: 123 },
                             { author: "neutral_observer", text: "The honesty is... something. Not sure if it's helpful though", likes: 67 }
                         ],
-                        3: [
+                        2: [ // Round 3
                             { author: "viral_creator", text: "Well, at least you're consistent with your opinions! 😅", likes: 89 },
                             { author: "peace_keeper", text: "Maybe we can find some common ground? 🤝", likes: 145 }
                         ]
