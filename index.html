@@ -569,11 +569,11 @@
     <div class="choice-panel" id="choice-panel" style="display: none;">
         <div class="choice-title">Choose your comment style:</div>
         <div class="choices">
-            <button class="choice-btn" data-type="hypebeast">🧢 <strong>Hypebeast</strong> - Over-the-top positive</button>
-            <button class="choice-btn" data-type="jokester">😄 <strong>Jokester</strong> - Playful, risky humor</button>
-            <button class="choice-btn" data-type="roaster">🔥 <strong>Roaster</strong> - Harsh sarcasm</button>
-            <button class="choice-btn" data-type="critic">🧐 <strong>Critic</strong> - Constructive feedback</button>
-            <button class="choice-btn" data-type="hater">😠 <strong>Hater</strong> - Bluntly negative</button>
+            <button class="choice-btn" data-type="hypebeast" onclick="game.selectCommentType('hypebeast')">🧢 <strong>Hypebeast</strong> - Over-the-top positive</button>
+            <button class="choice-btn" data-type="jokester" onclick="game.selectCommentType('jokester')">😄 <strong>Jokester</strong> - Playful, risky humor</button>
+            <button class="choice-btn" data-type="roaster" onclick="game.selectCommentType('roaster')">🔥 <strong>Roaster</strong> - Harsh sarcasm</button>
+            <button class="choice-btn" data-type="critic" onclick="game.selectCommentType('critic')">🧐 <strong>Critic</strong> - Constructive feedback</button>
+            <button class="choice-btn" data-type="hater" onclick="game.selectCommentType('hater')">😠 <strong>Hater</strong> - Bluntly negative</button>
         </div>
     </div>
 
@@ -678,13 +678,8 @@
             }
 
             setupEventListeners() {
-                // Choice buttons
-                document.querySelectorAll('.choice-btn').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        const type = e.target.dataset.type;
-                        this.selectCommentType(type);
-                    });
-                });
+                // Choice buttons are now handled with onclick attributes
+                // This ensures they work properly when the DOM is updated
             }
 
             setupDragFunctionality() {
@@ -765,7 +760,7 @@
                     <div class="choice-title">Choose your specific comment:</div>
                     <div class="choices">
                         ${responses.options.map((option, index) => `
-                            <button class="choice-btn" data-index="${index}">
+                            <button class="choice-btn" data-index="${index}" onclick="game.makeComment('${type}', ${index})">
                                 <div style="flex: 1;">
                                     <div>${option.text}</div>
                                 </div>
@@ -773,14 +768,6 @@
                         `).join('')}
                     </div>
                 `;
-
-                // Add event listeners to new buttons
-                choicePanel.querySelectorAll('.choice-btn').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        const index = parseInt(e.target.dataset.index);
-                        this.makeComment(this.currentCommentType, index);
-                    });
-                });
             }
 
             populateInitialComments() {
@@ -864,6 +851,9 @@
                 // Reset choice panel to original state
                 this.resetChoicePanel();
                 this.updateRoundDisplay();
+                
+                // Show the choice panel again
+                document.getElementById('choice-panel').style.display = 'block';
             }
 
             resetChoicePanel() {
@@ -871,39 +861,61 @@
                 choicePanel.innerHTML = `
                     <div class="choice-title">Choose your comment style:</div>
                     <div class="choices">
-                        <button class="choice-btn" data-type="hypebeast">🧢 <strong>Hypebeast</strong> - Over-the-top positive</button>
-                        <button class="choice-btn" data-type="jokester">😄 <strong>Jokester</strong> - Playful, risky humor</button>
-                        <button class="choice-btn" data-type="roaster">🔥 <strong>Roaster</strong> - Harsh sarcasm</button>
-                        <button class="choice-btn" data-type="critic">🧐 <strong>Critic</strong> - Constructive feedback</button>
-                        <button class="choice-btn" data-type="hater">😠 <strong>Hater</strong> - Bluntly negative</button>
+                        <button class="choice-btn" data-type="hypebeast" onclick="game.selectCommentType('hypebeast')">🧢 <strong>Hypebeast</strong> - Over-the-top positive</button>
+                        <button class="choice-btn" data-type="jokester" onclick="game.selectCommentType('jokester')">😄 <strong>Jokester</strong> - Playful, risky humor</button>
+                        <button class="choice-btn" data-type="roaster" onclick="game.selectCommentType('roaster')">🔥 <strong>Roaster</strong> - Harsh sarcasm</button>
+                        <button class="choice-btn" data-type="critic" onclick="game.selectCommentType('critic')">🧐 <strong>Critic</strong> - Constructive feedback</button>
+                        <button class="choice-btn" data-type="hater" onclick="game.selectCommentType('hater')">😠 <strong>Hater</strong> - Bluntly negative</button>
                     </div>
                 `;
-
-                // Re-add event listeners
-                choicePanel.querySelectorAll('.choice-btn').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        const type = e.target.dataset.type;
-                        this.selectCommentType(type);
-                    });
-                });
             }
 
             addNPCResponses(playerType) {
                 let responseComments = [];
                 
-                if (playerType === 'hater' || playerType === 'roaster') {
-                    responseComments = this.commentPool.negative.slice(-2);
-                } else if (playerType === 'jokester') {
-                    responseComments = this.commentPool.funny.slice(-1);
-                } else {
-                    responseComments = this.commentPool.positive.slice(-1);
-                }
+                // Create more contextual responses based on the current round and player's comment type
+                const contextualResponses = this.getContextualResponses(playerType, this.round);
+                
+                responseComments = contextualResponses.slice(0, 2);
 
                 responseComments.forEach((comment, index) => {
                     setTimeout(() => {
                         this.addCommentToDOM(comment.author, comment.text, comment.likes);
                     }, (index + 1) * 800);
                 });
+            }
+
+            getContextualResponses(playerType, round) {
+                // Create responses that make sense for the story progression
+                const responses = {
+                    hypebeast: [
+                        { author: "viral_creator", text: "OMG thank you so much! 🥺 You're literally the sweetest!", likes: 342 },
+                        { author: "supportive_fan", text: "This energy is everything! Love seeing positive vibes! ✨", likes: 156 },
+                        { author: "hype_squad", text: "YASSS! This is the kind of energy we need more of! 🔥", likes: 89 }
+                    ],
+                    jokester: [
+                        { author: "viral_creator", text: "LMAO you're hilarious! 😂 This made my day!", likes: 567 },
+                        { author: "comedy_lover", text: "The humor is immaculate! 😭💀", likes: 234 },
+                        { author: "meme_enthusiast", text: "This is peak comedy right here! 👏", likes: 123 }
+                    ],
+                    roaster: [
+                        { author: "viral_creator", text: "Okay, I see you coming for me! 😅 But honestly, fair play", likes: 892 },
+                        { author: "roast_master", text: "The audacity... I'm living for this energy! 💀", likes: 445 },
+                        { author: "savage_fan", text: "Not the roasts! 😭 But lowkey... you're not wrong", likes: 234 }
+                    ],
+                    critic: [
+                        { author: "viral_creator", text: "Thanks for the feedback! Always trying to improve 🙏", likes: 234 },
+                        { author: "constructive_friend", text: "This is actually really helpful advice! 💡", likes: 156 },
+                        { author: "growth_mindset", text: "Love seeing constructive criticism! It helps everyone grow", likes: 89 }
+                    ],
+                    hater: [
+                        { author: "viral_creator", text: "I appreciate the honesty, even if it's harsh 😅", likes: 156 },
+                        { author: "defender", text: "Everyone's entitled to their opinion, but maybe be kinder? 🤷‍♀️", likes: 234 },
+                        { author: "neutral_observer", text: "The honesty is... something. Not sure if it's helpful though", likes: 67 }
+                    ]
+                };
+
+                return responses[playerType] || this.commentPool.positive;
             }
 
             addCommentToDOM(author, text, likes, isPlayer = false) {
