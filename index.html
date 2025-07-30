@@ -485,9 +485,52 @@
             50% { transform: scale(1.1); }
             100% { transform: scale(1); opacity: 1; }
         }
+
+        /* Like counter outside game window */
+        .like-counter {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(45deg, #833ab4, #fd1d1d);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 18px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            z-index: 1500;
+            display: none;
+        }
+
+        .like-counter.show {
+            display: block;
+            animation: slideInFromTop 0.5s ease-out;
+        }
+
+        @keyframes slideInFromTop {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .like-counter .label {
+            font-size: 12px;
+            opacity: 0.8;
+            margin-bottom: 5px;
+        }
+
+        .like-counter .count {
+            font-size: 24px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
+    <!-- Like Counter -->
+    <div class="like-counter" id="likeCounter">
+        <div class="label">Your Total Likes</div>
+        <div class="count" id="likeCount">0</div>
+    </div>
+
     <!-- Menu Screen -->
     <div class="menu-screen" id="menuScreen">
         <div class="menu-content">
@@ -805,6 +848,9 @@
                 this.addCommentToDOM(playerComment.author, playerComment.text, playerComment.likes, true);
                 this.playerLikes += playerComment.likes;
 
+                // Update like counter
+                this.updateLikeCounter();
+
                 // Track comment sentiment
                 if (type === 'hypebeast' || type === 'critic') {
                     this.supportiveCount++;
@@ -828,6 +874,14 @@
                         this.endGame();
                     }, 3000);
                 }
+            }
+
+            updateLikeCounter() {
+                const likeCounter = document.getElementById('likeCounter');
+                const likeCount = document.getElementById('likeCount');
+                
+                likeCount.textContent = this.playerLikes.toLocaleString();
+                likeCounter.classList.add('show');
             }
 
             showContinueButton() {
@@ -1047,9 +1101,14 @@
             document.getElementById('gameContainer').style.display = 'block';
             document.getElementById('choice-panel').style.display = 'block';
             
-            if (!game) {
-                game = new StraightToCommentsGame();
-            }
+            // Reset like counter
+            const likeCounter = document.getElementById('likeCounter');
+            const likeCount = document.getElementById('likeCount');
+            likeCount.textContent = '0';
+            likeCounter.classList.remove('show');
+            
+            // Always create a new game instance
+            game = new StraightToCommentsGame();
         }
 
         function showMenu() {
@@ -1057,6 +1116,13 @@
             document.getElementById('gameContainer').style.display = 'none';
             document.getElementById('choice-panel').style.display = 'none';
             document.getElementById('game-over').classList.add('hidden');
+            
+            // Hide like counter
+            const likeCounter = document.getElementById('likeCounter');
+            likeCounter.classList.remove('show');
+            
+            // Reset game when going back to menu
+            game = null;
         }
 
         // Start the game when page loads
