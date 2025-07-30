@@ -244,6 +244,13 @@
             background: rgba(0, 149, 246, 0.15);
             border-left: 3px solid #0095f6;
             position: relative;
+            box-shadow: 0 0 15px rgba(0, 149, 246, 0.3);
+            animation: playerCommentGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes playerCommentGlow {
+            from { box-shadow: 0 0 15px rgba(0, 149, 246, 0.3); }
+            to { box-shadow: 0 0 25px rgba(0, 149, 246, 0.5); }
         }
 
         .player-comment::before {
@@ -494,7 +501,7 @@
                 <li>Choose your comment style (Hypebeast, Jokester, Roaster, Critic, or Hater)</li>
                 <li>Pick from 3 specific comment options</li>
                 <li>See how your comment performs and affects the conversation</li>
-                <li>Play 5 rounds and discover the consequences of your choices</li>
+                <li>Play 3 rounds and discover the consequences of your choices</li>
             </ul>
             
             <p><strong>💡 Learn:</strong> Different communication styles have different impacts on relationships and engagement!</p>
@@ -580,7 +587,7 @@
         class StraightToCommentsGame {
             constructor() {
                 this.round = 0;
-                this.maxRounds = 5;
+                this.maxRounds = 3;
                 this.playerLikes = 0;
                 this.playerComments = [];
                 this.supportiveCount = 0;
@@ -820,19 +827,43 @@
 
                 this.round++;
 
-                // Reset choice panel to original state
-                this.resetChoicePanel();
+                // Hide choice panel and show continue button
+                this.showContinueButton();
 
-                // Add some NPC responses
+                // Add some NPC responses after a delay
                 setTimeout(() => {
                     this.addNPCResponses(type);
-                }, 1000);
+                }, 1500);
 
+                // Check if game should end
                 if (this.round >= this.maxRounds) {
                     setTimeout(() => {
                         this.endGame();
-                    }, 2000);
+                    }, 3000);
                 }
+            }
+
+            showContinueButton() {
+                const choicePanel = document.getElementById('choice-panel');
+                choicePanel.innerHTML = `
+                    <div class="choice-title">Your comment has been posted!</div>
+                    <div style="text-align: center; margin: 20px 0;">
+                        <button class="choice-btn" style="background: #0095f6; justify-content: center;" onclick="game.continueToNextRound()">
+                            ${this.round < this.maxRounds ? 'Continue to Next Round' : 'See Final Results'}
+                        </button>
+                    </div>
+                `;
+            }
+
+            continueToNextRound() {
+                if (this.round >= this.maxRounds) {
+                    this.endGame();
+                    return;
+                }
+
+                // Reset choice panel to original state
+                this.resetChoicePanel();
+                this.updateRoundDisplay();
             }
 
             resetChoicePanel() {
@@ -991,7 +1022,9 @@
 
             updateRoundDisplay() {
                 const choiceTitle = document.querySelector('.choice-title');
-                choiceTitle.textContent = `Round ${this.round + 1}/${this.maxRounds} - Choose your comment style:`;
+                if (choiceTitle) {
+                    choiceTitle.textContent = `Round ${this.round + 1}/${this.maxRounds} - Choose your comment style:`;
+                }
             }
         }
 
