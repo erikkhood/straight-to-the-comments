@@ -674,39 +674,119 @@
 
                 this.responses = {
                     hypebeast: {
-                        options: [
-                            { text: "OMG YASSS QUEEN!!! This is EVERYTHING! 🔥🔥🔥 You're literally perfect!", likes: 15, prediction: "low" },
-                            { text: "OBSESSED with this!! You're serving LOOKS! Can't handle the talent! 😍✨", likes: 45, prediction: "medium" },
-                            { text: "ICONIC! LEGENDARY! SHOW-STOPPING! This is why you're the GOAT! 🐐👑", likes: 120, prediction: "high" }
-                        ]
+                        0: { // Round 1
+                            options: [
+                                { text: "OMG YASSS QUEEN!!! This is EVERYTHING! 🔥🔥🔥 You're literally perfect!", likes: 15 },
+                                { text: "OBSESSED with this!! You're serving LOOKS! Can't handle the talent! 😍✨", likes: 45 },
+                                { text: "ICONIC! LEGENDARY! SHOW-STOPPING! This is why you're the GOAT! 🐐👑", likes: 120 }
+                            ]
+                        },
+                        1: { // Round 2
+                            options: [
+                                { text: "STOP IT RIGHT NOW! This is giving me LIFE! 💀✨ You're absolutely SLAYING!", likes: 25 },
+                                { text: "I'm literally SCREAMING! This is the content I signed up for! 🔥👏", likes: 65 },
+                                { text: "QUEEN BEHAVIOR! This is why you're the moment! Period! 💅👑", likes: 140 }
+                            ]
+                        },
+                        2: { // Round 3
+                            options: [
+                                { text: "I CANNOT EVEN! This is pure PERFECTION! 😭🔥 You're literally everything!", likes: 35 },
+                                { text: "This is the definition of EXCELLENCE! You're absolutely INCREDIBLE! 🌟💖", likes: 85 },
+                                { text: "LEGENDARY! ICONIC! SHOW-STOPPING! You're the blueprint! 🐐✨", likes: 160 }
+                            ]
+                        }
                     },
                     jokester: {
-                        options: [
-                            { text: "Me trying to look this good in photos: 🤡 You: 👑 The gap is real 😭", likes: 150, prediction: "medium" },
-                            { text: "Not me saving this as motivation to get my life together 💀", likes: 280, prediction: "high" },
-                            { text: "The confidence... I could never. Teach me your ways sensei 🙏", likes: 85, prediction: "low" }
-                        ]
+                        0: { // Round 1
+                            options: [
+                                { text: "Me trying to look this good in photos: 🤡 You: 👑 The gap is real 😭", likes: 150 },
+                                { text: "Not me saving this as motivation to get my life together 💀", likes: 280 },
+                                { text: "The confidence... I could never. Teach me your ways sensei 🙏", likes: 85 }
+                            ]
+                        },
+                        1: { // Round 2
+                            options: [
+                                { text: "POV: When you order confidence from Wish vs. You getting it from Amazon Prime 😂", likes: 180 },
+                                { text: "This is giving main character energy and I'm here for the character development 🎭", likes: 320 },
+                                { text: "The audacity to be this talented... I'm taking notes 📝", likes: 95 }
+                            ]
+                        },
+                        2: { // Round 3
+                            options: [
+                                { text: "Not you casually dropping this masterpiece like it's nothing 💀✨", likes: 210 },
+                                { text: "This is the kind of content that makes me question my life choices 😭", likes: 360 },
+                                { text: "The talent jumped out and said 'let me serve' 👑", likes: 105 }
+                            ]
+                        }
                     },
                     roaster: {
-                        options: [
-                            { text: "The confidence to post this... I almost respect it. Almost. 💀", likes: 800, prediction: "high" },
-                            { text: "Not you thinking this was gonna eat... baby this is giving cafeteria food 😬", likes: 1200, prediction: "high" },
-                            { text: "The second-hand embarrassment I just experienced... seek help bestie 🫣", likes: 450, prediction: "medium" }
-                        ]
+                        0: { // Round 1
+                            options: [
+                                { text: "The confidence to post this... I almost respect it. Almost. 💀", likes: 800 },
+                                { text: "Not you thinking this was gonna eat... baby this is giving cafeteria food 😬", likes: 1200 },
+                                { text: "The second-hand embarrassment I just experienced... seek help bestie 🫣", likes: 450 }
+                            ]
+                        },
+                        1: { // Round 2
+                            options: [
+                                { text: "This is giving 'I tried my best' energy but your best needs work 💀", likes: 900 },
+                                { text: "Not the audacity to post this and think you did something 😭", likes: 1350 },
+                                { text: "The confidence... unmatched. The execution... questionable 🤔", likes: 550 }
+                            ]
+                        },
+                        2: { // Round 3
+                            options: [
+                                { text: "This is the definition of 'it's the thought that counts' but the thought was weak 💀", likes: 1000 },
+                                { text: "Not you ending the game with this... the plot twist nobody asked for 😂", likes: 1500 },
+                                { text: "The commitment to this energy... I almost admire it. Almost 🫡", likes: 650 }
+                            ]
+                        }
                     },
                     critic: {
-                        options: [
-                            { text: "The concept has potential but the execution feels rushed. Maybe try different lighting?", likes: 8, prediction: "low" },
-                            { text: "I appreciate the effort, but this doesn't quite hit the mark. Keep experimenting!", likes: 25, prediction: "medium" },
-                            { text: "There's something here, but it needs refinement. What was your inspiration?", likes: 12, prediction: "low" }
-                        ]
+                        0: { // Round 1
+                            options: [
+                                { text: "The concept has potential but the execution feels rushed. Maybe try different lighting?", likes: 8 },
+                                { text: "I appreciate the effort, but this doesn't quite hit the mark. Keep experimenting!", likes: 25 },
+                                { text: "There's something here, but it needs refinement. What was your inspiration?", likes: 12 }
+                            ]
+                        },
+                        1: { // Round 2
+                            options: [
+                                { text: "The composition shows promise, but the color grading could be more cohesive.", likes: 15 },
+                                { text: "Interesting approach, though the framing could be more dynamic. Keep pushing boundaries!", likes: 35 },
+                                { text: "There's a clear vision here, but the technical execution needs work. Practice makes perfect!", likes: 18 }
+                            ]
+                        },
+                        2: { // Round 3
+                            options: [
+                                { text: "The artistic direction is clear, but the final presentation lacks polish. Consider revisiting the fundamentals.", likes: 22 },
+                                { text: "You've shown growth throughout, but this piece feels incomplete. Don't rush the process!", likes: 45 },
+                                { text: "The potential is undeniable, but the execution needs refinement. Keep honing your craft!", likes: 28 }
+                            ]
+                        }
                     },
                     hater: {
-                        options: [
-                            { text: "This is straight trash. Delete your account.", likes: 600, prediction: "medium" },
-                            { text: "Absolutely not. This is painful to look at. Stop.", likes: 1000, prediction: "high" },
-                            { text: "How did you post this and think 'yeah this is it'? It's not.", likes: 400, prediction: "medium" }
-                        ]
+                        0: { // Round 1
+                            options: [
+                                { text: "This is straight trash. Delete your account.", likes: 600 },
+                                { text: "Absolutely not. This is painful to look at. Stop.", likes: 1000 },
+                                { text: "How did you post this and think 'yeah this is it'? It's not.", likes: 400 }
+                            ]
+                        },
+                        1: { // Round 2
+                            options: [
+                                { text: "Still posting garbage I see. When will you learn?", likes: 700 },
+                                { text: "This is getting worse. Do you even try anymore?", likes: 1100 },
+                                { text: "Another day, another disappointment. Shocking.", likes: 500 }
+                            ]
+                        },
+                        2: { // Round 3
+                            options: [
+                                { text: "Three strikes and you're out. This is embarrassing.", likes: 800 },
+                                { text: "You really ended on this note? Pathetic.", likes: 1200 },
+                                { text: "This is why you'll never make it. Give up.", likes: 600 }
+                            ]
+                        }
                     }
                 };
 
@@ -798,12 +878,14 @@
             showCommentOptions(type) {
                 const choicePanel = document.getElementById('choice-panel');
                 const responses = this.responses[type];
+                const currentRound = this.round; // 0, 1, or 2
+                const roundData = responses[currentRound];
                 
                 choicePanel.innerHTML = `
                     <div class="choice-title">Choose your specific comment:</div>
                     <div class="choices">
-                        ${responses.options.map((option, index) => `
-                            <button class="choice-btn" data-index="${index}" onclick="game.makeComment('${type}', ${index})">
+                        ${roundData.options.map((option, index) => `
+                            <button class="choice-btn" data-index="${index}" onclick="game.makeComment('${type}', ${currentRound}, ${index})">
                                 <div style="flex: 1;">
                                     <div>${option.text}</div>
                                 </div>
@@ -830,11 +912,11 @@
                 });
             }
 
-            makeComment(type, optionIndex) {
+            makeComment(type, round, optionIndex) {
                 if (this.round >= this.maxRounds) return;
 
                 const responses = this.responses[type];
-                const selectedOption = responses.options[optionIndex];
+                const selectedOption = responses[round].options[optionIndex];
                 
                 // Add player comment
                 const playerComment = {
