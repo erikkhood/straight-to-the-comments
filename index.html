@@ -26,6 +26,7 @@
             overflow: hidden;
             box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
             min-height: 90vh;
+            position: relative;
         }
 
         .status-bar {
@@ -56,6 +57,7 @@
 
         .post-container {
             border-bottom: 1px solid #262626;
+            position: relative;
         }
 
         .post-header {
@@ -153,16 +155,39 @@
             line-height: 1.4;
         }
 
+        /* Instagram-style comments overlay */
+        .comments-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8) 20%, rgba(0,0,0,0.95) 60%, #000 100%);
+            max-height: 80%;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            cursor: grab;
+            z-index: 10;
+        }
+
+        .comments-overlay.active {
+            transform: translateY(0);
+        }
+
+        .comments-overlay:active {
+            cursor: grabbing;
+        }
+
         .comments-section {
             max-height: 400px;
             overflow-y: auto;
+            padding: 20px 0 0 0;
         }
 
         .comment {
             padding: 8px 15px;
             display: flex;
             gap: 10px;
-            border-bottom: 1px solid #1a1a1a;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
             animation: slideIn 0.3s ease-out;
         }
 
@@ -211,6 +236,19 @@
             border-left: 3px solid #0095f6;
         }
 
+        .drag-handle {
+            width: 40px;
+            height: 4px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 2px;
+            margin: 10px auto;
+            cursor: grab;
+        }
+
+        .drag-handle:active {
+            cursor: grabbing;
+        }
+
         .choice-panel {
             position: fixed;
             bottom: 0;
@@ -221,6 +259,7 @@
             border-radius: 20px 20px 0 0;
             padding: 20px;
             box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
+            z-index: 100;
         }
 
         .choice-title {
@@ -341,6 +380,25 @@
         .hidden {
             display: none;
         }
+
+        /* Like prediction indicators */
+        .like-prediction {
+            font-size: 12px;
+            color: #8e8e8e;
+            margin-top: 5px;
+        }
+
+        .like-prediction.high {
+            color: #ff6b6b;
+        }
+
+        .like-prediction.medium {
+            color: #feca57;
+        }
+
+        .like-prediction.low {
+            color: #48dbfb;
+        }
     </style>
 </head>
 <body>
@@ -390,10 +448,14 @@
                 <span class="comment-author">viral_creator</span>
                 <span id="post-text">Just dropped something special! What do you think? 🔥✨ #viral #newpost</span>
             </div>
-        </div>
 
-        <div class="comments-section" id="comments-section">
-            <!-- Comments will be populated by JavaScript -->
+            <!-- Instagram-style comments overlay -->
+            <div class="comments-overlay" id="comments-overlay">
+                <div class="drag-handle"></div>
+                <div class="comments-section" id="comments-section">
+                    <!-- Comments will be populated by JavaScript -->
+                </div>
+            </div>
         </div>
     </div>
 
@@ -424,6 +486,10 @@
                 this.supportiveCount = 0;
                 this.meanCount = 0;
                 this.isBlocked = false;
+                this.currentCommentType = null;
+                this.isDragging = false;
+                this.startY = 0;
+                this.startTransform = 0;
                 
                 this.commentPool = {
                     positive: [
@@ -457,41 +523,41 @@
                 };
 
                 this.responses = {
-                    hypebeast: [
-                        "OMG YASSS QUEEN!!! This is EVERYTHING! 🔥🔥🔥 You're literally perfect!",
-                        "OBSESSED with this!! You're serving LOOKS! Can't handle the talent! 😍✨",
-                        "ICONIC! LEGENDARY! SHOW-STOPPING! This is why you're the GOAT! 🐐👑",
-                        "I'm DECEASED! This is pure ART! You're changing the game! 🎨🚀",
-                        "SCREAMING! This is the content we NEEDED! You're unmatched! 💎👸"
-                    ],
-                    jokester: [
-                        "Me trying to look this good in photos: 🤡 You: 👑 The gap is real 😭",
-                        "Not me saving this as motivation to get my life together 💀",
-                        "The confidence... I could never. Teach me your ways sensei 🙏",
-                        "This post made me realize I've been living my life in black and white 🎨",
-                        "Imagine being this effortlessly cool... couldn't be me 😅✨"
-                    ],
-                    roaster: [
-                        "The confidence to post this... I almost respect it. Almost. 💀",
-                        "Not you thinking this was gonna eat... baby this is giving cafeteria food 😬",
-                        "The second-hand embarrassment I just experienced... seek help bestie 🫣",
-                        "This is giving 'my mom said I'm handsome' energy and I can't unsee it",
-                        "Imagine spending time on this... when you could've just not ❤️"
-                    ],
-                    critic: [
-                        "The concept has potential but the execution feels rushed. Maybe try different lighting?",
-                        "I appreciate the effort, but this doesn't quite hit the mark. Keep experimenting!",
-                        "There's something here, but it needs refinement. What was your inspiration?",
-                        "The idea is interesting but lacks clarity. Consider your audience next time.",
-                        "I can see what you're going for, but it might benefit from a different approach."
-                    ],
-                    hater: [
-                        "This is straight trash. Delete your account.",
-                        "Absolutely not. This is painful to look at. Stop.",
-                        "How did you post this and think 'yeah this is it'? It's not.",
-                        "This is exactly why social media was a mistake. Terrible.",
-                        "No. Just no. This is embarrassing for everyone involved."
-                    ]
+                    hypebeast: {
+                        options: [
+                            { text: "OMG YASSS QUEEN!!! This is EVERYTHING! 🔥🔥🔥 You're literally perfect!", likes: 15, prediction: "low" },
+                            { text: "OBSESSED with this!! You're serving LOOKS! Can't handle the talent! 😍✨", likes: 45, prediction: "medium" },
+                            { text: "ICONIC! LEGENDARY! SHOW-STOPPING! This is why you're the GOAT! 🐐👑", likes: 120, prediction: "high" }
+                        ]
+                    },
+                    jokester: {
+                        options: [
+                            { text: "Me trying to look this good in photos: 🤡 You: 👑 The gap is real 😭", likes: 150, prediction: "medium" },
+                            { text: "Not me saving this as motivation to get my life together 💀", likes: 280, prediction: "high" },
+                            { text: "The confidence... I could never. Teach me your ways sensei 🙏", likes: 85, prediction: "low" }
+                        ]
+                    },
+                    roaster: {
+                        options: [
+                            { text: "The confidence to post this... I almost respect it. Almost. 💀", likes: 800, prediction: "high" },
+                            { text: "Not you thinking this was gonna eat... baby this is giving cafeteria food 😬", likes: 1200, prediction: "high" },
+                            { text: "The second-hand embarrassment I just experienced... seek help bestie 🫣", likes: 450, prediction: "medium" }
+                        ]
+                    },
+                    critic: {
+                        options: [
+                            { text: "The concept has potential but the execution feels rushed. Maybe try different lighting?", likes: 8, prediction: "low" },
+                            { text: "I appreciate the effort, but this doesn't quite hit the mark. Keep experimenting!", likes: 25, prediction: "medium" },
+                            { text: "There's something here, but it needs refinement. What was your inspiration?", likes: 12, prediction: "low" }
+                        ]
+                    },
+                    hater: {
+                        options: [
+                            { text: "This is straight trash. Delete your account.", likes: 600, prediction: "medium" },
+                            { text: "Absolutely not. This is painful to look at. Stop.", likes: 1000, prediction: "high" },
+                            { text: "How did you post this and think 'yeah this is it'? It's not.", likes: 400, prediction: "medium" }
+                        ]
+                    }
                 };
 
                 this.init();
@@ -501,6 +567,7 @@
                 this.setupEventListeners();
                 this.populateInitialComments();
                 this.updateRoundDisplay();
+                this.setupDragFunctionality();
             }
 
             setupEventListeners() {
@@ -532,7 +599,106 @@
                 document.querySelectorAll('.choice-btn').forEach(btn => {
                     btn.addEventListener('click', (e) => {
                         const type = e.target.dataset.type;
-                        this.makeComment(type);
+                        this.selectCommentType(type);
+                    });
+                });
+            }
+
+            setupDragFunctionality() {
+                const overlay = document.getElementById('comments-overlay');
+                const handle = overlay.querySelector('.drag-handle');
+
+                // Touch events
+                handle.addEventListener('touchstart', (e) => {
+                    this.startDrag(e.touches[0].clientY);
+                });
+
+                document.addEventListener('touchmove', (e) => {
+                    if (this.isDragging) {
+                        e.preventDefault();
+                        this.drag(e.touches[0].clientY);
+                    }
+                });
+
+                document.addEventListener('touchend', () => {
+                    this.endDrag();
+                });
+
+                // Mouse events
+                handle.addEventListener('mousedown', (e) => {
+                    e.preventDefault();
+                    this.startDrag(e.clientY);
+                });
+
+                document.addEventListener('mousemove', (e) => {
+                    if (this.isDragging) {
+                        this.drag(e.clientY);
+                    }
+                });
+
+                document.addEventListener('mouseup', () => {
+                    this.endDrag();
+                });
+            }
+
+            startDrag(clientY) {
+                this.isDragging = true;
+                this.startY = clientY;
+                const overlay = document.getElementById('comments-overlay');
+                const transform = window.getComputedStyle(overlay).transform;
+                this.startTransform = transform === 'none' ? 0 : parseFloat(transform.split(',')[5]) || 0;
+            }
+
+            drag(clientY) {
+                const deltaY = clientY - this.startY;
+                const overlay = document.getElementById('comments-overlay');
+                const newTransform = Math.max(0, Math.min(100, this.startTransform + deltaY));
+                overlay.style.transform = `translateY(${newTransform}%)`;
+            }
+
+            endDrag() {
+                this.isDragging = false;
+                const overlay = document.getElementById('comments-overlay');
+                const transform = window.getComputedStyle(overlay).transform;
+                const currentY = transform === 'none' ? 0 : parseFloat(transform.split(',')[5]) || 0;
+                
+                if (currentY > 50) {
+                    overlay.classList.add('active');
+                } else {
+                    overlay.classList.remove('active');
+                }
+            }
+
+            selectCommentType(type) {
+                this.currentCommentType = type;
+                this.showCommentOptions(type);
+            }
+
+            showCommentOptions(type) {
+                const choicePanel = document.getElementById('choice-panel');
+                const responses = this.responses[type];
+                
+                choicePanel.innerHTML = `
+                    <div class="choice-title">Choose your specific comment:</div>
+                    <div class="choices">
+                        ${responses.options.map((option, index) => `
+                            <button class="choice-btn" data-index="${index}">
+                                <div style="flex: 1;">
+                                    <div>${option.text}</div>
+                                    <div class="like-prediction ${option.prediction}">
+                                        💡 Likely to get ${option.prediction === 'high' ? 'lots of' : option.prediction === 'medium' ? 'some' : 'few'} likes
+                                    </div>
+                                </div>
+                            </button>
+                        `).join('')}
+                    </div>
+                `;
+
+                // Add event listeners to new buttons
+                choicePanel.querySelectorAll('.choice-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const index = parseInt(e.target.dataset.index);
+                        this.makeComment(this.currentCommentType, index);
                     });
                 });
             }
@@ -554,17 +720,17 @@
                 });
             }
 
-            makeComment(type) {
+            makeComment(type, optionIndex) {
                 if (this.round >= this.maxRounds) return;
 
                 const responses = this.responses[type];
-                const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                const selectedOption = responses.options[optionIndex];
                 
                 // Add player comment
                 const playerComment = {
                     author: "you",
-                    text: randomResponse,
-                    likes: this.calculateLikes(type),
+                    text: selectedOption.text,
+                    likes: selectedOption.likes,
                     type: type
                 };
 
@@ -581,6 +747,9 @@
 
                 this.round++;
 
+                // Reset choice panel to original state
+                this.resetChoicePanel();
+
                 // Add some NPC responses
                 setTimeout(() => {
                     this.addNPCResponses(type);
@@ -593,16 +762,26 @@
                 }
             }
 
-            calculateLikes(type) {
-                const baseLikes = {
-                    hypebeast: Math.random() * 50 + 10, // 10-60 likes
-                    jokester: Math.random() * 200 + 100, // 100-300 likes  
-                    roaster: Math.random() * 1000 + 500, // 500-1500 likes
-                    critic: Math.random() * 30 + 5, // 5-35 likes
-                    hater: Math.random() * 800 + 400 // 400-1200 likes
-                };
-                
-                return Math.floor(baseLikes[type]);
+            resetChoicePanel() {
+                const choicePanel = document.getElementById('choice-panel');
+                choicePanel.innerHTML = `
+                    <div class="choice-title">Choose your comment style:</div>
+                    <div class="choices">
+                        <button class="choice-btn" data-type="hypebeast">🧢 <strong>Hypebeast</strong> - Over-the-top positive</button>
+                        <button class="choice-btn" data-type="jokester">😄 <strong>Jokester</strong> - Playful, risky humor</button>
+                        <button class="choice-btn" data-type="roaster">🔥 <strong>Roaster</strong> - Harsh sarcasm</button>
+                        <button class="choice-btn" data-type="critic">🧐 <strong>Critic</strong> - Constructive feedback</button>
+                        <button class="choice-btn" data-type="hater">😠 <strong>Hater</strong> - Bluntly negative</button>
+                    </div>
+                `;
+
+                // Re-add event listeners
+                choicePanel.querySelectorAll('.choice-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const type = e.target.dataset.type;
+                        this.selectCommentType(type);
+                    });
+                });
             }
 
             addNPCResponses(playerType) {
