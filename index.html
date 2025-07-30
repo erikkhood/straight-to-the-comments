@@ -575,9 +575,11 @@
             
             <div class="post-image" id="post-image">
                 <div class="upload-overlay" id="upload-overlay">
-                    <div style="font-size: 48px; margin-bottom: 10px;">📸</div>
-                    <div>Creator's viral post</div>
-                    <div style="font-size: 12px; margin-top: 10px; opacity: 0.7;">(This is the creator's content)</div>
+                    <div style="font-size: 48px; margin-bottom: 10px;">🎨</div>
+                    <div>Creator's viral artwork</div>
+                    <div style="font-size: 12px; margin-top: 10px; opacity: 0.7;">(Upload your GIF here)</div>
+                    <input type="file" id="gif-upload" accept=".gif" style="display: none;" onchange="handleGifUpload(event)">
+                    <button id="upload-btn" style="background: #0095f6; border: none; color: white; padding: 8px 16px; border-radius: 15px; margin-top: 10px; cursor: pointer; font-size: 12px;">Upload GIF</button>
                 </div>
             </div>
             
@@ -596,7 +598,7 @@
             
             <div class="post-caption">
                 <span class="comment-author">viral_creator</span>
-                <span id="post-text">Just dropped something special! What do you think? 🔥✨ #viral #newpost</span>
+                <span id="post-text">Just finished this piece! What do you think? 🎨✨ #art #creative #newpiece</span>
             </div>
 
             <!-- Instagram-style comments overlay -->
@@ -676,21 +678,21 @@
                     hypebeast: {
                         0: { // Round 1
                             options: [
-                                { text: "OMG YASSS QUEEN!!! This is EVERYTHING! 🔥🔥🔥 You're literally perfect!", likes: 15 },
-                                { text: "OBSESSED with this!! You're serving LOOKS! Can't handle the talent! 😍✨", likes: 45 },
+                                { text: "OMG YASSS QUEEN!!! This artwork is EVERYTHING! 🔥🔥🔥 You're literally perfect!", likes: 15 },
+                                { text: "OBSESSED with this piece!! You're serving TALENT! Can't handle the creativity! 😍✨", likes: 45 },
                                 { text: "ICONIC! LEGENDARY! SHOW-STOPPING! This is why you're the GOAT! 🐐👑", likes: 120 }
                             ]
                         },
                         1: { // Round 2
                             options: [
-                                { text: "STOP IT RIGHT NOW! This is giving me LIFE! 💀✨ You're absolutely SLAYING!", likes: 25 },
-                                { text: "I'm literally SCREAMING! This is the content I signed up for! 🔥👏", likes: 65 },
+                                { text: "STOP IT RIGHT NOW! This art is giving me LIFE! 💀✨ You're absolutely SLAYING!", likes: 25 },
+                                { text: "I'm literally SCREAMING! This is the creativity I signed up for! 🔥👏", likes: 65 },
                                 { text: "QUEEN BEHAVIOR! This is why you're the moment! Period! 💅👑", likes: 140 }
                             ]
                         },
                         2: { // Round 3
                             options: [
-                                { text: "I CANNOT EVEN! This is pure PERFECTION! 😭🔥 You're literally everything!", likes: 35 },
+                                { text: "I CANNOT EVEN! This piece is pure PERFECTION! 😭🔥 You're literally everything!", likes: 35 },
                                 { text: "This is the definition of EXCELLENCE! You're absolutely INCREDIBLE! 🌟💖", likes: 85 },
                                 { text: "LEGENDARY! ICONIC! SHOW-STOPPING! You're the blueprint! 🐐✨", likes: 160 }
                             ]
@@ -699,14 +701,14 @@
                     jokester: {
                         0: { // Round 1
                             options: [
-                                { text: "Me trying to look this good in photos: 🤡 You: 👑 The gap is real 😭", likes: 150 },
-                                { text: "Not me saving this as motivation to get my life together 💀", likes: 280 },
-                                { text: "The confidence... I could never. Teach me your ways sensei 🙏", likes: 85 }
+                                { text: "Me trying to draw a stick figure: 🤡 You: 👑 The talent gap is real 😭", likes: 150 },
+                                { text: "Not me saving this as motivation to pick up my art supplies 💀", likes: 280 },
+                                { text: "The creativity... I could never. Teach me your ways sensei 🙏", likes: 85 }
                             ]
                         },
                         1: { // Round 2
                             options: [
-                                { text: "POV: When you order confidence from Wish vs. You getting it from Amazon Prime 😂", likes: 180 },
+                                { text: "POV: When you order creativity from Wish vs. You getting it from Amazon Prime 😂", likes: 180 },
                                 { text: "This is giving main character energy and I'm here for the character development 🎭", likes: 320 },
                                 { text: "The audacity to be this talented... I'm taking notes 📝", likes: 95 }
                             ]
@@ -714,7 +716,7 @@
                         2: { // Round 3
                             options: [
                                 { text: "Not you casually dropping this masterpiece like it's nothing 💀✨", likes: 210 },
-                                { text: "This is the kind of content that makes me question my life choices 😭", likes: 360 },
+                                { text: "This is the kind of art that makes me question my life choices 😭", likes: 360 },
                                 { text: "The talent jumped out and said 'let me serve' 👑", likes: 105 }
                             ]
                         }
@@ -722,8 +724,8 @@
                     roaster: {
                         0: { // Round 1
                             options: [
-                                { text: "The confidence to post this... I almost respect it. Almost. 💀", likes: 800 },
-                                { text: "Not you thinking this was gonna eat... baby this is giving cafeteria food 😬", likes: 1200 },
+                                { text: "The confidence to post this art... I almost respect it. Almost. 💀", likes: 800 },
+                                { text: "Not you thinking this was gonna eat... baby this is giving kindergarten art 😬", likes: 1200 },
                                 { text: "The second-hand embarrassment I just experienced... seek help bestie 🫣", likes: 450 }
                             ]
                         },
@@ -745,15 +747,15 @@
                     critic: {
                         0: { // Round 1
                             options: [
-                                { text: "The concept has potential but the execution feels rushed. Maybe try different lighting?", likes: 8 },
+                                { text: "The concept has potential but the execution feels rushed. Maybe try different techniques?", likes: 8 },
                                 { text: "I appreciate the effort, but this doesn't quite hit the mark. Keep experimenting!", likes: 25 },
                                 { text: "There's something here, but it needs refinement. What was your inspiration?", likes: 12 }
                             ]
                         },
                         1: { // Round 2
                             options: [
-                                { text: "The composition shows promise, but the color grading could be more cohesive.", likes: 15 },
-                                { text: "Interesting approach, though the framing could be more dynamic. Keep pushing boundaries!", likes: 35 },
+                                { text: "The composition shows promise, but the color palette could be more cohesive.", likes: 15 },
+                                { text: "Interesting approach, though the technique could be more dynamic. Keep pushing boundaries!", likes: 35 },
                                 { text: "There's a clear vision here, but the technical execution needs work. Practice makes perfect!", likes: 18 }
                             ]
                         },
@@ -768,14 +770,14 @@
                     hater: {
                         0: { // Round 1
                             options: [
-                                { text: "This is straight trash. Delete your account.", likes: 600 },
+                                { text: "This art is straight trash. Delete your account.", likes: 600 },
                                 { text: "Absolutely not. This is painful to look at. Stop.", likes: 1000 },
                                 { text: "How did you post this and think 'yeah this is it'? It's not.", likes: 400 }
                             ]
                         },
                         1: { // Round 2
                             options: [
-                                { text: "Still posting garbage I see. When will you learn?", likes: 700 },
+                                { text: "Still posting garbage art I see. When will you learn?", likes: 700 },
                                 { text: "This is getting worse. Do you even try anymore?", likes: 1100 },
                                 { text: "Another day, another disappointment. Shocking.", likes: 500 }
                             ]
@@ -784,7 +786,7 @@
                             options: [
                                 { text: "Three strikes and you're out. This is embarrassing.", likes: 800 },
                                 { text: "You really ended on this note? Pathetic.", likes: 1200 },
-                                { text: "This is why you'll never make it. Give up.", likes: 600 }
+                                { text: "This is why you'll never make it as an artist. Give up.", likes: 600 }
                             ]
                         }
                     }
@@ -1253,6 +1255,40 @@
             // Reset game when going back to menu
             game = null;
         }
+
+        function handleGifUpload(event) {
+            const file = event.target.files[0];
+            if (file && file.type === 'image/gif') {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const postImage = document.getElementById('post-image');
+                    const uploadOverlay = document.getElementById('upload-overlay');
+                    
+                    // Create and display the GIF
+                    postImage.style.background = 'none';
+                    postImage.innerHTML = `
+                        <img src="${e.target.result}" alt="Uploaded artwork" style="width: 100%; height: 100%; object-fit: cover;">
+                        <div class="upload-overlay" id="upload-overlay" style="opacity: 0; pointer-events: none;">
+                            <div style="font-size: 48px; margin-bottom: 10px;">🎨</div>
+                            <div>Creator's viral artwork</div>
+                            <div style="font-size: 12px; margin-top: 10px; opacity: 0.7;">(Upload your GIF here)</div>
+                            <input type="file" id="gif-upload" accept=".gif" style="display: none;" onchange="handleGifUpload(event)">
+                            <button id="upload-btn" style="background: #0095f6; border: none; color: white; padding: 8px 16px; border-radius: 15px; margin-top: 10px; cursor: pointer; font-size: 12px;">Upload GIF</button>
+                        </div>
+                    `;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Add click handler for upload button
+        document.addEventListener('DOMContentLoaded', () => {
+            document.addEventListener('click', (e) => {
+                if (e.target.id === 'upload-btn') {
+                    document.getElementById('gif-upload').click();
+                }
+            });
+        });
 
         // Start the game when page loads
         window.addEventListener('DOMContentLoaded', () => {
